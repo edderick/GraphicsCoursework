@@ -18,6 +18,8 @@
 //Local Includes
 #include "utils.hpp"
 
+#define DEBUG 1
+
 std::vector<glm::vec3> vertices;
 std::vector<int> elements; 
 
@@ -116,9 +118,9 @@ void process_line(char* line, int length){
 	}
 }
 
-int main(int argc, char *argv[]){
 
-	char* obj_file = filetobuf("models/cube.obj");
+void load_model(const char* file_name){
+	char* obj_file = filetobuf(file_name);
 
 	int i = 0;
 	int n = 0;
@@ -138,19 +140,15 @@ int main(int argc, char *argv[]){
 		i++;
 	}
 	
-	std::cout << "Characters: ";
-	std::cout << i;
-	
-	std::cout << "\nLines: ";
-	std::cout << n;
+	if (DEBUG) {
+		std::cout << "Characters: " << i;
+		std::cout << "\nLines: " << n;
+		std::cout << "\nVertices: "  << vertices.size();
+		std::cout << "\nElements: " << elements.size() << "\n";
+	}
+}
 
-	std::cout << "\nVertices: ";
-	std::cout << vertices.size();
-
-	std::cout << "\nElements: ";
-	std::cout << elements.size();
-
-	std::cout << "\n";
-
+int main(int argc, char *argv[]){
+	load_model("models/cube.obj");
 	return 1;
 }
