@@ -1,0 +1,42 @@
+#version 330 core 
+
+//TODO find out if this is needed
+precision highp float;
+
+in vec3 in_Position; 
+in vec3 in_Normal; 
+
+//TODO make in
+const vec4 in_Color = vec4(1.f, 0.f, 0.f, 1.f);
+
+uniform mat4 m;
+uniform mat4 v;
+uniform mat4 p;
+//TODO make uniform
+const vec4 light_position = vec4(2.f, 2.f, -5.f, 1.f);
+
+out vec4 ex_Color; 
+out vec4 camera_normal;
+out vec4 camera_direction;
+out vec4 camera_light_direction;
+out float distance; 
+
+void main(void) {
+
+	mat4 mv = v * m;
+
+	mat4 mvp = p * mv ;
+
+	gl_Position = mvp * vec4(in_Position, 1.0);
+
+	camera_normal = normalize(v * m *  vec4(in_Normal, 0.0));
+
+	camera_light_direction = normalize(v * (light_position - vec4(in_Position, 1.f)));
+
+	camera_direction = normalize(v * m * vec4(in_Position, 1.0));
+
+	ex_Color = in_Color;
+
+	distance = length(light_position - vec4(in_Position, 1.0));
+
+}

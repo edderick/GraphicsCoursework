@@ -1,0 +1,22 @@
+#version 330 core 
+
+//TODO find out if this is needed
+precision highp float;
+
+in vec3 in_Position; 
+
+//TODO make in
+const vec4 in_Color = vec4(1.f, 0.f, 0.f, 1.f);
+
+uniform mat4 m;
+uniform mat4 v;
+uniform mat4 p;
+//TODO make uniform
+
+out vec4 ex_Color; 
+
+void main(void) {
+	mat4 mvp = p * (v * m);
+	gl_Position = mvp * vec4(in_Position.xyz, 1.0);
+	ex_Color = in_Color;
+}
