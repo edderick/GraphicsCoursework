@@ -146,6 +146,14 @@ void ObjLoader::load_model(const char* file_name){
 	}
 }
 
+std::vector<glm::vec3> ObjLoader::getVertices(){
+	return vertices;
+}
+
+std::vector<int> ObjLoader::getElements(){
+	return elements;
+}
+
 int main(int argc, char *argv[]){
 	ObjLoader ol;
 	ol.load_model("models/cube.obj");
