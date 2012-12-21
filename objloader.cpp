@@ -17,13 +17,11 @@
 
 //Local Includes
 #include "utils.hpp"
+#include "objloader.hpp"
 
 #define DEBUG 1
 
-std::vector<glm::vec3> vertices;
-std::vector<int> elements; 
-
-void handle_vertex(char* line, int length){
+void ObjLoader::handle_vertex(char* line, int length){
 	// Print out original file
 	//for (int i = 0; i < length; i++) std::cout << line[i];
 	
@@ -67,7 +65,7 @@ void handle_vertex(char* line, int length){
 }
 
 //Faces should always be triangles
-void handle_face(char* line, int length){
+void ObjLoader::handle_face(char* line, int length){
 	// Print out original file
 	// for (int i = 0; i < length; i++) std::cout << line[i];
 	
@@ -110,7 +108,7 @@ void handle_face(char* line, int length){
 	elements.push_back(v1); elements.push_back(v2); elements.push_back(v3);
 }
 
-void process_line(char* line, int length){
+void ObjLoader::process_line(char* line, int length){
 	//For now I am only concerned with vertices and faces
 	switch(line[0]){
 		case 'v': handle_vertex(line, length); break;
@@ -119,7 +117,7 @@ void process_line(char* line, int length){
 }
 
 
-void load_model(const char* file_name){
+void ObjLoader::load_model(const char* file_name){
 	char* obj_file = filetobuf(file_name);
 
 	int i = 0;
@@ -149,6 +147,7 @@ void load_model(const char* file_name){
 }
 
 int main(int argc, char *argv[]){
-	load_model("models/cube.obj");
+	ObjLoader ol;
+	ol.load_model("models/cube.obj");
 	return 1;
 }
