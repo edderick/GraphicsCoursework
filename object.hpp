@@ -15,6 +15,7 @@
  
 //local includes 
 #include "utils.hpp"
+#include "objloader.hpp"
 
 class Object {
 	private:
@@ -24,11 +25,14 @@ class Object {
 		
 		GLuint _programID;
 
-		GLuint _vaoID; //? 
-		GLuint _base_vboID;
-		GLuint _cone_vboID;
+		GLuint _vaoID;  
+		GLuint _vertex_vboID;
+		GLuint _element_vboID;
 
 		GLenum _draw_mode;
+		
+		std::vector<glm::vec3> _vertices;
+		std::vector<GLuint> _elements;
 	public:
 		Object(const char* obj_file_name, GLuint programID, GLenum draw_mode = GL_LINE);
 		void setUpDefaultMVP();

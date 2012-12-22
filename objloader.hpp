@@ -24,7 +24,7 @@ class ObjLoader {
 
 	private: 
 		std::vector<glm::vec3> vertices;
-		std::vector<int> elements; 
+		std::vector<GLuint> elements; 
 		
 		void handle_vertex(char* line, int length);
 		void handle_face(char* line, int length);
@@ -34,5 +34,5 @@ class ObjLoader {
 		//TODO Should this be the constructor?
 		void load_model(const char* file_name);
 		std::vector<glm::vec3> getVertices();
-		std::vector<int> getElements();
+		std::vector<GLuint> getElements();
 };

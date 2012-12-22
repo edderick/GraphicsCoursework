@@ -17,6 +17,7 @@
 #include "utils.hpp"
 #include "cone.hpp"
 #include "sphere.hpp"
+#include "object.hpp"
 
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
@@ -27,7 +28,7 @@ typedef enum Screen{
 	WIRE_CONE,
 	HEDGEHOG,
 	SHADED_SPHERE,
-	ANIMATION, 
+	OBJECT,
 } Screen;
 
 Screen screen = WIRE_SPHERE;
@@ -41,67 +42,10 @@ void key_callback(int key, int action){
 		screen = HEDGEHOG;
 	} else if ((key == 'D' || key == 'd') && action == GLFW_PRESS){
 		screen = SHADED_SPHERE;
-	} else if ((key == 'E' || key == 'e') && action == GLFW_PRESS){
-		screen = ANIMATION;
-	} 
+	} else if ((key == 'F' || key == 'f') && action == GLFW_PRESS){
+		screen = OBJECT;
+	}
 }
-
-
-
-
-
-void setUpFirstObjectMVP(float k, GLuint _programID){
-
-	glUseProgram(_programID);
-
-	glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.f);
-
-	glm::mat4 view = glm::mat4(1.f);
-	view = glm::lookAt(glm::vec3(0,0,-20), glm::vec3(0,0,0), glm::vec3(0,1,0));
-
-	glm::mat4 model = glm::mat4(1.f);
-	model = glm::rotate(model, 180.f , glm::vec3(0.f, 1.f, 1.f));
-	//model = glm::rotate(model, (GLfloat) glfwGetTime() * 60.f, glm::vec3(1.f, 1.f, 1.f));
-	model = glm::translate(model, glm::vec3(3 * sin(k), 0.f, -1.f));
-
-	glUniformMatrix4fv(glGetUniformLocation(_programID, "m"), 1, GL_FALSE, glm::value_ptr(model));
-
-	glUniformMatrix4fv(glGetUniformLocation(_programID, "v"), 1, GL_FALSE, glm::value_ptr(view));
-
-	glUniformMatrix4fv(glGetUniformLocation(_programID, "p"), 1, GL_FALSE, glm::value_ptr(projection));
-
-
-}
-
-void setUpSecondObjectMVP(float k, GLuint _programID){
-
-	
-	glUseProgram(_programID);
-
-
-	glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.f);
-
-	glm::mat4 view = glm::mat4(1.f);
-	view = glm::lookAt(glm::vec3(0,0,-5), glm::vec3(0,0,0), glm::vec3(0,1,0));
-	
-	glm::mat4 model = glm::mat4(1.f);
-	//model = glm::rotate(model, 90.f , glm::vec3(0.f, 1.f, 0.f));
-	model = glm::translate(model, glm::vec3(0.f, 5 * cos(k), 0.f));
-	model = glm::rotate(model, 90.f, glm::vec3(1.f, 0.f,0.f));
-	model = glm::rotate(model, (GLfloat) glfwGetTime() * 90.f, glm::vec3(0.f, 0.f, 1.f));
-	
-	glUniformMatrix4fv(glGetUniformLocation(_programID, "m"), 1, GL_FALSE, glm::value_ptr(model));
-
-	glUniformMatrix4fv(glGetUniformLocation(_programID, "v"), 1, GL_FALSE, glm::value_ptr(view));
-
-	glUniformMatrix4fv(glGetUniformLocation(_programID, "p"), 1, GL_FALSE, glm::value_ptr(projection));
-
-
-
-
-}
-
-
 
 
 int main(int argc, char *argv[]){
@@ -140,8 +84,8 @@ int main(int argc, char *argv[]){
 	glEnable(GL_DEPTH_TEST);
 
 	//Load in and set program (Shaders)
-	GLuint programID = setupShaders("vert.gls", "frag.gls");
-	GLuint phongID = setupShaders("phongVert.gls", "phongFrag.gls");
+	GLuint programID = setupShaders("shaders/vert.gls", "shaders/frag.gls");
+	GLuint phongID = setupShaders("shaders/phongVert.gls", "shaders/phongFrag.gls");
 
 	//TODO: Consider removing...
 	//glEnable(GL_CULL_FACE);
@@ -154,6 +98,8 @@ int main(int argc, char *argv[]){
 
 	Sphere firstObject(50, phongID, GL_FALSE, GL_TRUE, GL_FILL);
 	Cone secondObject(15, programID);
+
+	Object object("models/cube.obj", programID);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -182,18 +128,13 @@ int main(int argc, char *argv[]){
 				shadedSphere.setUpDefaultMVP();
 				shadedSphere.draw();
 				break;
-
-			case ANIMATION:
-		
-				glfwSetWindowTitle("Animation");
-					
-				setUpFirstObjectMVP(glfwGetTime(), phongID);
-				firstObject.draw();
-
-				setUpSecondObjectMVP(glfwGetTime(), programID);
-				secondObject.draw();
-				
+			
+			case OBJECT:
+				glfwSetWindowTitle("Object");	
+				object.setUpDefaultMVP();
+				object.draw();
 				break;
+			
 		}
 
 		glfwSwapBuffers();

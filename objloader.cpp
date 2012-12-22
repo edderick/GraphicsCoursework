@@ -65,6 +65,7 @@ void ObjLoader::handle_vertex(char* line, int length){
 }
 
 //Faces should always be triangles
+//Warning: Indexed from ONE!!!
 void ObjLoader::handle_face(char* line, int length){
 	// Print out original file
 	// for (int i = 0; i < length; i++) std::cout << line[i];
@@ -88,9 +89,9 @@ void ObjLoader::handle_face(char* line, int length){
 			//Perform state exit action
 			switch (state){
 				case (0): break;
-				case (1): v1 = atoi(buf); break;
-				case (2): v2 = atoi(buf); break;
-				case (3): v3 = atoi(buf); break;
+				case (1): v1 = atoi(buf) - 1; break;
+				case (2): v2 = atoi(buf) - 1; break;
+				case (3): v3 = atoi(buf) - 1; break;
 			}
 
 			// Progress to next state
@@ -150,12 +151,12 @@ std::vector<glm::vec3> ObjLoader::getVertices(){
 	return vertices;
 }
 
-std::vector<int> ObjLoader::getElements(){
+std::vector<GLuint> ObjLoader::getElements(){
 	return elements;
 }
 
-int main(int argc, char *argv[]){
-	ObjLoader ol;
-	ol.load_model("models/cube.obj");
-	return 1;
-}
+//int main(int argc, char *argv[]){
+	//ObjLoader ol;
+	//ol.load_model("models/cube.obj");
+	//return 1;
+//}
