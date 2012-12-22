@@ -21,7 +21,7 @@
 
 #define DEBUG 1
 
-void ObjLoader::handle_normal(char* line, int length){
+void ObjLoader::handle_vector(char* line, int length,  std::vector<glm::vec3> *vector){
 	// Print out original file
 	//for (int i = 0; i < length; i++) std::cout << line[i];
 	
@@ -61,51 +61,15 @@ void ObjLoader::handle_normal(char* line, int length){
 	//std::cout << x << ", " << y << ", " << z << "\n";
 
 	//Create Vertex
-	normals.push_back(glm::vec3(x,y,z));
+	(*vector).push_back(glm::vec3(x,y,z));
 }
 
+void ObjLoader::handle_normal(char* line, int length){
+	handle_vector(line, length, &normals);
+}
 
 void ObjLoader::handle_vertex(char* line, int length){
-	// Print out original file
-	//for (int i = 0; i < length; i++) std::cout << line[i];
-	
-	// This code is essentially an FSM
-	int state = 0;
-	double x, y, z;
-
-	char* token = line;
-	int token_length = 0;
-	
-	int i = 0;
-	while (i < length){
-		token_length++;
-		if (line[i] == ' ' || line[i] == '\n'){
-			// Buffer and null terminate current token
-			char* buf = new char[token_length + 1];
-			for (int j = 0; j < token_length; j++) buf[j] = token[j];
-			buf[token_length] = 0;
-			
-			//Perform state exit action
-			switch (state){
-				case (0): break;
-				case (1): x = atof(buf); break;
-				case (2): y = atof(buf); break;
-				case (3): z = atof(buf); break;
-			}
-
-			// Progress to next state
-			state++;
-			token = token + token_length;
-			token_length = 0;
-		}
-		i++;
-	}
-
-	//Print Out X Y Z values for Vertex
-	//std::cout << x << ", " << y << ", " << z << "\n";
-
-	//Create Vertex
-	vertices.push_back(glm::vec3(x,y,z));
+	handle_vector(line, length, &vertices);
 }
 
 //Faces should always be triangles
@@ -164,8 +128,8 @@ void ObjLoader::handle_face(char* line, int length){
 	}
 
 	//Print Out X Y Z values for Vertex
-	std::cout << v1 << ", " << v2 << ", " << v3 << "\n";
-	std::cout << n1 << ", " << n2 << ", " << n3 << "\n";
+	//std::cout << v1 << ", " << v2 << ", " << v3 << "\n";
+	//std::cout << n1 << ", " << n2 << ", " << n3 << "\n";
 
 	//Add triangle to elements list
 	elements.push_back(v1); elements.push_back(v2); elements.push_back(v3);

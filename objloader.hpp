@@ -30,6 +30,7 @@ class ObjLoader {
 		std::vector<GLuint> normal_refs; 
 		
 		void handle_face(char* line, int length);
+		void handle_vector(char* line, int length, std::vector<glm::vec3> *vector);
 		void handle_vertex(char* line, int length);
 		void handle_normal(char* line, int length);
 		void process_line(char* line, int length);
