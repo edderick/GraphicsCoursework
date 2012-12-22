@@ -7,7 +7,7 @@ Object::Object(const char* obj_file_name, GLuint programID, GLenum draw_mode) {
 	_draw_mode = draw_mode;
 
 	ObjLoader objLoader;
-	objLoader.load_model("models/cube.obj");
+	objLoader.load_model(obj_file_name);
 	
 	_vertices = objLoader.getVertices();
 	_elements = objLoader.getElements();
@@ -39,7 +39,7 @@ void Object::draw() {
 
 	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
 	
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, _elements.size(), GL_UNSIGNED_INT, 0);
 
 	glDisableVertexAttribArray(0);
 }
