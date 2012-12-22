@@ -12,6 +12,9 @@ Object::Object(const char* obj_file_name, GLuint programID, GLenum draw_mode) {
 	_vertices = objLoader.getVertices();
 	_elements = objLoader.getElements();
 
+	_normals = objLoader.getNormals();
+	_normal_refs = objLoader.getNormalRefs();
+	
 	glGenVertexArrays(1, &_vaoID);
 	glBindVertexArray(_vaoID);
 
@@ -22,26 +25,40 @@ Object::Object(const char* obj_file_name, GLuint programID, GLenum draw_mode) {
 	glGenBuffers(1, &_element_vboID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _element_vboID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _elements.size() * sizeof(_elements[0]), &_elements[0], GL_STATIC_DRAW);
+	
+	glGenBuffers(1, &_normal_vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID);
+	glBufferData(GL_ARRAY_BUFFER, _normals.size() * sizeof(_normals[0]), &_normals[0], GL_STATIC_DRAW);
+
+	glGenBuffers(1, &_normal_ref_vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _normal_ref_vboID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _normal_refs.size() * sizeof(_normal_refs[0]), &_normal_refs[0], GL_STATIC_DRAW);
+	
 }		
 
 void Object::draw() {
 	glUseProgram(_programID);
 
-	glBindVertexArray(_vaoID);
+
+	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
+
+	glEnableVertexAttribArray(1);
+	glBindAttribLocation(_programID, 1, "in_Normal");
+	glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _normal_ref_vboID);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
 
 	glEnableVertexAttribArray(0);
 	glBindAttribLocation(_programID, 0, "in_Positon");
-
 	glBindBuffer(GL_ARRAY_BUFFER, _vertex_vboID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _element_vboID);
-	
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
-
-	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
 	
 	glDrawElements(GL_TRIANGLES, _elements.size(), GL_UNSIGNED_INT, 0);
 
+
 	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
 }
 
 //TODO: Not sure this code should be in here...

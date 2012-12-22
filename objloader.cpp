@@ -189,6 +189,10 @@ std::vector<GLuint> ObjLoader::getElements(){
 	return elements;
 }
 
+std::vector<GLuint> ObjLoader::getNormalRefs(){
+	return normal_refs;
+}
+
 //int main(int argc, char *argv[]){
 	//ObjLoader ol;
 	//ol.load_model("models/cube.obj");

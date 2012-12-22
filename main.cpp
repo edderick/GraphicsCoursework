@@ -99,7 +99,7 @@ int main(int argc, char *argv[]){
 	Sphere firstObject(50, phongID, GL_FALSE, GL_TRUE, GL_FILL);
 	Cone secondObject(15, programID);
 
-	Object object("models/normals.obj", programID);
+	Object object("models/normals.obj", phongID, GL_FILL);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

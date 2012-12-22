@@ -40,5 +40,7 @@ class ObjLoader {
 		void load_model(const char* file_name);
 		std::vector<glm::vec3> getVertices();
 		std::vector<glm::vec3> getNormals();
+		
 		std::vector<GLuint> getElements();
+		std::vector<GLuint> getNormalRefs();
 };
