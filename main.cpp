@@ -15,8 +15,6 @@
 
 //local includes
 #include "utils.hpp"
-#include "cone.hpp"
-#include "sphere.hpp"
 #include "object.hpp"
 
 const GLuint WINDOW_WIDTH = 800;
@@ -24,25 +22,13 @@ const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
 
 typedef enum Screen{
-	WIRE_SPHERE,
-	WIRE_CONE,
-	HEDGEHOG,
-	SHADED_SPHERE,
 	OBJECT,
 } Screen;
 
-Screen screen = WIRE_SPHERE;
+Screen screen = OBJECT;
 
 void key_callback(int key, int action){
-	if((key == 'A' || key == 'a')  && action == GLFW_PRESS){
-		screen = WIRE_SPHERE;
-	} else if ((key == 'B' || key == 'b') && action == GLFW_PRESS){
-		screen = WIRE_CONE;
-	} else if ((key == 'C' || key == 'c') && action == GLFW_PRESS){
-		screen = HEDGEHOG;
-	} else if ((key == 'D' || key == 'd') && action == GLFW_PRESS){
-		screen = SHADED_SPHERE;
-	} else if ((key == 'F' || key == 'f') && action == GLFW_PRESS){
+	if ((key == 'A' || key == 'a') && action == GLFW_PRESS){
 		screen = OBJECT;
 	}
 }
@@ -88,47 +74,16 @@ int main(int argc, char *argv[]){
 	GLuint phongID = setupShaders("shaders/phongVert.gls", "shaders/phongFrag.gls");
 
 	//TODO: Consider removing...
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
-	Cone cone(15, programID);
-	Sphere wireSphere(20, programID);
-	Sphere hedgehog(20, programID, GL_TRUE);
-	Sphere shadedSphere(50, phongID, GL_FALSE, GL_TRUE, GL_FILL);
-
-	Sphere firstObject(50, phongID, GL_FALSE, GL_TRUE, GL_FILL);
-	Cone secondObject(15, programID);
-
-	Object object("models/smoothMonkey.obj", phongID, GL_FILL);
+	Object object("models/normals.obj", phongID, GL_FILL);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		switch (screen) {
-			case WIRE_CONE:
-				glfwSetWindowTitle("Cone");
-				cone.setUpDefaultMVP();
-				cone.draw();
-				break;
-
-			case WIRE_SPHERE:
-				glfwSetWindowTitle("Wire Sphere");
-				wireSphere.setUpDefaultMVP();
-				wireSphere.draw();
-				break;
-
-			case HEDGEHOG:
-				glfwSetWindowTitle("Hedgehog");
-				hedgehog.setUpDefaultMVP();
-				hedgehog.draw();
-				break;
-
-			case SHADED_SPHERE:
-				glfwSetWindowTitle("Shaded Sphere");	
-				shadedSphere.setUpDefaultMVP();
-				shadedSphere.draw();
-				break;
-			
+		
 			case OBJECT:
 				glfwSetWindowTitle("Object");	
 				object.setUpDefaultMVP();
