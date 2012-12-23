@@ -2,13 +2,16 @@
 
 const GLfloat PI = 3.14159; 
 
-Object::Object(const char* obj_file_name, GLuint programID, GLenum draw_mode) {
+
+Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode) {
 	_programID = programID;
 	_draw_mode = draw_mode;
 
+	_viewer = viewer;
+	
 	ObjLoader objLoader;
 	objLoader.load_model(obj_file_name);
-	
+
 	_vertices = objLoader.getVertices();
 	_normals = objLoader.getNormals();
 
@@ -22,10 +25,13 @@ Object::Object(const char* obj_file_name, GLuint programID, GLenum draw_mode) {
 	glGenBuffers(1, &_normal_vboID);
 	glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID);
 	glBufferData(GL_ARRAY_BUFFER, _normals.size() * sizeof(_normals[0]), &_normals[0], GL_STATIC_DRAW);
-	
+
 }		
 
 void Object::draw() {
+
+	setUpTransformations();
+
 	glUseProgram(_programID);
 
 	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
@@ -47,23 +53,22 @@ void Object::draw() {
 	glDisableVertexAttribArray(1);
 }
 
-//TODO: Not sure this code should be in here...
-void Object::setUpDefaultMVP(){
-		glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.f);
+void Object::setUpTransformations(){
+	glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.f);
 
-		glm::mat4 view = glm::mat4(1.f);
-		view = glm::translate(view, glm::vec3(0.f, 0.f, -5.f));
+	glm::mat4 view = glm::mat4(1.f);
+	view = glm::lookAt(_viewer->getPosition(),_viewer->getLookAt(), _viewer->getUp());
 
-		glm::mat4 model = glm::mat4(1.f);
-		model = glm::rotate(model, (GLfloat) glfwGetTime() * 1.f, glm::vec3(0.f, 1.f, 0.f));
+	glm::mat4 model = glm::mat4(1.f);
+	model = glm::rotate(model, (GLfloat) glfwGetTime() * 0.f, glm::vec3(0.f, 1.f, 0.f));
 
-		glm::mat4 mv = view * model;
-		glm::mat4 mvp = projection * mv;
+	glm::mat4 mv = view * model;
+	glm::mat4 mvp = projection * mv;
 
-		glUniformMatrix4fv(glGetUniformLocation(_programID, "m"), 1, GL_FALSE, glm::value_ptr(model));
-		glUniformMatrix4fv(glGetUniformLocation(_programID, "v"), 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(glGetUniformLocation(_programID, "p"), 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(glGetUniformLocation(_programID, "mv"), 1, GL_FALSE, glm::value_ptr(mv));
-		glUniformMatrix4fv(glGetUniformLocation(_programID, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
+	glUniformMatrix4fv(glGetUniformLocation(_programID, "m"), 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(glGetUniformLocation(_programID, "v"), 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(glGetUniformLocation(_programID, "p"), 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(glGetUniformLocation(_programID, "mv"), 1, GL_FALSE, glm::value_ptr(mv));
+	glUniformMatrix4fv(glGetUniformLocation(_programID, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
 }
 

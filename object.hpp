@@ -17,33 +17,30 @@
 #include "utils.hpp"
 #include "objloader.hpp"
 
+#if !defined( VIEWER_HPP ) 
+#define VIEWER_HPP
+#include "viewer.hpp"
+#endif
+
 class Object {
 	private:
 		const char* _obj_file_name;
 		
-		GLuint _num_of_faces;
-		
 		GLuint _programID;
+		GLenum _draw_mode;
 
 		GLuint _vaoID; 
-
 		GLuint _vertex_vboID;
-		GLuint _element_vboID;
-		
 		GLuint _normal_vboID;
-		GLuint _normal_ref_vboID;
-
-		GLenum _draw_mode;
 		
 		std::vector<glm::vec3> _vertices;
-		std::vector<GLuint> _elements;
-		
 		std::vector<glm::vec3> _normals;
-		std::vector<GLuint> _normal_refs;
+
+		Viewer* _viewer;
 
 	public:
-		Object(const char* obj_file_name, GLuint programID, GLenum draw_mode = GL_LINE);
-		void setUpDefaultMVP();
+		Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
+		void setUpTransformations();
 		void draw();
 };
 

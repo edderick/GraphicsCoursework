@@ -21,7 +21,6 @@
 #define DEBUG 1
 
 class ObjLoader {
-
 	private: 
 		std::vector<glm::vec3> vertices;
 		std::vector<glm::vec3> normals;

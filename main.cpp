@@ -17,6 +17,12 @@
 #include "utils.hpp"
 #include "object.hpp"
 
+#if !defined( VIEWER_HPP )  
+#define VIEWER_HPP 
+#include "viewer.hpp" 
+#endif
+
+
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
@@ -27,12 +33,39 @@ typedef enum Screen{
 
 Screen screen = OBJECT;
 
-void key_callback(int key, int action){
-	if ((key == 'A' || key == 'a') && action == GLFW_PRESS){
-		screen = OBJECT;
-	}
-}
+Viewer* viewer = new Viewer(); 
 
+void key_callback(int key, int action){
+	if ((key == 'W' || key == 'w') && action == GLFW_PRESS){
+		viewer->setVelocity(0,0,.5);
+	} else if ((key == 'W' || key == 'w') && action == GLFW_RELEASE){
+		viewer->setVelocity(0,0,0);
+	} else if ((key == 'S' || key == 's') && action == GLFW_PRESS){
+		viewer->setVelocity(0,0,-.5);
+	} else if ((key == 'S' || key == 's') && action == GLFW_RELEASE){
+		viewer->setVelocity(0,0,0);
+	} else if ((key == 'A' || key == 'a') && action == GLFW_PRESS){
+		viewer->setVelocity(-.5,0,0);
+	} else if ((key == 'A' || key == 'a') && action == GLFW_RELEASE){
+		viewer->setVelocity(0,0,0);
+	} else if ((key == 'D' || key == 'd') && action == GLFW_PRESS){
+		viewer->setVelocity(.5,0,0);
+	} else if ((key == 'D' || key == 'd') && action == GLFW_RELEASE){
+		viewer->setVelocity(0,0,0);
+	} else if ((key == GLFW_KEY_UP) && action == GLFW_PRESS){
+		viewer->changeVelocity(0,0,0.1);
+	} else if ((key == GLFW_KEY_DOWN) && action == GLFW_PRESS){
+		viewer->changeVelocity(0,0,-0.1);
+	} else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_PRESS){
+		viewer->setVelocity(0,0.5,0);
+	}  else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_RELEASE){
+		viewer->setVelocity(0,0,0);
+	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_PRESS){
+		viewer->setVelocity(0,-0.5,0);
+	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
+		viewer->setVelocity(0,0,0);
+	} 
+}
 
 int main(int argc, char *argv[]){
 
@@ -74,11 +107,10 @@ int main(int argc, char *argv[]){
 	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
 	
-	//TODO: Consider removing...
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	Object object("models/smoothMonkey.obj", phongShaderID, GL_FILL);
+	Object object("models/normalMonkey.obj", phongShaderID, viewer, GL_FILL);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -87,10 +119,8 @@ int main(int argc, char *argv[]){
 		
 			case OBJECT:
 				glfwSetWindowTitle("Object");	
-				object.setUpDefaultMVP();
 				object.draw();
 				break;
-			
 		}
 
 		glfwSwapBuffers();
