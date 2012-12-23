@@ -55,7 +55,7 @@ void Object::setUpDefaultMVP(){
 		view = glm::translate(view, glm::vec3(0.f, 0.f, -5.f));
 
 		glm::mat4 model = glm::mat4(1.f);
-		model = glm::rotate(model, (GLfloat) glfwGetTime() * 30.f, glm::vec3(0.f, 1.f, 0.f));
+		model = glm::rotate(model, (GLfloat) glfwGetTime() * 1.f, glm::vec3(0.f, 1.f, 0.f));
 
 		glm::mat4 mv = view * model;
 		glm::mat4 mvp = projection * mv;

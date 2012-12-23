@@ -70,14 +70,15 @@ int main(int argc, char *argv[]){
 	glEnable(GL_DEPTH_TEST);
 
 	//Load in and set program (Shaders)
-	GLuint programID = setupShaders("shaders/vert.gls", "shaders/frag.gls");
-	GLuint phongID = setupShaders("shaders/phongVert.gls", "shaders/phongFrag.gls");
-
+	GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
+	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
+	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
+	
 	//TODO: Consider removing...
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	Object object("models/normals.obj", phongID, GL_FILL);
+	Object object("models/smoothMonkey.obj", phongShaderID, GL_FILL);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
