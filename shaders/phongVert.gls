@@ -12,8 +12,12 @@ const vec4 in_Color = vec4(1.f, 0.f, 0.f, 1.f);
 uniform mat4 m;
 uniform mat4 v;
 uniform mat4 p;
+
+uniform mat4 mv;
+uniform mat4 mvp;
+
 //TODO make uniform
-const vec4 light_position = vec4(0.f, 0.f, -10.f, 1.f);
+const vec4 light_position = vec4(0.f, 0.f, 5.f, 1.f);
 
 out vec4 ex_Color; 
 out vec4 camera_normal;
@@ -23,17 +27,13 @@ out float distance;
 
 void main(void) {
 
-	mat4 mv = v * m;
-
-	mat4 mvp = p * mv ;
-
 	gl_Position = mvp * vec4(in_Position, 1.0);
 
-	camera_normal = normalize(v * m *  vec4(in_Normal, 0.0));
+	camera_normal = normalize(mv * vec4(in_Normal, 0.0));
 
-	camera_light_direction = normalize(v * (light_position - vec4(in_Position, 1.f)));
+	camera_light_direction = normalize(v * (light_position -  m * vec4(in_Position, 1.f)));
 
-	camera_direction = normalize(v * m * vec4(in_Position, 1.0));
+	camera_direction = normalize(mv  * vec4(in_Position, 1.0));
 
 	ex_Color = in_Color;
 

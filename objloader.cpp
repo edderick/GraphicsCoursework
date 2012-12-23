@@ -178,19 +178,25 @@ void ObjLoader::load_model(const char* file_name){
 }
 
 std::vector<glm::vec3> ObjLoader::getVertices(){
-	return vertices;
+	std::vector<glm::vec3> vertex_list;
+
+	for (int i = 0; i < elements.size(); i++){
+		vertex_list.push_back(vertices[elements[i]]);
+	//	std::cout << vertex_list[normal_refs[i]].x << ","<< vertex_list[normal_refs[i]].y << ","<< vertex_list[normal_refs[i]].z << "\n";
+	}
+	
+	return vertex_list;
 }
 
 std::vector<glm::vec3> ObjLoader::getNormals(){
-	return normals;
-}
+	std::vector<glm::vec3> normal_list;
 
-std::vector<GLuint> ObjLoader::getElements(){
-	return elements;
-}
-
-std::vector<GLuint> ObjLoader::getNormalRefs(){
-	return normal_refs;
+	for (int i = 0; i < normal_refs.size(); i++){
+		normal_list.push_back(normals[normal_refs[i]]);
+	//	std::cout << normals[normal_refs[i]].x << ","<< normals[normal_refs[i]].y << ","<< normals[normal_refs[i]].z << "\n";
+	}
+	
+	return normal_list;
 }
 
 //int main(int argc, char *argv[]){

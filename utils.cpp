@@ -34,6 +34,8 @@ char* filetobuf(const char *file)
 }
 
 GLuint setupShaders(const char *vertexShaderFilename, const char *fragmentShaderFilename){
+	
+	
 	fprintf(stderr, "Set up shaders\n");
 
 	//Load files into buffers
