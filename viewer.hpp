@@ -35,6 +35,8 @@ class Viewer {
 		void setVelocity(GLfloat ax, GLfloat ay, GLfloat az);
 		void changeVelocity(GLfloat dax, GLfloat day, GLfloat daz);
 
+		void rotateCamera(GLfloat angle);
+
 		glm::vec3 getPosition();
 		glm::vec3 getLookAt();
 		glm::vec3 getUp();

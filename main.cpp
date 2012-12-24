@@ -64,7 +64,11 @@ void key_callback(int key, int action){
 		viewer->setVelocity(0,-0.5,0);
 	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
 		viewer->setVelocity(0,0,0);
-	} 
+	} else if ((key == GLFW_KEY_LEFT) && action == GLFW_PRESS){
+		viewer->rotateCamera(0.01);
+	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_PRESS){
+		viewer->rotateCamera(-0.01);
+	}  
 }
 
 int main(int argc, char *argv[]){

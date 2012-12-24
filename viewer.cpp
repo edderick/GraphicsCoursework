@@ -1,5 +1,7 @@
 #include "viewer.hpp"
 
+GLfloat current_angle = 3 * 3.14;
+
 Viewer::Viewer() {
 	_position = glm::vec3(0,0,5);
 	_direction = glm::vec3(0,0,-1);
@@ -32,6 +34,13 @@ void Viewer::changeVelocity(GLfloat dax, GLfloat day, GLfloat daz){
 	} else if (_velocity.z < 0){
 		_velocity.z = 0;
 	}
+}
+
+void Viewer::rotateCamera(GLfloat angle){
+	current_angle = current_angle + angle;
+
+	_direction.x = sin(current_angle);
+	_direction.z = cos(current_angle);
 }
 
 // z inverting goes on here!
