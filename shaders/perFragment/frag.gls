@@ -19,7 +19,7 @@ void main(void) {
 	vec4 diffuse
 		= light_power *  vec4(0.5, 0.5, 0.5, 1.) * ex_Color * clamp(dot(camera_normal, camera_light_direction),0,1) ;//  (distance * distance);	
 
-	vec4 reflection = reflect(camera_light_direction, camera_normal);
+	vec4 reflection = normalize(reflect(camera_light_direction, camera_normal));
 
 	vec4 specular 
 		= light_power * vec4(0.5,0.5,0.5,1.) * pow(clamp(dot(camera_direction, reflection), 0, 1), 1) ;//  (distance * distance);

@@ -115,8 +115,8 @@ int main(int argc, char *argv[]){
 	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
 	
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	Object object("models/smoothMonkey.obj", perFragmentShaderID, viewer, GL_FILL);
 
