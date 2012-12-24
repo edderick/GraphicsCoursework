@@ -65,9 +65,13 @@ void key_callback(int key, int action){
 	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
 		viewer->setVelocity(0,0,0);
 	} else if ((key == GLFW_KEY_LEFT) && action == GLFW_PRESS){
-		viewer->rotateCamera(0.01);
+		viewer->setCameraRotationVelocity(0.5);
 	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_PRESS){
-		viewer->rotateCamera(-0.01);
+		viewer->setCameraRotationVelocity(-0.5);
+	}  else if ((key == GLFW_KEY_LEFT) && action == GLFW_RELEASE){
+		viewer->setCameraRotationVelocity(0);
+	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_RELEASE){
+		viewer->setCameraRotationVelocity(0);
 	}  
 }
 
@@ -111,10 +115,10 @@ int main(int argc, char *argv[]){
 	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
 	
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 
-	Object object("models/normalMonkey.obj", phongShaderID, viewer, GL_FILL);
+	Object object("models/smoothMonkey.obj", perFragmentShaderID, viewer, GL_FILL);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

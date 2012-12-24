@@ -14,10 +14,10 @@ out vec4 gl_FragColor;
 const float light_power = 2.f;
 
 void main(void) {
-	vec4 ambient = vec4(ex_Color.xyz,1.0) * vec4(.1,.1,.1,1.);
+	vec4 ambient = vec4(ex_Color.xyz,1.0) * vec4(.2,.2,.2,1.);
 
 	vec4 diffuse
-		= light_power *  vec4(0.5, 0.5, 0.5, 1.) * ex_Color * dot(camera_normal, camera_light_direction) ;//  (distance * distance);	
+		= light_power *  vec4(0.5, 0.5, 0.5, 1.) * ex_Color * clamp(dot(camera_normal, camera_light_direction),0,1) ;//  (distance * distance);	
 
 	vec4 reflection = reflect(camera_light_direction, camera_normal);
 

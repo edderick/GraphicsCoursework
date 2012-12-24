@@ -7,6 +7,9 @@ Viewer::Viewer() {
 	_direction = glm::vec3(0,0,-1);
 	_up = glm::vec3(0,1,0);
 
+	_velocity = glm::vec3(0,0,0);
+	_cameraRotationVelocity = 0;
+
 	_lastAccessedTime = (GLfloat) glfwGetTime();
 }
 
@@ -43,13 +46,19 @@ void Viewer::rotateCamera(GLfloat angle){
 	_direction.z = cos(current_angle);
 }
 
+void Viewer::setCameraRotationVelocity(GLfloat velocity){
+	_cameraRotationVelocity = velocity;
+}
+
 // z inverting goes on here!
 glm::vec3 Viewer::getPosition(){
 	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
 	
 	glm::vec3 displacement = _velocity * elapsedTime;
+	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;
 
 	move(displacement.x, displacement.y, - displacement.z);
+	rotateCamera(cameraRotation);
 	
 	_lastAccessedTime = glfwGetTime();
 	return _position;

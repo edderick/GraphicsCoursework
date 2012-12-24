@@ -24,18 +24,19 @@ class Viewer {
 		glm::vec3 _up;
 		
 		glm::vec3 _velocity;
+		GLfloat _cameraRotationVelocity;
 		
 		GLfloat _lastAccessedTime;
-
+		
+		void move(GLfloat dx, GLfloat dy, GLfloat dz);
+		void rotateCamera(GLfloat angle);
 	public:
 		Viewer();
-
-		void move(GLfloat dx, GLfloat dy, GLfloat dz);
 		
 		void setVelocity(GLfloat ax, GLfloat ay, GLfloat az);
 		void changeVelocity(GLfloat dax, GLfloat day, GLfloat daz);
 
-		void rotateCamera(GLfloat angle);
+		void setCameraRotationVelocity(GLfloat velocity);
 
 		glm::vec3 getPosition();
 		glm::vec3 getLookAt();
