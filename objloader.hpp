@@ -35,6 +35,8 @@ class ObjLoader {
 		void handle_vertex(char* line, int length);
 		void handle_texture_coord(char* line, int length);
 		void handle_normal(char* line, int length);
+		void handle_material_library(char* line, int length);
+		void handle_use_material(char* line, int length);
 		void process_line(char* line, int length);
 
 	public:

@@ -159,6 +159,12 @@ void ObjLoader::handle_face(char* line, int length){
 	normal_refs.push_back(n1); normal_refs.push_back(n2); normal_refs.push_back(n3);
 }
 
+void handle_use_material(char* line, int length){
+}
+
+void handle_material_library(char* line, int length){
+}
+
 void ObjLoader::process_line(char* line, int length){
 	//For now I am only concerned with vertices and faces
 	switch(line[0]){
@@ -166,6 +172,8 @@ void ObjLoader::process_line(char* line, int length){
 			case(' '): handle_vertex(line, length); break;
 			case('n'): handle_normal(line, length); break;
 			case('t'): handle_texture_coord(line, length); break;
+			case('u'): handle_use_material(line, length); break;
+			case('m'): handle_material_library(line, length); break;
 		} break;
 		case 'f': handle_face(line, length); break;
 	}
