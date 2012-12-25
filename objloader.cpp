@@ -72,6 +72,10 @@ void ObjLoader::handle_vertex(char* line, int length){
 	handle_vector(line, length, &vertices);
 }
 
+void ObjLoader::handle_texture_coord(char* line, int length){
+	handle_vector(line, length, &textureCoords);
+}
+
 //Faces should always be triangles
 //Warning: Indexed from ONE!!!
 void ObjLoader::handle_face(char* line, int length){
@@ -80,8 +84,11 @@ void ObjLoader::handle_face(char* line, int length){
 	
 	// This code is essentially an FSM
 	int state = 0;
+	//sub_state 0 - v, 1 - t, 2 - n
 	int sub_state = 0;
-	int v1, v2, v3, n1 = 0, n2 = 0, n3 = 0;
+	int v1 = -1, v2 = -1, v3 = -1;
+	int t1 = -1, t2 = -1, t3 = -1;
+	int n1 = -1, n2 = -1, n3 = -1;
 
 	char* token = line;
 	int token_length = 0;
@@ -95,7 +102,8 @@ void ObjLoader::handle_face(char* line, int length){
 			for (int j = 0; j < token_length; j++) buf[j] = token[j];
 			buf[token_length] = 0;
 		
-			if(sub_state == 0){
+			switch (sub_state){
+				case (0):
 				//Perform state exit action
 				switch (state){
 					case (0): break;
@@ -103,7 +111,19 @@ void ObjLoader::handle_face(char* line, int length){
 					case (2): v2 = atoi(buf) - 1; break;
 					case (3): v3 = atoi(buf) - 1; break;
 				}
-			} else {
+				break;
+	
+				case(1):
+				//Perform state exit action
+				switch (state){
+					case (0): break;
+					case (1): t1 = atoi(buf) - 1; break;
+					case (2): t2 = atoi(buf) - 1; break;
+					case (3): t3 = atoi(buf) - 1; break;
+				}
+				break;
+
+				case(2):
 				//Perform state exit action
 				switch (state){
 					case (0): break;
@@ -111,6 +131,7 @@ void ObjLoader::handle_face(char* line, int length){
 					case (2): n2 = atoi(buf) - 1; break;
 					case (3): n3 = atoi(buf) - 1; break;
 				}
+				break;
 			}
 
 			// Progress to next state
@@ -128,11 +149,13 @@ void ObjLoader::handle_face(char* line, int length){
 	}
 
 	//Print Out X Y Z values for Vertex
-	//std::cout << v1 << ", " << v2 << ", " << v3 << "\n";
-	//std::cout << n1 << ", " << n2 << ", " << n3 << "\n";
+	//std::cout << "v: " << v1 << ", " << v2 << ", " << v3 << "\n";
+	//std::cout << "t: " << t1 << ", " << t2 << ", " << t3 << "\n";
+	//std::cout << "n: " << n1 << ", " << n2 << ", " << n3 << "\n";
 
 	//Add triangle to elements list
 	elements.push_back(v1); elements.push_back(v2); elements.push_back(v3);
+	texture_refs.push_back(t1); texture_refs.push_back(t2); texture_refs.push_back(t3);
 	normal_refs.push_back(n1); normal_refs.push_back(n2); normal_refs.push_back(n3);
 }
 
@@ -142,6 +165,7 @@ void ObjLoader::process_line(char* line, int length){
 		case 'v': switch(line[1]) { 
 			case(' '): handle_vertex(line, length); break;
 			case('n'): handle_normal(line, length); break;
+			case('t'): handle_texture_coord(line, length); break;
 		} break;
 		case 'f': handle_face(line, length); break;
 	}
@@ -181,6 +205,7 @@ std::vector<glm::vec3> ObjLoader::getVertices(){
 	std::vector<glm::vec3> vertex_list;
 
 	for (int i = 0; i < elements.size(); i++){
+		if (elements[i] == -1) return std::vector<glm::vec3>();
 		vertex_list.push_back(vertices[elements[i]]);
 	//	std::cout << vertex_list[normal_refs[i]].x << ","<< vertex_list[normal_refs[i]].y << ","<< vertex_list[normal_refs[i]].z << "\n";
 	}
@@ -192,6 +217,7 @@ std::vector<glm::vec3> ObjLoader::getNormals(){
 	std::vector<glm::vec3> normal_list;
 
 	for (int i = 0; i < normal_refs.size(); i++){
+		if (normal_refs[i] == -1) return std::vector<glm::vec3>();
 		normal_list.push_back(normals[normal_refs[i]]);
 	//	std::cout << normals[normal_refs[i]].x << ","<< normals[normal_refs[i]].y << ","<< normals[normal_refs[i]].z << "\n";
 	}
@@ -199,8 +225,29 @@ std::vector<glm::vec3> ObjLoader::getNormals(){
 	return normal_list;
 }
 
-//int main(int argc, char *argv[]){
-	//ObjLoader ol;
-	//ol.load_model("models/cube.obj");
-	//return 1;
-//}
+std::vector<glm::vec2> ObjLoader::getTextureCoords(){
+	std::vector<glm::vec2> texture_coords_list;
+
+	for (int i = 0; i < normal_refs.size(); i++){
+		if (texture_refs[i] == -1) return std::vector<glm::vec2>();
+		texture_coords_list.push_back(glm::vec2(textureCoords[texture_refs[i]].x, textureCoords[texture_refs[i]].y));
+	//	std::cout << textureCoords[texture_refs[i]]).x << ","<< textureCoords[normal_refs[i]].y << "\n";
+	}
+	
+	return texture_coords_list;
+}
+
+#ifdef OLTEST
+int main(int argc, char *argv[]){
+	ObjLoader ol;
+	ol.load_model("models/normals.obj");
+
+	std::vector<glm::vec2> out = ol.getTextureCoords();
+
+	for (int i = 0; i < out.size(); i++){
+		std::cout << out[i].x << ", "<< out[i].y << "\n"; //<< out[i].z << "\n";
+	}
+
+	return 1;
+}
+#endif
