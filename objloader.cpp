@@ -160,16 +160,18 @@ void ObjLoader::handle_face(char* line, int length){
 }
 
 void ObjLoader::handle_use_material(char* line, int length){
-	char* token = strtok(line, " \n");
-	token = strtok(NULL, " \n");
-	
-	std::cout << "Using: "<< token << "\n";
+	char* head = strtok(line, " ");
+	char* token = strtok(NULL, " \n");
 
+	std::cout << "Using: "<< token << "\n";
 	material = mtlLoader.getMaterial(token);
+
+	token[strlen(token)] = ' ';
 }
 
 void ObjLoader::handle_material_library(char* line, int length){
-	char* token = strtok(line, " \n");
+	char* token = strtok(line, " ");
+
 	token = strtok(NULL, " \n");
 	
 	std::cout << "Loading: " << _models_dir << "/" << token << "\n";

@@ -33,7 +33,8 @@ class Material {
 		char* _map_Ks_file_name;
 	public:
 		Material(char* name);
-	
+
+		//Setters!
 		void setAmbientColor(glm::vec3 Ka);
 		void setDiffuseColor(glm::vec3 Kd);
 		void setSpecularColor(glm::vec3 Ks);
@@ -46,6 +47,20 @@ class Material {
 		void setAmbientTexture(char* file_name);
 		void setDiffuseTexture(char* file_name);
 		void setSpecularTexture(char* file_name);
+	
+
+		//Getters!
+		glm::vec3 getAmbientColor();
+		glm::vec3 getDiffuseColor();
+		glm::vec3 getSpecularColor();
 		
-		//TODO Add some getters :p
+		GLuint getIllumination();
+		GLfloat getTransparency();
+		GLfloat getSpecularity();
+		GLfloat getOpticalDensity();
+
+		char* getAmbientTexture();
+		char* getDiffuseTexture();
+		char* getSpecularTexture();
+		
 };
