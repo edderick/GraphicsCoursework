@@ -5,6 +5,8 @@
 #include <string.h>
 #include <iostream>
 #include <vector>
+#include <map>
+#include <utility>
 
 //GL stuff
 #include <GL/glew.h>
@@ -23,8 +25,13 @@
 
 class MtlLoader {
 	private: 
+		Material* material;
 		std::map<const char*, Material*> materials;
+	
 		void process_line(char* line, int length);
+		
+		void handle_new_material(char* line, int length);
+		
 	public:
 		//TODO Should this be the constructor?
 		void load_materials(const char* file_name);

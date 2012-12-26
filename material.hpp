@@ -26,7 +26,8 @@ class Material {
 
 		GLuint illum;
 
-		//Map map_Kd;
-
+		const char* map_Kd;
+	public:
+		Material();
 
 };

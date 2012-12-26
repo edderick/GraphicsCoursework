@@ -21,7 +21,16 @@
 #include "mtlloader.hpp"
 
 #define DEBUG 1
+void MtlLoader::handle_new_material(char* line, int length){
+	//Don't know why the commented version won't work	
+	char * token;// = strtok(line, " \n");
+	token = strtok(NULL, " \n");
+	
+	std::cout << "Creating material: " << token << "\n";
 
+	material = new Material();
+	materials.insert( std::pair<const char*, Material*>(token, material));
+}
 
 void MtlLoader::process_line(char* line, int length){
 	//YAGNI - Can add more things as they are needed!
@@ -31,7 +40,7 @@ void MtlLoader::process_line(char* line, int length){
 	//std::cout << token << ": ";
 
 	if (strcmp("newmtl", token) == 0){
-		std::cout << "Material\n";
+		handle_new_material(line, length);	
 	} else if (strcmp("Ka", token) == 0){
 		std::cout << "Ambient Colour\n";
 	} else if (strcmp("Kd", token) == 0){
@@ -50,6 +59,8 @@ void MtlLoader::process_line(char* line, int length){
 		std::cout << "Diffuse Texture Map\n";
 	} else if (strcmp("map_Ks", token) == 0){
 		std::cout << "Specular Texture Map\n";
+	} else if (strcmp("Ni", token) == 0){
+		std::cout << "Optical Density\n";
 	}
 	
 }
