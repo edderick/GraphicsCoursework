@@ -42,7 +42,7 @@ void MtlLoader::process_line(char* line, int length){
 	if (strcmp("newmtl", token) == 0){
 		handle_new_material(line, length);	
 	} else if (strcmp("Ka", token) == 0){
-		std::cout << "Ambient Colour\n";
+		handle_ambient_color(line, length);
 	} else if (strcmp("Kd", token) == 0){
 		std::cout << "Diffuse Colour\n"; 
 	} else if (strcmp("Ks", token) == 0){

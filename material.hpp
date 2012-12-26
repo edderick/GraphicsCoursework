@@ -21,13 +21,25 @@
 
 class Material {
 	private:
-		GLfloat Ns, Ni, d;
-		glm::vec3 Ka, Kd, Ks;
+		GLfloat _Ns, _Ni, _d;
+		glm::vec3 _Ka, _Kd, _Ks;
 
-		GLuint illum;
+		GLuint _illum;
 
-		const char* map_Kd;
+		char* _map_Ka, _map_Kd, _map_Ks;
 	public:
 		Material();
+	
+		void setAmbientColor(glm::vec3 Ka);
+		void setDiffuseColor(glm::vec3 Kd);
+		void setSpecularColor(glm::vec3 Ks);
+		
+		void setIllumination(GLuint illum);
+		void setTransparency(GLfloat Tr);
+		void setSpecularity(GLfloat Ns);
+		void setOpticalDensity(GLfloat Ni);
 
+		void setAmbientTexture(const char* file_name);
+		void setDiffuseTexture(const char* file_name);
+		void setSpecularTexture(const char* file_name);
 };

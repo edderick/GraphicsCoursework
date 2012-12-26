@@ -32,6 +32,9 @@ class MtlLoader {
 		
 		void handle_new_material(char* line, int length);
 		
+		void handle_ambient_color(char* line, int length);
+	//	void handle_
+
 	public:
 		//TODO Should this be the constructor?
 		void load_materials(const char* file_name);
