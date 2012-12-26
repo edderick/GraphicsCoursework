@@ -21,16 +21,138 @@
 #include "mtlloader.hpp"
 
 #define DEBUG 1
+
+void resetTok(char * token){
+	token[strlen(token)] = ' ';
+}
+
 void MtlLoader::handle_new_material(char* line, int length){
-	//Don't know why the commented version won't work	
-	char * token;// = strtok(line, " \n");
+	char * token = strtok(line, " \n");
 	token = strtok(NULL, " \n");
 	
 	std::cout << "Creating material: " << token << "\n";
 
-	material = new Material();
+	material = new Material(token);
 	materials.insert( std::pair<const char*, Material*>(token, material));
 }
+
+void MtlLoader::handle_ambient_color(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+	float r = atof(token);
+	
+	token = strtok(NULL, " \n");
+	float g = atof(token);
+	
+	token = strtok(NULL, " \n");
+	float b = atof(token);
+
+	std::cout << "Setting ambient color: " << r << ", " << g << ", " << b << "\n";
+	material->setAmbientColor(glm::vec3(r,g,b));
+}
+
+void MtlLoader::handle_diffuse_color(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+	float r = atof(token);
+
+	token = strtok(NULL, " \n");
+	float g = atof(token);
+	
+	token = strtok(NULL, " \n");
+	float b = atof(token);
+
+	std::cout << "Setting diffuse color: " << r << ", " << g << ", " << b << "\n";
+	material->setDiffuseColor(glm::vec3(r,g,b));
+}
+
+void MtlLoader::handle_specular_color(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+	float r = atof(token);
+
+	token = strtok(NULL, " \n");
+	float g = atof(token);
+	
+	token = strtok(NULL, " \n");
+	float b = atof(token);
+
+	std::cout << "Setting specular color: " << r << ", " << g << ", " << b << "\n";
+	material->setSpecularColor(glm::vec3(r,g,b));
+}
+
+void MtlLoader::handle_illumination(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+	GLuint i = atoi(token);
+
+	std::cout << "Setting Illumination: " << i << "\n";
+	material->setIllumination(i);
+}
+
+
+void MtlLoader::handle_transparency(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+	GLfloat Tr = atof(token);
+
+	std::cout << "Setting transparency: " << Tr << "\n";
+	material->setTransparency(Tr);
+}
+
+void MtlLoader::handle_specularity(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+	GLfloat Ns = atof(token);
+
+	std::cout << "Setting Specularity: " << Ns << "\n";
+	material->setSpecularity(Ns);
+}
+
+void MtlLoader::handle_optical_density(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+	GLfloat Ni = atof(token);
+
+	std::cout << "Setting Optical Density: " << Ni << "\n";
+	material->setOpticalDensity(Ni);
+}
+
+void MtlLoader::handle_ambient_texture(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+
+	std::cout << "Setting Ambient Texture: " << token << "\n";
+	material->setAmbientTexture(token);
+}
+
+void MtlLoader::handle_diffuse_texture(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+
+	std::cout << "Setting Diffuse Texture: " << token << "\n";
+	material->setDiffuseTexture(token);
+}
+
+void MtlLoader::handle_specular_texture(char* line, int length){
+	char * token = strtok(line, " \n");
+
+	token = strtok(NULL, " \n");
+
+	std::cout << "Setting Specular Texture: " << token << "\n";
+	material->setSpecularTexture(token);
+}
+
+
 
 void MtlLoader::process_line(char* line, int length){
 	//YAGNI - Can add more things as they are needed!
@@ -40,29 +162,39 @@ void MtlLoader::process_line(char* line, int length){
 	//std::cout << token << ": ";
 
 	if (strcmp("newmtl", token) == 0){
+		resetTok(token);
 		handle_new_material(line, length);	
 	} else if (strcmp("Ka", token) == 0){
+		resetTok(token);
 		handle_ambient_color(line, length);
 	} else if (strcmp("Kd", token) == 0){
-		std::cout << "Diffuse Colour\n"; 
+		resetTok(token);
+		handle_diffuse_color(line, length);
 	} else if (strcmp("Ks", token) == 0){
-		std::cout << "Specular Colour\n";
+		resetTok(token);
+		handle_specular_color(line, length);
 	} else if (strcmp("illum", token) == 0){
-		std::cout << "Illumination\n";
+		resetTok(token);
+		handle_illumination(line, length);
 	} else if ((strcmp("d", token) == 0) || (strcmp("Tr", token) == 0)){
-		std::cout << "Transparency\n";
+		resetTok(token);
+		handle_transparency(line, length);
 	} else if (strcmp("Ns", token) == 0){
-		std::cout << "Specularity (Shininess)\n";
-	} else if (strcmp("map_Ka", token) == 0){
-		std::cout << "Ambient Texture Map\n";
-	} else if (strcmp("map_Kd", token) == 0){
-		std::cout << "Diffuse Texture Map\n";
-	} else if (strcmp("map_Ks", token) == 0){
-		std::cout << "Specular Texture Map\n";
+		resetTok(token);
+		handle_specularity(line, length);
 	} else if (strcmp("Ni", token) == 0){
-		std::cout << "Optical Density\n";
-	}
-	
+		resetTok(token);
+		handle_optical_density(line, length);
+	} else if (strcmp("map_Ka", token) == 0){
+		resetTok(token);
+		handle_ambient_texture(line, length);
+	} else if (strcmp("map_Kd", token) == 0){
+		resetTok(token);
+		handle_diffuse_texture(line, length);
+	} else if (strcmp("map_Ks", token) == 0){
+		resetTok(token);
+		handle_specular_texture(line, length);
+	} 	
 }
 
 

@@ -33,7 +33,17 @@ class MtlLoader {
 		void handle_new_material(char* line, int length);
 		
 		void handle_ambient_color(char* line, int length);
-	//	void handle_
+		void handle_diffuse_color(char* line, int length);
+		void handle_specular_color(char* line, int length);
+
+		void handle_illumination(char* line, int length);
+		void handle_transparency(char* line, int length);
+		void handle_specularity(char* line, int length);
+		void handle_optical_density(char* line, int length);
+
+		void handle_ambient_texture(char* line, int length);
+		void handle_diffuse_texture(char* line, int length);
+		void handle_specular_texture(char* line, int length);
 
 	public:
 		//TODO Should this be the constructor?
