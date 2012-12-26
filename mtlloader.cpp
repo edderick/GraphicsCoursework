@@ -24,11 +24,34 @@
 
 
 void MtlLoader::process_line(char* line, int length){
-	//For now I am only concerned with vertices and faces
-	switch(line[0]){
-		case 'v': switch(line[1]) { 
-		} break;
+	//YAGNI - Can add more things as they are needed!
+	
+	char * token = strtok(line, " ");
+
+	//std::cout << token << ": ";
+
+	if (strcmp("newmtl", token) == 0){
+		std::cout << "Material\n";
+	} else if (strcmp("Ka", token) == 0){
+		std::cout << "Ambient Colour\n";
+	} else if (strcmp("Kd", token) == 0){
+		std::cout << "Diffuse Colour\n"; 
+	} else if (strcmp("Ks", token) == 0){
+		std::cout << "Specular Colour\n";
+	} else if (strcmp("illum", token) == 0){
+		std::cout << "Illumination\n";
+	} else if ((strcmp("d", token) == 0) || (strcmp("Tr", token) == 0)){
+		std::cout << "Transparency\n";
+	} else if (strcmp("Ns", token) == 0){
+		std::cout << "Specularity (Shininess)\n";
+	} else if (strcmp("map_Ka", token) == 0){
+		std::cout << "Ambient Texture Map\n";
+	} else if (strcmp("map_Kd", token) == 0){
+		std::cout << "Diffuse Texture Map\n";
+	} else if (strcmp("map_Ks", token) == 0){
+		std::cout << "Specular Texture Map\n";
 	}
+	
 }
 
 
@@ -57,10 +80,10 @@ void MtlLoader::load_materials(const char* file_name){
 	}
 }
 
-#ifdef OLTEST
+#ifdef MTLTEST
 int main(int argc, char *argv[]){
 	MtlLoader ml;
-
+	ml.load_materials("models/normals.mtl");
 	return 1;
 }
 #endif

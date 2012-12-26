@@ -159,10 +159,10 @@ void ObjLoader::handle_face(char* line, int length){
 	normal_refs.push_back(n1); normal_refs.push_back(n2); normal_refs.push_back(n3);
 }
 
-void handle_use_material(char* line, int length){
+void ObjLoader::handle_use_material(char* line, int length){
 }
 
-void handle_material_library(char* line, int length){
+void ObjLoader::handle_material_library(char* line, int length){
 }
 
 void ObjLoader::process_line(char* line, int length){
