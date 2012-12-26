@@ -152,6 +152,9 @@ void MtlLoader::handle_specular_texture(char* line, int length){
 	material->setSpecularTexture(token);
 }
 
+Material* MtlLoader::getMaterial(char* material_name){
+	return materials[material_name];
+}
 
 
 void MtlLoader::process_line(char* line, int length){
@@ -198,7 +201,7 @@ void MtlLoader::process_line(char* line, int length){
 }
 
 
-void MtlLoader::load_materials(const char* file_name){
+void MtlLoader::load_materials(char* file_name){
 	char* mtl_file = filetobuf(file_name);
 
 	int i = 0;
@@ -226,7 +229,7 @@ void MtlLoader::load_materials(const char* file_name){
 #ifdef MTLTEST
 int main(int argc, char *argv[]){
 	MtlLoader ml;
-	ml.load_materials("models/normals.mtl");
+	ml.load_materials((char*)"models/normals.mtl");
 	return 1;
 }
 #endif

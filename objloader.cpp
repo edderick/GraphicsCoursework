@@ -160,9 +160,26 @@ void ObjLoader::handle_face(char* line, int length){
 }
 
 void ObjLoader::handle_use_material(char* line, int length){
+	char* token = strtok(line, " \n");
+	token = strtok(NULL, " \n");
+	
+	std::cout << "Using: "<< token << "\n";
+
+	material = mtlLoader.getMaterial(token);
 }
 
 void ObjLoader::handle_material_library(char* line, int length){
+	char* token = strtok(line, " \n");
+	token = strtok(NULL, " \n");
+	
+	std::cout << "Loading: " << _models_dir << "/" << token << "\n";
+
+	char path[255];
+	strcpy(path, _models_dir);
+	strcat(path, "/");
+	strcat(path, token);
+
+	mtlLoader.load_materials(path);
 }
 
 void ObjLoader::process_line(char* line, int length){
@@ -172,16 +189,24 @@ void ObjLoader::process_line(char* line, int length){
 			case(' '): handle_vertex(line, length); break;
 			case('n'): handle_normal(line, length); break;
 			case('t'): handle_texture_coord(line, length); break;
-			case('u'): handle_use_material(line, length); break;
-			case('m'): handle_material_library(line, length); break;
-		} break;
+					} break;
 		case 'f': handle_face(line, length); break;
+		case('u'): handle_use_material(line, length); break;
+		case('m'): handle_material_library(line, length); break;
+
 	}
 }
 
 
-void ObjLoader::load_model(const char* file_name){
-	char* obj_file = filetobuf(file_name);
+void ObjLoader::load_model(const char* models_dir, const char* file_name){
+	char path[255];
+	strcpy(path, models_dir);
+	strcat(path, "/");
+	strcat(path, file_name);
+
+	_models_dir = models_dir;
+
+	char* obj_file = filetobuf(path);
 
 	int i = 0;
 	int n = 0;
@@ -248,13 +273,13 @@ std::vector<glm::vec2> ObjLoader::getTextureCoords(){
 #ifdef OLTEST
 int main(int argc, char *argv[]){
 	ObjLoader ol;
-	ol.load_model("models/normals.obj");
+	ol.load_model("models","normals.obj");
 
 	std::vector<glm::vec2> out = ol.getTextureCoords();
 
-	for (int i = 0; i < out.size(); i++){
-		std::cout << out[i].x << ", "<< out[i].y << "\n"; //<< out[i].z << "\n";
-	}
+	//for (int i = 0; i < out.size(); i++){
+	//	std::cout << out[i].x << ", "<< out[i].y << "\n"; //<< out[i].z << "\n";
+	//}
 
 	return 1;
 }

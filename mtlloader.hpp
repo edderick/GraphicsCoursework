@@ -47,6 +47,6 @@ class MtlLoader {
 
 	public:
 		//TODO Should this be the constructor?
-		void load_materials(const char* file_name);
-		Material* getMaterial(const char* material_name);
+		void load_materials(char* file_name);
+		Material* getMaterial(char* material_name);
 } ;

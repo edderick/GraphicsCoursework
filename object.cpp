@@ -10,7 +10,8 @@ Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLen
 	_viewer = viewer;
 	
 	ObjLoader objLoader;
-	objLoader.load_model(obj_file_name);
+	//TODO magic word!!
+	objLoader.load_model("models", obj_file_name);
 
 	_vertices = objLoader.getVertices();
 	_normals = objLoader.getNormals();
