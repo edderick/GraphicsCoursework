@@ -19,19 +19,32 @@
 
 //Local Includes
 #include "utils.hpp"
+
+#if !defined( MATERIAL_HPP )
+#define MATERIAL_HPP
 #include "material.hpp"
+#endif
 
 #define DEBUG 1
+
+struct ltstr
+{
+	bool operator()(const char* s1, const char* s2) const
+	{
+		return strcmp(s1, s2) < 0;
+	}
+};
+
 
 class MtlLoader {
 	private: 
 		Material* material;
-		std::map<const char*, Material*> materials;
-	
+		std::map<const char*, Material*, ltstr> materials;
+
 		void process_line(char* line, int length);
-		
+
 		void handle_new_material(char* line, int length);
-		
+
 		void handle_ambient_color(char* line, int length);
 		void handle_diffuse_color(char* line, int length);
 		void handle_specular_color(char* line, int length);

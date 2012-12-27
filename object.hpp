@@ -17,6 +17,11 @@
 #include "utils.hpp"
 #include "objloader.hpp"
 
+#if !defined( MATERIAL_HPP )
+#define MATERIAL_HPP
+#include "material.hpp"
+#endif
+
 #if !defined( VIEWER_HPP ) 
 #define VIEWER_HPP
 #include "viewer.hpp"
@@ -26,6 +31,8 @@ class Object {
 	private:
 		const char* _obj_file_name;
 		
+		Material* _material;
+
 		GLuint _programID;
 		GLenum _draw_mode;
 
@@ -41,6 +48,7 @@ class Object {
 	public:
 		Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 		void setUpTransformations();
+		//void setUpMaterials();
 		void draw();
 };
 

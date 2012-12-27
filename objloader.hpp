@@ -55,4 +55,6 @@ class ObjLoader {
 		std::vector<glm::vec3> getVertices();
 		std::vector<glm::vec2> getTextureCoords();
 		std::vector<glm::vec3> getNormals();
+
+		Material* getMaterial();
 };

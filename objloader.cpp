@@ -163,8 +163,11 @@ void ObjLoader::handle_use_material(char* line, int length){
 	char* head = strtok(line, " ");
 	char* token = strtok(NULL, " \n");
 
-	std::cout << "Using: "<< token << "\n";
+	std::cout << "Using material: "<< token << "\n";
+	
 	material = mtlLoader.getMaterial(token);
+
+	if(material == NULL) std::cout << "Material Not found";
 
 	token[strlen(token)] = ' ';
 }
@@ -270,6 +273,10 @@ std::vector<glm::vec2> ObjLoader::getTextureCoords(){
 	}
 	
 	return texture_coords_list;
+}
+
+Material* ObjLoader::getMaterial(){
+	return material;
 }
 
 #ifdef OLTEST

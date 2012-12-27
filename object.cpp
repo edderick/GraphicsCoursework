@@ -27,10 +27,11 @@ Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLen
 	glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID);
 	glBufferData(GL_ARRAY_BUFFER, _normals.size() * sizeof(_normals[0]), &_normals[0], GL_STATIC_DRAW);
 
+	_material = objLoader.getMaterial();
+	
 }		
 
 void Object::draw() {
-
 	setUpTransformations();
 
 	glUseProgram(_programID);
@@ -48,7 +49,6 @@ void Object::draw() {
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
 
 	glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
-
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
@@ -71,5 +71,12 @@ void Object::setUpTransformations(){
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "p"), 1, GL_FALSE, glm::value_ptr(projection));
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "mv"), 1, GL_FALSE, glm::value_ptr(mv));
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
+
+	if(_material != NULL){
+		glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), 1, glm::value_ptr(_material->getAmbientColor()));
+		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(_material->getDiffuseColor()));
+		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
+	}
+
 }
 

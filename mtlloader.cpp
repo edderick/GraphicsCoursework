@@ -29,7 +29,7 @@ void resetTok(char * token){
 void MtlLoader::handle_new_material(char* line, int length){
 	char * token = strtok(line, " \n");
 	token = strtok(NULL, " \n");
-	
+
 	std::cout << "Creating material: " << token << "\n";
 
 	material = new Material(token);
