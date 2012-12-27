@@ -142,4 +142,3 @@ int main(int argc, char *argv[]){
 	//Everything was okay, return zero
 	exit(EXIT_SUCCESS);
 }
-
