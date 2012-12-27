@@ -61,7 +61,6 @@ Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLen
 
 	char* diffuse_texture_file_name = _material->getDiffuseTexture();
 	if(diffuse_texture_file_name != NULL){
-		std::cout << "diffuse";
 		//TEXTURE
 		glActiveTexture(DIFFUSE_TEXTURE);
 		//glload must be initialized for glimg texture creation to work.
@@ -101,9 +100,6 @@ Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLen
 			std::cout << "IMAGE FILE LOADING FAILED";
 		}
 	}
-
-	std::cout << _diffuse_texture;
-
 }		
 
 void Object::draw() {
@@ -159,25 +155,25 @@ void Object::setUpTransformations(){
 		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
 	}
 
-	//if(_ambient_texture > -1){
+	if(_ambient_texture != -1){
 		glActiveTexture(AMBIENT_TEXTURE);
 		glBindTexture(GL_TEXTURE_2D, _ambient_texture);
 		GLuint TextureID  = glGetUniformLocation(_programID, "AmbientSampler");
 		glUniform1i(TextureID, AMBIENT_TEXTURE_NUM);
-	//}
+	}
 
-	//if(_diffuse_texture > -1){
+	if(_diffuse_texture != -1){
 		glActiveTexture(DIFFUSE_TEXTURE);
 		glBindTexture(GL_TEXTURE_2D, _diffuse_texture);
-		 TextureID  = glGetUniformLocation(_programID, "DiffuseSampler");
+		GLuint TextureID  = glGetUniformLocation(_programID, "DiffuseSampler");
 		glUniform1i(TextureID, DIFFUSE_TEXTURE_NUM);
-	//}
+	}
 
-	//if(_specular_texture > -1){
+	if(_specular_texture != -1){
 		glActiveTexture(SPECULAR_TEXTURE);
 		glBindTexture(GL_TEXTURE_2D, _specular_texture);
-		 TextureID  = glGetUniformLocation(_programID, "SpecularSampler");
+		GLuint TextureID  = glGetUniformLocation(_programID, "SpecularSampler");
 		glUniform1i(TextureID, SPECULAR_TEXTURE_NUM);
-	//}
+	}
 }
 
