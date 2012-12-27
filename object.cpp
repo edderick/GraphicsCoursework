@@ -3,6 +3,8 @@
 const GLfloat PI = 3.14159; 
 
 
+  GLuint theTexture = 0;
+
 Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode) {
 	_programID = programID;
 	_draw_mode = draw_mode;
@@ -28,7 +30,31 @@ Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLen
 	glBufferData(GL_ARRAY_BUFFER, _normals.size() * sizeof(_normals[0]), &_normals[0], GL_STATIC_DRAW);
 
 	_material = objLoader.getMaterial();
-	
+
+
+//TEXTURE
+glActiveTexture(GL_TEXTURE0);
+//glload must be initialized for glimg texture creation to work.
+  if(glload::LoadFunctions() == glload::LS_LOAD_FAILED)
+    std::cout << "Failed To Load";
+
+  //Loading succeeded. Now load a texture.
+  try
+  {
+    std::auto_ptr<glimg::ImageSet> pImgSet(glimg::loaders::stb::LoadFromFile("textures/img.jpg"));
+    theTexture = glimg::CreateTexture(pImgSet.get(), 0);
+  }
+  catch(glimg::ImageCreationException  &e)
+  {
+    //Image file loading failed.
+    std::cout << "IMAGE FILE LOADING FAILED";
+  }
+
+
+
+std::cout << theTexture;
+
+
 }		
 
 void Object::draw() {
@@ -77,6 +103,14 @@ void Object::setUpTransformations(){
 		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(_material->getDiffuseColor()));
 		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
 	}
+
+
+
+  //Texture loaded successfully.
+glActiveTexture(GL_TEXTURE0);
+glBindTexture(GL_TEXTURE_2D, theTexture);
+GLuint TextureID  = glGetUniformLocation(_programID, "myTextureSampler");
+glUniform1i(TextureID, 0);
 
 }
 

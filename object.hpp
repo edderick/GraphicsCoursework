@@ -3,7 +3,14 @@
 #include <stdio.h> 
 #include <stddef.h> 
 #include <string.h> 
- 
+
+//GLimg
+#include <memory>
+#include <glload/gll.hpp>
+#include <glimg/glimg.h>
+#include <glimg/ImageCreatorExceptions.h>
+#include <glimg/TextureGeneratorExceptions.h>
+
 //GL stuff 
 #include <GL/glew.h> 
 #include <GL/glfw.h> 

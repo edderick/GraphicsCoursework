@@ -121,6 +121,14 @@ int main(int argc, char *argv[]){
 	Object object("smoothMonkey.obj", perFragmentShaderID, viewer, GL_FILL);
 
 
+
+
+
+
+
+
+
+
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
