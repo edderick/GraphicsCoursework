@@ -109,7 +109,7 @@ int main(int argc, char *argv[]){
 	glfwSetKeyCallback(&key_callback);
 
 	glEnable(GL_DEPTH_TEST);
-
+	
 	//Load in and set program (Shaders)
 	GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
 	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
@@ -118,7 +118,8 @@ int main(int argc, char *argv[]){
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	Object object("smoothMonkey.obj", phongShaderID, viewer, GL_FILL);
+	Object object("smoothMonkey.obj", perFragmentShaderID, viewer, GL_FILL);
+
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

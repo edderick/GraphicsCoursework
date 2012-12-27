@@ -61,7 +61,7 @@ void Object::setUpTransformations(){
 	view = glm::lookAt(_viewer->getPosition(),_viewer->getLookAt(), _viewer->getUp());
 
 	glm::mat4 model = glm::mat4(1.f);
-	model = glm::rotate(model, (GLfloat) glfwGetTime() * 0.f, glm::vec3(0.f, 1.f, 0.f));
+	model = glm::rotate(model, (GLfloat) glfwGetTime() * 30.f, glm::vec3(0.f, 1.f, 0.f));
 
 	glm::mat4 mv = view * model;
 	glm::mat4 mvp = projection * mv;
