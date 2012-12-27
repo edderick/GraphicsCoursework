@@ -2,6 +2,10 @@
 
 Material::Material(char* name){
 	_name = name;
+	_map_Ka_file_name = NULL; 
+	_map_Kd_file_name = NULL; 
+	_map_Ks_file_name = NULL;
+
 }
 
 void Material::setAmbientColor(glm::vec3 Ka){

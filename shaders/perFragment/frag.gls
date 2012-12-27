@@ -9,24 +9,29 @@ in vec4 camera_direction;
 
 in float distance;
 
+in vec2 UV;
+
 out vec4 gl_FragColor; 
 
-const float light_power = 2.f;
+const float light_power = 0.5f;
 
 uniform vec3 in_ambient_color;
 uniform vec3 in_diffuse_color;
 uniform vec3 in_specular_color;
 
-uniform sampler2D myTextureSampler;
+uniform sampler2D AmbientSampler;
+uniform sampler2D DiffuseSampler;
+uniform sampler2D SpecularSampler;
 
 void main(void) {
+	vec4 ambient = texture(AmbientSampler, UV);
 	//vec4 ambient = vec4(in_ambient_color.xyz,1.0) ;
-
-	vec4 ambient = texture(myTextureSampler, vec2(0.9,0.9));
-
+	
 	vec4 diffuse
-		= light_power  * vec4(in_diffuse_color.xyz, 1.0) * clamp(dot(camera_normal, camera_light_direction),0,1) ;//  (distance * distance);	
-
+		= light_power  * texture(DiffuseSampler, UV) * clamp(dot(camera_normal, camera_light_direction),0,1) ;//  (distance * distance);	
+		//= light_power  * vec4(in_diffuse_color.xyz, 1.0) * clamp(dot(camera_normal, camera_light_direction),0,1) ;//  (distance * distance);	
+	
+	
 	
 	vec4 specular;
 
@@ -35,8 +40,9 @@ void main(void) {
 	} else {
 		vec4 reflection = normalize(reflect(camera_light_direction, camera_normal));
 
-		specular = light_power * vec4(in_specular_color.xyz, 1.0)  * pow(clamp(dot(camera_direction, reflection), 0, 1), 1) ;//  (distance * distance);
+		//specular = light_power * vec4(in_specular_color.xyz, 1.)  * pow(clamp(dot(camera_direction, reflection), 0, 1), 1) ;//  (distance * distance);
+		specular = light_power * texture(SpecularSampler, UV)  * pow(clamp(dot(camera_direction, reflection), 0, 1), 1) ;//  (distance * distance);
 	}
+
 	gl_FragColor = specular + diffuse + ambient ;
-	//gl_FragColor = ambient;
 }

@@ -118,14 +118,7 @@ int main(int argc, char *argv[]){
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
-	Object object("smoothMonkey.obj", perFragmentShaderID, viewer, GL_FILL);
-
-
-
-
-
-
-
+	Object object("normals.obj", perFragmentShaderID, viewer, GL_FILL);
 
 
 
