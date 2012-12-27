@@ -37,37 +37,37 @@ Viewer* viewer = new Viewer();
 
 void key_callback(int key, int action){
 	if ((key == 'W' || key == 'w') && action == GLFW_PRESS){
-		viewer->setVelocity(0,0,.5);
+		viewer->setForwardVelocity(1);
 	} else if ((key == 'W' || key == 'w') && action == GLFW_RELEASE){
-		viewer->setVelocity(0,0,0);
+		viewer->setForwardVelocity(0);
 	} else if ((key == 'S' || key == 's') && action == GLFW_PRESS){
-		viewer->setVelocity(0,0,-.5);
+		viewer->setForwardVelocity(-1);
 	} else if ((key == 'S' || key == 's') && action == GLFW_RELEASE){
-		viewer->setVelocity(0,0,0);
+		viewer->setForwardVelocity(0);
 	} else if ((key == 'A' || key == 'a') && action == GLFW_PRESS){
-		viewer->setVelocity(-.5,0,0);
+		viewer->setStrafeVelocity(-1);
 	} else if ((key == 'A' || key == 'a') && action == GLFW_RELEASE){
-		viewer->setVelocity(0,0,0);
+		viewer->setStrafeVelocity(0);
 	} else if ((key == 'D' || key == 'd') && action == GLFW_PRESS){
-		viewer->setVelocity(.5,0,0);
+		viewer->setStrafeVelocity(1);
 	} else if ((key == 'D' || key == 'd') && action == GLFW_RELEASE){
-		viewer->setVelocity(0,0,0);
+		viewer->setStrafeVelocity(0);
 	} else if ((key == GLFW_KEY_UP) && action == GLFW_PRESS){
 		viewer->changeVelocity(0,0,0.1);
 	} else if ((key == GLFW_KEY_DOWN) && action == GLFW_PRESS){
 		viewer->changeVelocity(0,0,-0.1);
 	} else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_PRESS){
-		viewer->setVelocity(0,0.5,0);
+		viewer->setUpVelocity(1);
 	}  else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_RELEASE){
-		viewer->setVelocity(0,0,0);
+		viewer->setUpVelocity(0);
 	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_PRESS){
-		viewer->setVelocity(0,-0.5,0);
+		viewer->setUpVelocity(-1);
 	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
-		viewer->setVelocity(0,0,0);
+		viewer->setUpVelocity(0);
 	} else if ((key == GLFW_KEY_LEFT) && action == GLFW_PRESS){
-		viewer->setCameraRotationVelocity(0.5);
+		viewer->setCameraRotationVelocity(1);
 	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_PRESS){
-		viewer->setCameraRotationVelocity(-0.5);
+		viewer->setCameraRotationVelocity(-1);
 	}  else if ((key == GLFW_KEY_LEFT) && action == GLFW_RELEASE){
 		viewer->setCameraRotationVelocity(0);
 	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_RELEASE){

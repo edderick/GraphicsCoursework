@@ -19,6 +19,8 @@
 
 class Viewer {
 	private:
+		GLfloat _current_angle;
+
 		glm::vec3 _position;
 		glm::vec3 _direction;
 		glm::vec3 _up;
@@ -34,6 +36,11 @@ class Viewer {
 		Viewer();
 		
 		void setVelocity(GLfloat ax, GLfloat ay, GLfloat az);
+
+		void setStrafeVelocity(GLfloat velocity);
+		void setUpVelocity(GLfloat velocity);
+		void setForwardVelocity(GLfloat velocity);
+
 		void changeVelocity(GLfloat dax, GLfloat day, GLfloat daz);
 
 		void setCameraRotationVelocity(GLfloat velocity);
