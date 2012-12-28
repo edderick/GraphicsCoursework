@@ -96,10 +96,12 @@ int main(int argc, char *argv[]){
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
-	
-	Object object("prettyMonkey.obj", perFragmentShaderID, viewer, GL_FILL);
 
-	Skybox skybox("normals.obj", perFragmentShaderID, viewer, GL_FILL);
+	ObjLoader prettyMonkey = ObjLoader("models","prettyMonkey.obj");
+	ObjLoader normals = ObjLoader("models","normals.obj");
+
+	Object object(&prettyMonkey, perFragmentShaderID, viewer, GL_FILL);
+	Skybox skybox(&normals, perFragmentShaderID, viewer, GL_FILL);
 	
 	glfwSetWindowTitle("Mars In Fiction");	
 

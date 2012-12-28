@@ -13,7 +13,7 @@
 
 class Skybox : public Object {
 	public:
-		Skybox(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
+		Skybox(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 
 		virtual glm::mat4 makeModelMatrix();
 		virtual glm::mat4 makeViewMatrix();

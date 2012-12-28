@@ -9,9 +9,11 @@
 #include "utils.hpp"
 #include "mtlloader.hpp"
 
+#include "geometrygenerator.hpp"
+
 #define DEBUG 1
 
-class ObjLoader {
+class ObjLoader : public GeometryGenerator {
 	private: 
 		
 		MtlLoader mtlLoader;
@@ -39,14 +41,13 @@ class ObjLoader {
 		void process_line(char* line, int length);
 
 	public:
-		//TODO Should this be the constructor?
-		void load_model(const char* models_dir, const char* file_name);
+		ObjLoader(const char* models_dir, const char* file_name);
 
-		std::vector<glm::vec3> getVertices();
-		std::vector<glm::vec2> getTextureCoords();
-		std::vector<glm::vec3> getNormals();
+		virtual std::vector<glm::vec3> getVertices();
+		virtual std::vector<glm::vec2> getTextureCoords();
+		virtual std::vector<glm::vec3> getNormals();
 
-		Material* getMaterial();
+		virtual Material* getMaterial();
 };
 
 #endif

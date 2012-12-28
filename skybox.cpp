@@ -1,7 +1,7 @@
 #include "skybox.hpp"
 
 
-Skybox::Skybox(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode) : Object(obj_file_name, programID, viewer, draw_mode) { }
+Skybox::Skybox(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode) : Object(gg, programID, viewer, draw_mode) { }
 
 glm::mat4 Skybox::makeModelMatrix(){
         glm::mat4 model = glm::mat4(1.f);

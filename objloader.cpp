@@ -203,7 +203,7 @@ void ObjLoader::process_line(char* line, int length){
 }
 
 
-void ObjLoader::load_model(const char* models_dir, const char* file_name){
+ObjLoader::ObjLoader(const char* models_dir, const char* file_name){
 	char path[255];
 	strcpy(path, models_dir);
 	strcat(path, "/");

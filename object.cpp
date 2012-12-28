@@ -2,19 +2,15 @@
 
 const GLfloat PI = 3.14159; 
 
-Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode) {
+Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode) {
 	_programID = programID;
 	_draw_mode = draw_mode;
 
 	_viewer = viewer;
 
-	ObjLoader objLoader;
-	//TODO magic word!!
-	objLoader.load_model("models", obj_file_name);
-
-	_vertices = objLoader.getVertices();
-	_normals = objLoader.getNormals();
-	_UVs = objLoader.getTextureCoords();
+	_vertices = gg->getVertices();
+	_normals = gg->getNormals();
+	_UVs = gg->getTextureCoords();
 
 	glGenVertexArrays(1, &_vaoID);
 	glBindVertexArray(_vaoID);
@@ -31,7 +27,7 @@ Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLen
 	glBindBuffer(GL_ARRAY_BUFFER, _UV_vboID);
 	glBufferData(GL_ARRAY_BUFFER, _UVs.size() * sizeof(_UVs[0]), &_UVs[0], GL_STATIC_DRAW);
 
-	_material = objLoader.getMaterial();
+	_material = gg->getMaterial();
 
 	_ambient_texture = setUpTexture(_material->getAmbientTexture(), AMBIENT_TEXTURE, AMBIENT_TEXTURE_NUM, "AmbientSampler");
 	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), DIFFUSE_TEXTURE, DIFFUSE_TEXTURE_NUM, "DiffuseSampler");
@@ -43,6 +39,10 @@ Object::Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLen
 		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
 	}
 
+	_position = glm::vec3(0,0,0);
+	_scale = glm::vec3(1,1,1);
+	_rotation_axis = glm::vec3(1,0,0);
+	_rotation_magnitude = 0;
 }		
 
 void Object::draw() {
@@ -77,7 +77,9 @@ void Object::draw() {
 
 glm::mat4 Object::makeModelMatrix(){
 	glm::mat4 model = glm::mat4(1.f);
-	model = glm::rotate(model, (GLfloat) glfwGetTime() * 0.f, glm::vec3(0.f, 1.f, 0.f));
+	model = glm::scale(model, _scale);
+	model = glm::rotate(model, _rotation_magnitude, _rotation_axis);
+	model = glm::translate(model, _position);
 	return model;
 }
 

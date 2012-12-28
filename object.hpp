@@ -6,6 +6,7 @@
 //local includes 
 #include "utils.hpp"
 #include "objloader.hpp"
+#include "geometrygenerator.hpp"
 
 #include "material.hpp"
 #include "viewer.hpp"
@@ -48,10 +49,11 @@ class Object {
 
 		glm::vec3 _position;
 		glm::vec3 _scale;
-		glm::vec3 _rotation;
+		GLfloat _rotation_magnitude;
+		glm::vec3 _rotation_axis;
 
 	public:
-		Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
+		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 		void setUpTransformations();
 		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuint ActiveTextureNum ,const char* SamplerName);
 		void draw();
