@@ -83,6 +83,10 @@ glm::vec3 Viewer::getLookAt(){
 	return _position + _direction;
 }
 
+glm::vec3 Viewer::getDirection(){
+	return _direction;
+}
+
 glm::vec3 Viewer::getUp(){
 	return _up;
 }

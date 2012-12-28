@@ -38,7 +38,7 @@
 #include "viewer.hpp"
 #endif
 
-class Object {
+class Skybox {
 	private:
 		const char* _obj_file_name;
 		
@@ -70,7 +70,7 @@ class Object {
 		static const GLuint SPECULAR_TEXTURE_NUM = 2;
 
 	public:
-		Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
+		Skybox(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 		void setUpTransformations();
 		//void setUpMaterials();
 		void draw();

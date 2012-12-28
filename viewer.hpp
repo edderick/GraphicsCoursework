@@ -48,4 +48,5 @@ class Viewer {
 		glm::vec3 getPosition();
 		glm::vec3 getLookAt();
 		glm::vec3 getUp();
+		glm::vec3 getDirection();
 };

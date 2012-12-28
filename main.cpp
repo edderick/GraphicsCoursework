@@ -16,6 +16,7 @@
 //local includes
 #include "utils.hpp"
 #include "object.hpp"
+#include "skybox.hpp"
 
 #if !defined( VIEWER_HPP )  
 #define VIEWER_HPP 
@@ -108,30 +109,28 @@ int main(int argc, char *argv[]){
 	glfwEnable(GLFW_STICKY_KEYS);
 	glfwSetKeyCallback(&key_callback);
 
-	glEnable(GL_DEPTH_TEST);
 	
 	//Load in and set program (Shaders)
 	GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
 	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
 	
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//TODO sort out SkyBox so that this can be removed
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
+	glEnable(GL_DEPTH_TEST);
+	
+	Object object("prettyMonkey.obj", perFragmentShaderID, viewer, GL_FILL);
 
-	Object object("prettyMonkey.obj", phongShaderID, viewer, GL_FILL);
-
-
+	Skybox skybox("normals.obj", perFragmentShaderID, viewer, GL_FILL);
+	
+	glfwSetWindowTitle("Mars In Fiction");	
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-		switch (screen) {
 		
-			case OBJECT:
-				glfwSetWindowTitle("Object");	
-				object.draw();
-				break;
-		}
+		object.draw();
+		skybox.draw();
 
 		glfwSwapBuffers();
 	} while ( (glfwGetKey(GLFW_KEY_ESC) != GLFW_PRESS) && 
