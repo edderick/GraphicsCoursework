@@ -1,47 +1,15 @@
-//Standard includes 
-#include <stdlib.h> 
-#include <stdio.h> 
-#include <stddef.h> 
-#include <string.h> 
+#ifndef __SKYBOX__
+#define __SKYBOX__
 
-//GLimg
-#include <memory>
-#include <glload/gll.hpp>
-#include <glimg/glimg.h>
-#include <glimg/ImageCreatorExceptions.h>
-#include <glimg/TextureGeneratorExceptions.h>
-
-//GL stuff 
-#include <GL/glew.h> 
-#include <GL/glfw.h> 
- 
-//GLM stuff 
-#include <glm/glm.hpp> 
-#include <glm/gtc/matrix_transform.hpp> 
-#include <glm/gtc/type_ptr.hpp> 
+#include "gl_common.hpp" 
  
 //local includes 
 #include "utils.hpp"
-
-#if !defined (OBJECT_HPP) 
-#define OBJECT_HPP
-#include "object.hpp"
-#endif
-
-#if !defined( OBJLOADER_HPP)
-#define OBJLOADER_HPP
 #include "objloader.hpp"
-#endif
 
-#if !defined( MATERIAL_HPP )
-#define MATERIAL_HPP
+#include "object.hpp"
 #include "material.hpp"
-#endif
-
-#if !defined( VIEWER_HPP ) 
-#define VIEWER_HPP
 #include "viewer.hpp"
-#endif
 
 class Skybox : public Object {
 	public:
@@ -53,3 +21,4 @@ class Skybox : public Object {
 
 };
 
+#endif

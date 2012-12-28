@@ -1,29 +1,15 @@
-//Standard includes
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <string.h>
-#include <iostream>
+#ifndef __MTLLOADER_HPP__
+#define __MTLLOADER_HPP__
+
+#include "gl_common.hpp"
+
 #include <vector>
 #include <map>
 #include <utility>
 
-//GL stuff
-#include <GL/glew.h>
-#include <GL/glfw.h>
-
-//GLM stuff
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 //Local Includes
 #include "utils.hpp"
-
-#if !defined( MATERIAL_HPP )
-#define MATERIAL_HPP
 #include "material.hpp"
-#endif
 
 #define DEBUG 1
 
@@ -62,4 +48,6 @@ class MtlLoader {
 		//TODO Should this be the constructor?
 		void load_materials(char* file_name);
 		Material* getMaterial(char* material_name);
-} ;
+};
+
+#endif

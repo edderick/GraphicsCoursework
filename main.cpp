@@ -1,32 +1,11 @@
-//Standard includes
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <string.h>
-
-//GL stuff
-#include <GL/glew.h>
-#include <GL/glfw.h>
-
-//GLM stuff
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "gl_common.hpp"
 
 //local includes
 #include "utils.hpp"
+
 #include "skybox.hpp"
-
-#if !defined (OBJECT_HPP) 
-#define OBJECT_HPP
 #include "object.hpp"
-#endif
-
-
-#if !defined( VIEWER_HPP )  
-#define VIEWER_HPP 
 #include "viewer.hpp" 
-#endif
 
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;

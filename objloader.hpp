@@ -1,19 +1,9 @@
-//Standard includes
-#include <stdlib.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <string.h>
-#include <iostream>
+#ifndef __OBJLOADER_HPP__
+#define __OBJLOADER_HPP__
+
+#include "gl_common.hpp"
+
 #include <vector>
-
-//GL stuff
-#include <GL/glew.h>
-#include <GL/glfw.h>
-
-//GLM stuff
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 //Local Includes
 #include "utils.hpp"
@@ -58,3 +48,5 @@ class ObjLoader {
 
 		Material* getMaterial();
 };
+
+#endif

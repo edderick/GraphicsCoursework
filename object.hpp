@@ -1,42 +1,14 @@
-//Standard includes 
-#include <stdlib.h> 
-#include <stdio.h> 
-#include <stddef.h> 
-#include <string.h> 
+#ifndef __OBJECT_HPP__
+#define __OBJECT_HPP__
 
-//GLimg
-#include <memory>
-#include <glload/gll.hpp>
-#include <glimg/glimg.h>
-#include <glimg/ImageCreatorExceptions.h>
-#include <glimg/TextureGeneratorExceptions.h>
+#include "gl_common.hpp"
 
-//GL stuff 
-#include <GL/glew.h> 
-#include <GL/glfw.h> 
- 
-//GLM stuff 
-#include <glm/glm.hpp> 
-#include <glm/gtc/matrix_transform.hpp> 
-#include <glm/gtc/type_ptr.hpp> 
- 
 //local includes 
 #include "utils.hpp"
-
-#if !defined( OBJLOADER_HPP)
-#define OBJLOADER_HPP
 #include "objloader.hpp"
-#endif
 
-#if !defined( MATERIAL_HPP )
-#define MATERIAL_HPP
 #include "material.hpp"
-#endif
-
-#if !defined( VIEWER_HPP ) 
-#define VIEWER_HPP
 #include "viewer.hpp"
-#endif
 
 class Object {
 	private:
@@ -85,3 +57,4 @@ class Object {
 		void draw();
 };
 
+#endif

@@ -1,18 +1,7 @@
-//GL stuff  
-#include <GL/glew.h>  
-#include <GL/glfw.h>  
- 
-//GLM stuff  
-#include <glm/glm.hpp>  
-#include <glm/gtc/matrix_transform.hpp>  
-#include <glm/gtc/type_ptr.hpp>  
+#ifndef __VIEWER_HPP__
+#define __VIEWER_HPP__
 
-//Standard includes  
-#include <stdlib.h>  
-#include <stdio.h>  
-#include <stddef.h>  
-#include <string.h>  
-#include <iostream>
+#include "gl_common.hpp"
 
 //local includes  
 #include "utils.hpp" 
@@ -50,3 +39,5 @@ class Viewer {
 		glm::vec3 getUp();
 		glm::vec3 getDirection();
 };
+
+#endif

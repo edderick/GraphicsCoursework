@@ -1,23 +1,10 @@
-//Standard includes
-#include <stdlib.h> 
-#include <stdio.h> 
-#include <stddef.h> 
-#include <string.h> 
-#include <iostream> 
-#include <vector> 
+#ifndef __MATERIAL_HPP__
+#define __MATERIAL_HPP__
 
-//GL stuff 
-#include <GL/glew.h> 
-#include <GL/glfw.h> 
-
-//GLM stuff 
-#include <glm/glm.hpp> 
-#include <glm/gtc/matrix_transform.hpp> 
-#include <glm/gtc/type_ptr.hpp> 
+#include "gl_common.hpp"
 
 //Local Includes 
 #include "utils.hpp" 
-
 
 class Material {
 	private:
@@ -64,3 +51,5 @@ class Material {
 		char* getSpecularTexture();
 		
 };
+
+#endif
