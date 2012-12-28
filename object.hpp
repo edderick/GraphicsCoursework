@@ -58,8 +58,6 @@ class Object {
 		std::vector<glm::vec3> _normals;
 		std::vector<glm::vec2> _UVs;
 
-		Viewer* _viewer;
-
 		static const GLuint AMBIENT_TEXTURE = GL_TEXTURE0;
 		static const GLuint AMBIENT_TEXTURE_NUM = 0;
 
@@ -69,10 +67,21 @@ class Object {
 		static const GLuint SPECULAR_TEXTURE = GL_TEXTURE2;
 		static const GLuint SPECULAR_TEXTURE_NUM = 2;
 
+	protected:
+		virtual glm::mat4 makeModelMatrix();
+		virtual glm::mat4 makeViewMatrix();
+		virtual glm::mat4 makeProjectionMatrix();
+
+		Viewer* _viewer;
+
+		glm::vec3 _position;
+		glm::vec3 _scale;
+		glm::vec3 _rotation;
+
 	public:
 		Object(const char* obj_file_name, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 		void setUpTransformations();
-		//void setUpMaterials();
+		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuint ActiveTextureNum ,const char* SamplerName);
 		void draw();
 };
 

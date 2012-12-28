@@ -15,27 +15,27 @@
 
 //local includes
 #include "utils.hpp"
-#include "object.hpp"
 #include "skybox.hpp"
+
+#if !defined (OBJECT_HPP) 
+#define OBJECT_HPP
+#include "object.hpp"
+#endif
+
 
 #if !defined( VIEWER_HPP )  
 #define VIEWER_HPP 
 #include "viewer.hpp" 
 #endif
 
-
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
 
-typedef enum Screen{
-	OBJECT,
-} Screen;
-
-Screen screen = OBJECT;
-
+//Viewer is global as it's state is modified by key_callback
 Viewer* viewer = new Viewer(); 
 
+//Handle controls
 void key_callback(int key, int action){
 	if ((key == 'W' || key == 'w') && action == GLFW_PRESS){
 		viewer->setForwardVelocity(1);
@@ -77,7 +77,6 @@ void key_callback(int key, int action){
 }
 
 int main(int argc, char *argv[]){
-
 	//Initialise GLFW
 	if (!glfwInit()) {
 		fprintf(stderr, "There was a problem initializing glfw");
@@ -108,7 +107,6 @@ int main(int argc, char *argv[]){
 	//various glfw settings
 	glfwEnable(GLFW_STICKY_KEYS);
 	glfwSetKeyCallback(&key_callback);
-
 	
 	//Load in and set program (Shaders)
 	GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
@@ -140,6 +138,6 @@ int main(int argc, char *argv[]){
 
 	glfwTerminate();
 
-	//Everything was okay, return zero
+	//Everything was okay, return success
 	exit(EXIT_SUCCESS);
 }
