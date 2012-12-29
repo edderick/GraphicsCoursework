@@ -34,6 +34,15 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	//_scale = glm::vec3(0.1,0.01,0.1);
 	_rotation_axis = glm::vec3(1,0,0);
 	_rotation_magnitude = 0;
+
+
+	_ambient_texture_num = 0;
+	_diffuse_texture_num = 1;
+	_specular_texture_num = 2;
+	
+	_ambient_texture = setUpTexture(_material->getAmbientTexture(), _ambient_texture_num);//, "AmbientSampler");
+	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), _diffuse_texture_num);//, "DiffuseSampler");
+	_specular_texture = setUpTexture(_material->getSpecularTexture(), _specular_texture_num);//, "SpecularSampler");
 }		
 
 void Object::draw() {
@@ -115,13 +124,13 @@ void Object::setUpMaterials(){
 	_ambient_mode = 0;
 	_diffuse_mode = 0;
 	_specular_mode = 0;
-	
+
 	if(_material != NULL){
 
 		glm::vec3  ambient_color = _material->getAmbientColor();
 		glm::vec3  diffuse_color = _material->getDiffuseColor();
 		glm::vec3  specular_color = _material->getSpecularColor();
-	
+
 		if(ambient_color != glm::vec3(-1,-1,-1)){
 			glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), 1, glm::value_ptr(ambient_color));
 			_ambient_mode = 1;
@@ -138,14 +147,20 @@ void Object::setUpMaterials(){
 		}
 	}
 
-	_ambient_texture = setUpTexture(_material->getAmbientTexture(), AMBIENT_TEXTURE, AMBIENT_TEXTURE_NUM, "AmbientSampler");
-	if(_ambient_texture != -1) _ambient_mode = 2;
-	
-	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), DIFFUSE_TEXTURE, DIFFUSE_TEXTURE_NUM, "DiffuseSampler");
-	if(_diffuse_texture != -1) _diffuse_mode = 2;
+	if(_ambient_texture != -1){ 
+		_ambient_mode = 2;
+		useTexture(_ambient_texture, _ambient_texture_num, "AmbientSampler");
+	}
 
-	_specular_texture = setUpTexture(_material->getSpecularTexture(), SPECULAR_TEXTURE, SPECULAR_TEXTURE_NUM, "SpecularSampler");
-	if(_specular_texture != -1) _specular_texture = 2;
+	if(_diffuse_texture != -1){
+		_diffuse_mode = 2;
+		useTexture(_diffuse_texture, _diffuse_texture_num, "DiffuseSampler");
+	}
+
+	if(_specular_texture != -1){
+		_specular_texture = 2;
+		useTexture(_specular_texture, _diffuse_texture_num, "SpecularSampler");
+	}
 
 	glUniform1i(glGetUniformLocation(_programID, "ambient_mode"), _ambient_mode);
 	glUniform1i(glGetUniformLocation(_programID, "diffuse_mode"), _diffuse_mode);
@@ -153,14 +168,14 @@ void Object::setUpMaterials(){
 
 }
 
-GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuint ActiveTextureNum, const char* SamplerName) {
+GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTextureNum) {
 	//-1 is "error" case
 	GLuint textureID = -1;
 
 	if(texture_file_name != NULL){
 
 		//TEXTURE
-		glActiveTexture(ActiveTexture);
+		glActiveTexture(GL_TEXTURE0 + ActiveTextureNum);
 		//glload must be initialized for glimg texture creation to work.
 		if(glload::LoadFunctions() == glload::LS_LOAD_FAILED)
 			std::cout << "Failed To Load";
@@ -179,13 +194,17 @@ GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuin
 		}
 	}
 
+
+
+	return textureID;
+}
+
+void Object::useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName) {
 	if(textureID != -1){
-		glActiveTexture(ActiveTexture);
+		glActiveTexture(GL_TEXTURE0 + ActiveTextureNum);
 		glBindTexture(GL_TEXTURE_2D, textureID);
 		GLuint TextureID  = glGetUniformLocation(_programID, SamplerName);
 		glUniform1i(TextureID, ActiveTextureNum);
-
 	}
 
-	return textureID;
 }

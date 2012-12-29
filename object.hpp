@@ -20,6 +20,7 @@ class Object {
 		GLuint _programID;
 		GLenum _draw_mode;
 
+		GLuint _ambient_texture_num, _diffuse_texture_num, _specular_texture_num;
 		GLuint _ambient_texture, _diffuse_texture, _specular_texture;
 		GLuint _ambient_mode, _diffuse_mode, _specular_mode;
 
@@ -32,13 +33,10 @@ class Object {
 		std::vector<glm::vec3> _normals;
 		std::vector<glm::vec2> _UVs;
 
-		static const GLuint AMBIENT_TEXTURE = GL_TEXTURE0;
 		static const GLuint AMBIENT_TEXTURE_NUM = 0;
 
-		static const GLuint DIFFUSE_TEXTURE = GL_TEXTURE1;
 		static const GLuint DIFFUSE_TEXTURE_NUM = 1;
 
-		static const GLuint SPECULAR_TEXTURE = GL_TEXTURE2;
 		static const GLuint SPECULAR_TEXTURE_NUM = 2;
 
 	protected:
@@ -57,7 +55,8 @@ class Object {
 		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 		void setUpTransformations();
 		void setUpMaterials();
-		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuint ActiveTextureNum ,const char* SamplerName);
+		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTextureNum);
+		void useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName);
 		void draw();
 };
 
