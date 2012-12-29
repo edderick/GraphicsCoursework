@@ -35,6 +35,8 @@ class Viewer {
 
 		void setVelocity(GLfloat ax, GLfloat ay, GLfloat az);
 
+		glm::vec3 getMovePos(GLfloat dx, GLfloat dy, GLfloat dz);
+
 		void setStrafeVelocity(GLfloat velocity);
 		void setUpVelocity(GLfloat velocity);
 		void setForwardVelocity(GLfloat velocity);

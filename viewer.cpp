@@ -20,13 +20,18 @@ void Viewer::addTerrain(Object* object){
 }
 
 void Viewer::update(){
+
+	
 	
 	for (int i = 0; i < _terrain.size(); i++){
-		
+	
+		//Prevent clipping though things	
+		glm::vec3 hyp_pos = _position + (glm::vec3(0.1,0.1,0.1) * _direction );
+
 		glm::mat4 m = _terrain[i]->makeModelMatrix();
 		glm::mat4 inverseM = glm::inverse(m);
 	
-		glm::vec4 model_position_4 = inverseM * glm::vec4(_position.x, _position.y, _position.z, 1);
+		glm::vec4 model_position_4 = inverseM * glm::vec4(hyp_pos.x, hyp_pos.y, hyp_pos.z, 1);
 		glm::vec3 model_position = glm::vec3(model_position_4.x, model_position_4.y, model_position_4.z);
 
 		std::vector<glm::vec3> vertices = _terrain[i]->getVertices();
@@ -60,11 +65,10 @@ void Viewer::update(){
 
 	}
 	
-	
-	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
-	
+GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
 	glm::vec3 displacement = _velocity * elapsedTime;
 	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;
+
 
 	move(displacement.x, displacement.y, - displacement.z);
 	rotateCamera(cameraRotation);
@@ -77,6 +81,16 @@ void Viewer::move(float dx, float dy, float dz){
 	_position.x = _position.x + dz * -sin(_current_angle) + dx * -sin(_current_angle + (PI /2));
 	_position.y = _position.y + dy;
 	_position.z = _position.z + dz * -cos(_current_angle) + dx * -cos(_current_angle + (PI/2));
+}
+
+glm::vec3 Viewer::getMovePos(float dx, float dy, float dz){
+	glm::vec3 dposition = glm::vec3(0,0,0);
+
+	dposition.x = _position.x + dz * -sin(_current_angle) + dx * -sin(_current_angle + (PI /2));
+	dposition.y = _position.y + dy;
+	dposition.z = _position.z + dz * -cos(_current_angle) + dx * -cos(_current_angle + (PI/2));
+
+	return dposition;
 }
 
 void Viewer::setVelocity(GLfloat ax, GLfloat ay, GLfloat az){
