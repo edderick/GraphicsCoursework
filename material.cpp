@@ -6,6 +6,11 @@ Material::Material(char* name){
 	_map_Kd_file_name = NULL; 
 	_map_Ks_file_name = NULL;
 
+	//TODO constantify
+	_Ka = glm::vec3(-1,-1,-1);
+	_Kd = glm::vec3(-1,-1,-1);
+	_Ks = glm::vec3(-1,-1,-1);
+
 }
 
 void Material::setAmbientColor(glm::vec3 Ka){

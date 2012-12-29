@@ -91,7 +91,7 @@ void Object::setUpTransformations(){
 	glm::mat4 projection = makeProjectionMatrix();
 	glm::mat4 view = makeViewMatrix();
 	glm::mat4 model = makeModelMatrix();
-	
+
 	//Calculating once here should be faster than calculating for each vertex
 	glm::mat4 mv = view * model;
 	glm::mat4 mvp = projection * mv;
@@ -105,7 +105,7 @@ void Object::setUpTransformations(){
 	//TODO Create Lightsource class and possibly multiple lightsources
 	std::vector<glm::vec4> lightsources;
 	lightsources.push_back(glm::vec4(0,10,0,1));
-	
+
 	glUniform1i(glGetUniformLocation(_programID, "num_of_light_sources"), lightsources.size());
 	glUniform4fv(glGetUniformLocation(_programID, "light_position"), lightsources.size(), &lightsources[0][0]);
 
@@ -115,20 +115,41 @@ void Object::setUpMaterials(){
 	_ambient_mode = 0;
 	_diffuse_mode = 0;
 	_specular_mode = 0;
-
-	_ambient_texture = setUpTexture(_material->getAmbientTexture(), AMBIENT_TEXTURE, AMBIENT_TEXTURE_NUM, "AmbientSampler");
-	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), DIFFUSE_TEXTURE, DIFFUSE_TEXTURE_NUM, "DiffuseSampler");
-	_specular_texture = setUpTexture(_material->getSpecularTexture(), SPECULAR_TEXTURE, SPECULAR_TEXTURE_NUM, "SpecularSampler");
-
+	
 	if(_material != NULL){
-		glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), 1, glm::value_ptr(_material->getAmbientColor()));
-		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(_material->getDiffuseColor()));
-		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
+
+		glm::vec3  ambient_color = _material->getAmbientColor();
+		glm::vec3  diffuse_color = _material->getDiffuseColor();
+		glm::vec3  specular_color = _material->getSpecularColor();
+	
+		if(ambient_color != glm::vec3(-1,-1,-1)){
+			glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), 1, glm::value_ptr(ambient_color));
+			_ambient_mode = 1;
+		}
+
+		if(diffuse_color != glm::vec3(-1,-1,-1)){
+			glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(diffuse_color));
+			_diffuse_mode = 1;
+		}
+
+		if(specular_color != glm::vec3(-1,-1,-1)){
+			glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(specular_color));
+			_specular_mode = 1;
+		}
 	}
 
-	glUniform1i(glGetUniformLocation(_programID, "ambient_mode"), 2);
-	glUniform1i(glGetUniformLocation(_programID, "diffuse_mode"), 2);
-	glUniform1i(glGetUniformLocation(_programID, "specular_mode"), 2);
+	_ambient_texture = setUpTexture(_material->getAmbientTexture(), AMBIENT_TEXTURE, AMBIENT_TEXTURE_NUM, "AmbientSampler");
+	if(_ambient_texture != -1) _ambient_mode = 2;
+	
+	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), DIFFUSE_TEXTURE, DIFFUSE_TEXTURE_NUM, "DiffuseSampler");
+	if(_diffuse_texture != -1) _diffuse_mode = 2;
+
+	_specular_texture = setUpTexture(_material->getSpecularTexture(), SPECULAR_TEXTURE, SPECULAR_TEXTURE_NUM, "SpecularSampler");
+	if(_specular_texture != -1) _specular_texture = 2;
+
+	glUniform1i(glGetUniformLocation(_programID, "ambient_mode"), _ambient_mode);
+	glUniform1i(glGetUniformLocation(_programID, "diffuse_mode"), _diffuse_mode);
+	glUniform1i(glGetUniformLocation(_programID, "specular_mode"), _specular_mode);
 
 }
 
@@ -137,6 +158,7 @@ GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuin
 	GLuint textureID = -1;
 
 	if(texture_file_name != NULL){
+
 		//TEXTURE
 		glActiveTexture(ActiveTexture);
 		//glload must be initialized for glimg texture creation to work.
