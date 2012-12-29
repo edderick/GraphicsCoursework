@@ -3,7 +3,7 @@
 const float PI = 3.14;
 
 Viewer::Viewer() {
-	_position = glm::vec3(0,0,5);
+	_position = glm::vec3(0,1,5);
 	_direction = glm::vec3(0,0,-1);
 	_up = glm::vec3(0,1,0);
 
@@ -15,7 +15,52 @@ Viewer::Viewer() {
 	_lastAccessedTime = (GLfloat) glfwGetTime();
 }
 
+void Viewer::addTerrain(Object* object){
+	_terrain.push_back(object);
+}
+
 void Viewer::update(){
+	
+	for (int i = 0; i < _terrain.size(); i++){
+		
+		glm::mat4 m = _terrain[i]->makeModelMatrix();
+		glm::mat4 inverseM = glm::inverse(m);
+	
+		glm::vec4 model_position_4 = inverseM * glm::vec4(_position.x, _position.y, _position.z, 1);
+		glm::vec3 model_position = glm::vec3(model_position_4.x, model_position_4.y, model_position_4.z);
+
+		std::vector<glm::vec3> vertices = _terrain[i]->getVertices();
+
+		glm::vec3* min_vertex;
+		GLfloat distance = FLT_MAX;
+		
+		for(int j=0; j < vertices.size(); j++){
+		
+			if (distance < 0.1) break;
+
+			GLfloat this_distance = pow(model_position.x - vertices[j].x, 2) + pow(model_position.z - vertices[j].z, 2);
+			if (this_distance < distance){
+				min_vertex = &vertices[j];
+				distance = this_distance;
+			}
+
+		}
+		
+		glm::vec4 world_vertex = m * glm::vec4(min_vertex->x, min_vertex->y, min_vertex->z, 1);
+		
+		if(world_vertex.y + 0.1> _position.y){
+		 	//If we can climb, the climb
+			if (world_vertex.y - _position.y < 0.5)	{
+				_position.y = world_vertex.y + 0.1;
+			} else {
+				//Otherwise, ABORT
+				return;
+			}
+		}
+
+	}
+	
+	
 	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
 	
 	glm::vec3 displacement = _velocity * elapsedTime;

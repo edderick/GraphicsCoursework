@@ -11,6 +11,8 @@
 #include "material.hpp"
 #include "viewer.hpp"
 
+class Viewer;
+
 class Object {
 	private:
 		const char* _obj_file_name;
@@ -40,22 +42,26 @@ class Object {
 		void setUpMaterials();
 
 	protected:
-		virtual glm::mat4 makeModelMatrix();
-		virtual glm::mat4 makeViewMatrix();
 		virtual glm::mat4 makeProjectionMatrix();
-
+		virtual glm::mat4 makeViewMatrix();
+		
 		Viewer* _viewer;
 
 		glm::vec3 _position;
-		glm::vec3 _scale;
 		GLfloat _rotation_magnitude;
 		glm::vec3 _rotation_axis;
 
 	public:
 		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
-	
-		
 
+		std::vector <glm::vec3>  getVertices();
+	
+
+		//TODO create accessors	
+		glm::vec3 _scale;
+
+		//TODO move back?
+		virtual glm::mat4 makeModelMatrix();
 		void draw();
 };
 

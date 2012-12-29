@@ -208,3 +208,10 @@ void Object::useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* S
 	}
 
 }
+
+
+
+std::vector <glm::vec3> Object::getVertices(){
+	return _vertices;
+}
+

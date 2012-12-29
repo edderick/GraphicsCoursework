@@ -99,14 +99,20 @@ int main(int argc, char *argv[]){
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 
+	//Load in obj files & height maps
 	ObjLoader prettyMonkeyObj = ObjLoader("models","prettyMonkey.obj");
 	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.jpg");
 	ObjLoader skyboxObj = ObjLoader("models","skybox.obj");
 
+	//Create objects
 	Object object(&prettyMonkeyObj, perFragmentShaderID, viewer, GL_FILL);
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
-	
+
+	viewer->addTerrain(&ground);
+
+	ground._scale = glm::vec3(0.1,0.01,0.1);
+
 	glfwSetWindowTitle("Mars In Fiction");	
 
 	do {

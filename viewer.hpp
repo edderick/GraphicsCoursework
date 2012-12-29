@@ -5,6 +5,11 @@
 
 //local includes  
 #include "utils.hpp" 
+#include "object.hpp"
+
+#include <vector>
+
+class Object;
 
 class Viewer {
 	private:
@@ -19,6 +24,8 @@ class Viewer {
 		
 		GLfloat _lastAccessedTime;
 		
+		std::vector<Object*> _terrain;
+
 		void move(GLfloat dx, GLfloat dy, GLfloat dz);
 		void rotateCamera(GLfloat angle);
 	public:
@@ -36,6 +43,8 @@ class Viewer {
 
 		void setCameraRotationVelocity(GLfloat velocity);
 
+		void addTerrain(Object* object);
+	
 		glm::vec3 getPosition();
 		glm::vec3 getLookAt();
 		glm::vec3 getUp();
