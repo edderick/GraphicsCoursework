@@ -41,6 +41,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 
 	_position = glm::vec3(0,0,0);
 	_scale = glm::vec3(1,1,1);
+	//_scale = glm::vec3(0.1,0.01,0.1);
 	_rotation_axis = glm::vec3(1,0,0);
 	_rotation_magnitude = 0;
 }		

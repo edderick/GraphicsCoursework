@@ -45,4 +45,5 @@ void main(void) {
 	}
 
 	gl_FragColor = specular + diffuse + ambient ;
+	//gl_FragColor = diffuse;
 }

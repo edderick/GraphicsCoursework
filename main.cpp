@@ -7,6 +7,8 @@
 #include "object.hpp"
 #include "viewer.hpp" 
 
+#include "heightmaploader.hpp"
+
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
@@ -97,7 +99,10 @@ int main(int argc, char *argv[]){
 	//glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 
-	ObjLoader prettyMonkey = ObjLoader("models","prettyMonkey.obj");
+	//ObjLoader prettyMonkey = ObjLoader("models","prettyMonkey.obj");
+	
+	HeightMapLoader prettyMonkey = HeightMapLoader("textures", "img2.jpg");
+	
 	ObjLoader normals = ObjLoader("models","normals.obj");
 
 	Object object(&prettyMonkey, perFragmentShaderID, viewer, GL_FILL);
