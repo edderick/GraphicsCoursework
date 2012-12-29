@@ -102,9 +102,20 @@ void Object::setUpTransformations(){
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "mv"), 1, GL_FALSE, glm::value_ptr(mv));
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
 
+	//TODO Create Lightsource class and possibly multiple lightsources
+	std::vector<glm::vec4> lightsources;
+	lightsources.push_back(glm::vec4(0,10,0,1));
+	
+	glUniform1i(glGetUniformLocation(_programID, "num_of_light_sources"), lightsources.size());
+	glUniform4fv(glGetUniformLocation(_programID, "light_position"), lightsources.size(), &lightsources[0][0]);
+
 }	
 
 void Object::setUpMaterials(){
+	_ambient_mode = 0;
+	_diffuse_mode = 0;
+	_specular_mode = 0;
+
 	_ambient_texture = setUpTexture(_material->getAmbientTexture(), AMBIENT_TEXTURE, AMBIENT_TEXTURE_NUM, "AmbientSampler");
 	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), DIFFUSE_TEXTURE, DIFFUSE_TEXTURE_NUM, "DiffuseSampler");
 	_specular_texture = setUpTexture(_material->getSpecularTexture(), SPECULAR_TEXTURE, SPECULAR_TEXTURE_NUM, "SpecularSampler");
@@ -114,6 +125,11 @@ void Object::setUpMaterials(){
 		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(_material->getDiffuseColor()));
 		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
 	}
+
+	glUniform1i(glGetUniformLocation(_programID, "ambient_mode"), 2);
+	glUniform1i(glGetUniformLocation(_programID, "diffuse_mode"), 2);
+	glUniform1i(glGetUniformLocation(_programID, "specular_mode"), 2);
+
 }
 
 GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuint ActiveTextureNum, const char* SamplerName) {
@@ -130,6 +146,7 @@ GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuin
 		//Loading succeeded. Now load a texture.
 		try
 		{
+			//TODO cache image...
 			std::auto_ptr<glimg::ImageSet> pImgSet(glimg::loaders::stb::LoadFromFile(texture_file_name));
 			textureID = glimg::CreateTexture(pImgSet.get(), 0);
 		}
@@ -145,6 +162,7 @@ GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuin
 		glBindTexture(GL_TEXTURE_2D, textureID);
 		GLuint TextureID  = glGetUniformLocation(_programID, SamplerName);
 		glUniform1i(TextureID, ActiveTextureNum);
+
 	}
 
 	return textureID;

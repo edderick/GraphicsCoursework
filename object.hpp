@@ -21,6 +21,7 @@ class Object {
 		GLenum _draw_mode;
 
 		GLuint _ambient_texture, _diffuse_texture, _specular_texture;
+		GLuint _ambient_mode, _diffuse_mode, _specular_mode;
 
 		GLuint _vaoID; 
 		GLuint _vertex_vboID;
