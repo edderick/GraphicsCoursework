@@ -54,13 +54,12 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 	for (int i = 0; i < width - 1; i++){
 		for (int j = 0; j < height - 1; j++){
 			_vertices.push_back(glm::vec3(i,heights[i][j] * MULT, j));
-			_vertices.push_back(glm::vec3(i+1, heights[i+1][j] * MULT, j));
 			_vertices.push_back(glm::vec3(i, heights[i][j+1] * MULT, j+1));
+			_vertices.push_back(glm::vec3(i+1, heights[i+1][j] * MULT, j));
 
 			_vertices.push_back(glm::vec3(i, heights[i][j+1]* MULT, j+1));
-			_vertices.push_back(glm::vec3(i+1, heights[i+1][j]* MULT, j));
 			_vertices.push_back(glm::vec3(i+1, heights[i+1][j+1] *MULT, j+1));	
-
+			_vertices.push_back(glm::vec3(i+1, heights[i+1][j]* MULT, j));
 			//std::cout << heights[i][j] * MULT << " ";
 		}
 	}
@@ -74,8 +73,8 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 			_tex_coords.push_back(glm::vec2(0, 1));
 
 			_tex_coords.push_back(glm::vec2(0, 1));
-			_tex_coords.push_back(glm::vec2(1, 0));
-			_tex_coords.push_back(glm::vec2(1, 1));	
+			_tex_coords.push_back(glm::vec2(1, 1));
+			_tex_coords.push_back(glm::vec2(1, 0));	
 		}
 	}
 

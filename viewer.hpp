@@ -24,6 +24,8 @@ class Viewer {
 	public:
 		Viewer();
 		
+		void update();
+
 		void setVelocity(GLfloat ax, GLfloat ay, GLfloat az);
 
 		void setStrafeVelocity(GLfloat velocity);

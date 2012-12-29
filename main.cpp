@@ -95,25 +95,27 @@ int main(int argc, char *argv[]){
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
 	
 	//TODO sort out SkyBox so that this can be removed
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 
-	//ObjLoader prettyMonkey = ObjLoader("models","prettyMonkey.obj");
-	
-	HeightMapLoader prettyMonkey = HeightMapLoader("textures", "img2.jpg");
-	
-	ObjLoader normals = ObjLoader("models","normals.obj");
+	ObjLoader prettyMonkeyObj = ObjLoader("models","prettyMonkey.obj");
+	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.jpg");
+	ObjLoader skyboxObj = ObjLoader("models","skybox.obj");
 
-	Object object(&prettyMonkey, perFragmentShaderID, viewer, GL_FILL);
-	Skybox skybox(&normals, perFragmentShaderID, viewer, GL_FILL);
+	Object object(&prettyMonkeyObj, perFragmentShaderID, viewer, GL_FILL);
+	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
+	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
 	
 	glfwSetWindowTitle("Mars In Fiction");	
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		
+	
+		viewer->update();
+
 		object.draw();
+		ground.draw();
 		skybox.draw();
 
 		glfwSwapBuffers();

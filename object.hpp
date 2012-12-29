@@ -33,11 +33,11 @@ class Object {
 		std::vector<glm::vec3> _normals;
 		std::vector<glm::vec2> _UVs;
 
-		static const GLuint AMBIENT_TEXTURE_NUM = 0;
+		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTextureNum);
+		void useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName);
 
-		static const GLuint DIFFUSE_TEXTURE_NUM = 1;
-
-		static const GLuint SPECULAR_TEXTURE_NUM = 2;
+		void setUpTransformations();
+		void setUpMaterials();
 
 	protected:
 		virtual glm::mat4 makeModelMatrix();
@@ -53,10 +53,9 @@ class Object {
 
 	public:
 		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
-		void setUpTransformations();
-		void setUpMaterials();
-		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTextureNum);
-		void useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName);
+	
+		
+
 		void draw();
 };
 
