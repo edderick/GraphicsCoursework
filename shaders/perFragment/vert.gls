@@ -18,7 +18,7 @@ uniform mat4 mv;
 uniform mat4 mvp;
 
 //TODO make uniform
-const vec4 light_position = vec4(0.f, 0.f, 5.f, 1.f);
+const vec4 light_position = vec4(0.f, 10.f, 0.f, 1.f);
 
 out vec4 ex_Color; 
 out vec4 camera_normal;

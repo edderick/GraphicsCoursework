@@ -55,6 +55,7 @@ class Object {
 	public:
 		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 		void setUpTransformations();
+		void setUpMaterials();
 		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuint ActiveTextureNum ,const char* SamplerName);
 		void draw();
 };

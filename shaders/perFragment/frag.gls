@@ -24,7 +24,7 @@ uniform sampler2D DiffuseSampler;
 uniform sampler2D SpecularSampler;
 
 void main(void) {
-	vec4 ambient = texture(AmbientSampler, UV);
+	vec4 ambient = texture(AmbientSampler, UV) *vec4(0.2,0.2,0.2,1);
 	//vec4 ambient = vec4(in_ambient_color.xyz,1.0) ;
 	
 	vec4 diffuse
@@ -44,6 +44,6 @@ void main(void) {
 		specular = light_power * texture(SpecularSampler, UV)  * pow(clamp(dot(camera_direction, reflection), 0, 1), 1) ;//  (distance * distance);
 	}
 
-	gl_FragColor = specular + diffuse + ambient ;
+	gl_FragColor = specular + diffuse + ambient;
 	//gl_FragColor = diffuse;
 }

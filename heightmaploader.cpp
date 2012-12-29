@@ -1,6 +1,8 @@
 #include "heightmaploader.hpp"
 
 HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_name) {
+	
+	//TODO Collapse these loops into one?
 
 	char path[255];
 	strcpy(path, height_map_dir);
@@ -42,16 +44,12 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 
 
 	//Create a 2D array of the heights
-	std::cout << heights.size();
 
 	//Create a triangle strip (best of just making plain triangles..)
 	int height = heights[0].size();
 	int width = heights.size();
 
-	//_vertices.resize((height - 1) * (width-1) * 2 * 3);
-
 	float MULT = 1;
-
 
 	for (int i = 0; i < width - 1; i++){
 		for (int j = 0; j < height - 1; j++){
@@ -63,11 +61,9 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 			_vertices.push_back(glm::vec3(i+1, heights[i+1][j]* MULT, j));
 			_vertices.push_back(glm::vec3(i+1, heights[i+1][j+1] *MULT, j+1));	
 
-			std::cout << heights[i][j] * MULT << " ";
+			//std::cout << heights[i][j] * MULT << " ";
 		}
 	}
-
-
 
 	//Texture coords should be simple? Just the percentage of the way across in a given direction....?
 
@@ -85,11 +81,13 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 
 	//Calculate triangle normals...
 	for (int i = 0; i < _vertices.size(); i+= 3){
-		glm::vec3 a = _vertices[i+0];
-		glm::vec3 b = _vertices[i+1];
-		glm::vec3 c = _vertices[i+2];
+		glm::vec3 & a = _vertices[i+0];
+		glm::vec3 & b = _vertices[i+1];
+		glm::vec3 & c = _vertices[i+2];
 
-		glm::normalize(glm::cross(c - a, b - a));
+		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
+		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
+		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
 	}
 
 }
@@ -107,8 +105,8 @@ std::vector<glm::vec3> HeightMapLoader::getNormals(){
 Material* HeightMapLoader::getMaterial(){
 
 	MtlLoader mtl = MtlLoader();
-	mtl.load_materials((char*)"models/normals.mtl");
-	return mtl.getMaterial((char*)"Material_img.jpg");
+	mtl.load_materials((char*)"models/ground.mtl");
+	return mtl.getMaterial((char*)"Material_gnd.jpg");
 
 	//Just use mtlLoader
 

@@ -29,18 +29,8 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 
 	_material = gg->getMaterial();
 
-	_ambient_texture = setUpTexture(_material->getAmbientTexture(), AMBIENT_TEXTURE, AMBIENT_TEXTURE_NUM, "AmbientSampler");
-	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), DIFFUSE_TEXTURE, DIFFUSE_TEXTURE_NUM, "DiffuseSampler");
-	_specular_texture = setUpTexture(_material->getSpecularTexture(), SPECULAR_TEXTURE, SPECULAR_TEXTURE_NUM, "SpecularSampler");
-
-	if(_material != NULL){
-		glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), 1, glm::value_ptr(_material->getAmbientColor()));
-		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(_material->getDiffuseColor()));
-		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
-	}
-
 	_position = glm::vec3(0,0,0);
-	_scale = glm::vec3(1,1,1);
+	_scale = glm::vec3(0.2,0.01,0.2);
 	//_scale = glm::vec3(0.1,0.01,0.1);
 	_rotation_axis = glm::vec3(1,0,0);
 	_rotation_magnitude = 0;
@@ -48,6 +38,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 
 void Object::draw() {
 	setUpTransformations();
+	setUpMaterials();
 
 	glUseProgram(_programID);
 
@@ -91,7 +82,7 @@ glm::mat4 Object::makeViewMatrix(){
 }
 
 glm::mat4 Object::makeProjectionMatrix(){
-	glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.f);
+	glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 200.f);
 	return projection;
 }
 
@@ -110,6 +101,19 @@ void Object::setUpTransformations(){
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "p"), 1, GL_FALSE, glm::value_ptr(projection));
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "mv"), 1, GL_FALSE, glm::value_ptr(mv));
 	glUniformMatrix4fv(glGetUniformLocation(_programID, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
+
+}	
+
+void Object::setUpMaterials(){
+	_ambient_texture = setUpTexture(_material->getAmbientTexture(), AMBIENT_TEXTURE, AMBIENT_TEXTURE_NUM, "AmbientSampler");
+	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), DIFFUSE_TEXTURE, DIFFUSE_TEXTURE_NUM, "DiffuseSampler");
+	_specular_texture = setUpTexture(_material->getSpecularTexture(), SPECULAR_TEXTURE, SPECULAR_TEXTURE_NUM, "SpecularSampler");
+
+	if(_material != NULL){
+		glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), 1, glm::value_ptr(_material->getAmbientColor()));
+		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(_material->getDiffuseColor()));
+		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(_material->getSpecularColor()));
+	}
 }
 
 GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTexture, GLuint ActiveTextureNum, const char* SamplerName) {
