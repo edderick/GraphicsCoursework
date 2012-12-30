@@ -20,13 +20,12 @@ void Viewer::addTerrain(Object* object){
 }
 
 void Viewer::update(){
-
-	
+	int moveFlag = 1;
 	
 	for (int i = 0; i < _terrain.size(); i++){
 	
 		//Prevent clipping though things	
-		glm::vec3 hyp_pos = _position + (glm::vec3(0.1,0.1,0.1) * _direction );
+		glm::vec3 hyp_pos = _position + (glm::vec3(0.2,0.2,0.2) * _direction );
 
 		glm::mat4 m = _terrain[i]->makeModelMatrix();
 		glm::mat4 inverseM = glm::inverse(m);
@@ -53,26 +52,27 @@ void Viewer::update(){
 		
 		glm::vec4 world_vertex = m * glm::vec4(min_vertex->x, min_vertex->y, min_vertex->z, 1);
 		
+		
 		if(world_vertex.y + 0.1> _position.y){
 		 	//If we can climb, the climb
 			if (world_vertex.y - _position.y < 0.5)	{
 				_position.y = world_vertex.y + 0.1;
 			} else {
 				//Otherwise, ABORT
-				return;
+				moveFlag = 0;
 			}
 		}
 
 	}
 	
-GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
+	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
 	glm::vec3 displacement = _velocity * elapsedTime;
 	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;
 
-
-	move(displacement.x, displacement.y, - displacement.z);
 	rotateCamera(cameraRotation);
-	
+	if(moveFlag){
+		move(displacement.x, displacement.y, - displacement.z);
+	}
 	_lastAccessedTime = glfwGetTime();
 
 }
