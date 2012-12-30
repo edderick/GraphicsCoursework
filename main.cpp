@@ -1,5 +1,7 @@
 #include "gl_common.hpp"
 
+#include <sstream>
+
 //local includes
 #include "utils.hpp"
 
@@ -13,6 +15,8 @@
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
+
+bool show_help = 0;
 
 //Viewer is global as it's state is modified by key_callback
 Viewer* viewer = new Viewer(); 
@@ -62,7 +66,10 @@ void key_callback(int key, int action){
 		viewer->setCameraRotationVelocity(0);
 		viewer->setVelocity(0,0,0);
 		viewer->gotoLocation(glm::vec3(0,0,0), glm::vec3(-1,0,-1));
+	} else if ((key == 'H' || key == 'h') && action == GLFW_PRESS){
+		show_help = !show_help;
 	}
+
 }
 
 int main(int argc, char *argv[]){
@@ -118,13 +125,18 @@ int main(int argc, char *argv[]){
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
 
-	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '_', 8, 8);
+	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '~', 16, 8);
 
 	viewer->addTerrain(&ground);
 
 	ground._scale = glm::vec3(0.1,0.01,0.1);
 
 	glfwSetWindowTitle("Mars In Fiction");	
+
+	int count = 0;
+	GLfloat lastTime = glfwGetTime();
+
+std::string s;
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -135,7 +147,20 @@ int main(int argc, char *argv[]){
 		ground.draw();
 		skybox.draw();
 
-		tg.printText((char*) "HEY!", 10, 10, 50);
+		if(glfwGetTime() - lastTime < 1) {
+			count++;
+		} else {
+			std::stringstream sstream;
+			sstream << "FPS: " << count;
+			s = sstream.str();
+			count = 0;
+			lastTime = glfwGetTime();
+		}
+		
+		if(show_help){
+			tg.printText( (char*)s.c_str() , 10, 10, 50);
+			tg.printText( (char*)"EJFS1G10 - CW3", 10, 550, 55);
+		}
 
 		glfwSwapBuffers();
 	} while ( (glfwGetKey(GLFW_KEY_ESC) != GLFW_PRESS) && 
