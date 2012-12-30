@@ -8,6 +8,7 @@
 #include "viewer.hpp" 
 
 #include "heightmaploader.hpp"
+#include "textgenerator.hpp"
 
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
@@ -100,6 +101,7 @@ int main(int argc, char *argv[]){
 	GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
 	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
+	GLuint textShaderID = setupShaders("shaders/text/vert.gls", "shaders/text/frag.gls");
 	
 	//TODO sort out SkyBox so that this can be removed
 	glEnable(GL_CULL_FACE);
@@ -116,6 +118,8 @@ int main(int argc, char *argv[]){
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
 
+	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '_', 8, 8);
+
 	viewer->addTerrain(&ground);
 
 	ground._scale = glm::vec3(0.1,0.01,0.1);
@@ -130,6 +134,8 @@ int main(int argc, char *argv[]){
 		object.draw();
 		ground.draw();
 		skybox.draw();
+
+		tg.printText((char*) "HEY!", 10, 10, 50);
 
 		glfwSwapBuffers();
 	} while ( (glfwGetKey(GLFW_KEY_ESC) != GLFW_PRESS) && 

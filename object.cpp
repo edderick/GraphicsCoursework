@@ -58,10 +58,10 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 }		
 
 void Object::draw() {
+	glUseProgram(_programID);
+	
 	setUpTransformations();
 	setUpMaterials();
-
-	glUseProgram(_programID);
 
 	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
 
