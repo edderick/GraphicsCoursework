@@ -54,7 +54,7 @@ class Object {
 	public:
 		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 
-		std::vector <glm::vec3>  getVertices();
+		std::vector <glm::vec3>  getFaceAverages();
 	
 
 		//TODO create accessors	

@@ -33,6 +33,8 @@ class Viewer {
 		
 		void update();
 
+		void gotoLocation(glm::vec3 position, glm::vec3 direction);
+
 		void setVelocity(GLfloat ax, GLfloat ay, GLfloat az);
 
 		glm::vec3 getMovePos(GLfloat dx, GLfloat dy, GLfloat dz);

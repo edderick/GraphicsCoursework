@@ -54,7 +54,14 @@ void key_callback(int key, int action){
 		viewer->setCameraRotationVelocity(0);
 	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_RELEASE){
 		viewer->setCameraRotationVelocity(0);
-	}  
+	} else if ((key == GLFW_KEY_SPACE) && action == GLFW_PRESS){
+		viewer->setCameraRotationVelocity(0);
+		viewer->setVelocity(0,0,0);
+	} else if ((key == 'P' || key == 'p') && action == GLFW_PRESS){
+		viewer->setCameraRotationVelocity(0);
+		viewer->setVelocity(0,0,0);
+		viewer->gotoLocation(glm::vec3(0,0,0), glm::vec3(-1,0,-1));
+	}
 }
 
 int main(int argc, char *argv[]){

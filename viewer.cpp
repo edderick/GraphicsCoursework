@@ -19,6 +19,11 @@ void Viewer::addTerrain(Object* object){
 	_terrain.push_back(object);
 }
 
+void Viewer::gotoLocation(glm::vec3 position, glm::vec3 direction){
+	_position = position;
+	_direction = direction;
+}
+
 void Viewer::update(){
 	int moveFlag = 1;
 	
@@ -33,14 +38,16 @@ void Viewer::update(){
 		glm::vec4 model_position_4 = inverseM * glm::vec4(hyp_pos.x, hyp_pos.y, hyp_pos.z, 1);
 		glm::vec3 model_position = glm::vec3(model_position_4.x, model_position_4.y, model_position_4.z);
 
-		std::vector<glm::vec3> vertices = _terrain[i]->getVertices();
+		std::vector<glm::vec3> vertices = _terrain[i]->getFaceAverages();
 
 		glm::vec3* min_vertex;
 		GLfloat distance = FLT_MAX;
 		
 		for(int j=0; j < vertices.size(); j++){
 		
-			if (distance < 0.1) break;
+			if (distance < 1) {
+				break;
+			}
 
 			GLfloat this_distance = pow(model_position.x - vertices[j].x, 2) + pow(model_position.z - vertices[j].z, 2);
 			if (this_distance < distance){
@@ -64,7 +71,7 @@ void Viewer::update(){
 		}
 
 	}
-	
+
 	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
 	glm::vec3 displacement = _velocity * elapsedTime;
 	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;

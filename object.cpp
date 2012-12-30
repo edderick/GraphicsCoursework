@@ -2,6 +2,9 @@
 
 const GLfloat PI = 3.14159; 
 
+
+std::vector<glm::vec3> _faceAvg;
+
 Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode) {
 	_programID = programID;
 	_draw_mode = draw_mode;
@@ -43,6 +46,15 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	_ambient_texture = setUpTexture(_material->getAmbientTexture(), _ambient_texture_num);//, "AmbientSampler");
 	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), _diffuse_texture_num);//, "DiffuseSampler");
 	_specular_texture = setUpTexture(_material->getSpecularTexture(), _specular_texture_num);//, "SpecularSampler");
+
+
+	for (int i = 0; i < _vertices.size(); i +=3){
+		glm::vec3 avg = glm::vec3((_vertices[i+0].x + _vertices[i+1].x + _vertices[i+2].x) / 3,
+					  (_vertices[i+0].y + _vertices[i+1].y + _vertices[i+2].y) / 3,
+					  (_vertices[i+0].z + _vertices[i+1].z + _vertices[i+2].z) / 3);
+		_faceAvg.push_back(avg);
+	}
+
 }		
 
 void Object::draw() {
@@ -209,9 +221,7 @@ void Object::useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* S
 
 }
 
-
-
-std::vector <glm::vec3> Object::getVertices(){
-	return _vertices;
+std::vector <glm::vec3> Object::getFaceAverages(){
+	return _faceAvg;
 }
 
