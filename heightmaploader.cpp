@@ -81,8 +81,8 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 	//Calculate triangle normals...
 	for (int i = 0; i < _vertices.size(); i+= 3){
 		glm::vec3 & a = _vertices[i+0];
-		glm::vec3 & b = _vertices[i+1];
-		glm::vec3 & c = _vertices[i+2];
+		glm::vec3 & c = _vertices[i+1];
+		glm::vec3 & b = _vertices[i+2];
 
 		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
 		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));

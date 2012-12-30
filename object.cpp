@@ -178,6 +178,8 @@ void Object::setUpMaterials(){
 	glUniform1i(glGetUniformLocation(_programID, "diffuse_mode"), _diffuse_mode);
 	glUniform1i(glGetUniformLocation(_programID, "specular_mode"), _specular_mode);
 
+	glUniform1f(glGetUniformLocation(_programID, "specularity"), _material->getSpecularity());
+
 }
 
 GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTextureNum) {

@@ -26,6 +26,8 @@ uniform int ambient_mode;
 uniform int diffuse_mode;
 uniform int specular_mode;
 
+uniform float specularity;
+
 const int OFF = 0;
 const int COLOR = 1;
 const int TEXTURE = 2;
@@ -65,12 +67,12 @@ void main(void) {
 		vec4 reflection = normalize(reflect(camera_light_direction, camera_normal));
 
 		if (specular_mode == COLOR) {
-			specular = light_power * vec4(in_specular_color.xyz, 1.)  * pow(clamp(dot(camera_direction, reflection), 0, 1), 1);
+			specular = light_power * vec4(in_specular_color.xyz, 1.)  * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity);
 		} else if (specular_mode == TEXTURE) {
-			specular = light_power * texture(SpecularSampler, UV) * pow(clamp(dot(camera_direction, reflection), 0, 1), 1) ;
+			specular = light_power * texture(SpecularSampler, UV) * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity) ;
 		} else if (specular_mode == BLEND) {
 			specular = light_power * vec4(in_specular_color.xyz, 1.) *  texture(SpecularSampler, UV) 
-				 * pow(clamp(dot(camera_direction, reflection), 0, 1), 1) ;
+				 * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity) ;
 		}
 	}
 
