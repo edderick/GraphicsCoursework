@@ -120,14 +120,12 @@ void Viewer::move(float dx, float dy, float dz){
 	_position.y = _position.y + dy;
 	_position.z = _position.z + dz * -cos(_current_angle) + dx * -cos(_current_angle + (PI/2));
 
-	bool moveFlag = 1;
-		
-	moveFlag -= checkTerrainCollision();
-	moveFlag -= checkObjectCollisions();
-	
-	if (!moveFlag){
+	if (checkTerrainCollision() || checkObjectCollisions()){
 		//ROLLBACK
 		_position = old_position;
+		
+		setVelocity(0,0,0);
+
 	}
 
 

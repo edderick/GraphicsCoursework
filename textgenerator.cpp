@@ -1,18 +1,20 @@
 #include "textgenerator.hpp"
 #include <vector>
 
-TextGenerator::TextGenerator(char* font_file_name, GLuint programID, char char_start, char char_stop, int num_chars_x, int num_chars_y){
+TextGenerator::TextGenerator(char* font_file_name, GLuint programID, char char_start, char char_stop, int num_chars_x, int num_chars_y, int window_width, int window_height){
 	ACTIVE_TEXTURE = 0;
 	
 	_num_chars_x = num_chars_x;
 	_num_chars_y = num_chars_y;
+
+	_window_width = window_width;
+	_window_height = window_height;
 
 	_char_start = char_start;
 	_char_stop = char_stop;
 
 	_programID = programID;
 	_textureID = setUpTexture(font_file_name, ACTIVE_TEXTURE);	
-
 
 	glGenBuffers(1, &_vertex_buffer);
 	glGenBuffers(1, &_UV_buffer);
@@ -72,6 +74,8 @@ void TextGenerator::printText(char* text, int x, int y, int size){
 	glUseProgram(_programID);
 
 	useTexture(_textureID, ACTIVE_TEXTURE, "fontTextureSampler");
+
+         glUniform2f(glGetUniformLocation(_programID, "window_dimensions"), _window_width, _window_height);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vertex_buffer);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec2), &vertices[0], GL_STATIC_DRAW);

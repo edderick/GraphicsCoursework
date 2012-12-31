@@ -143,7 +143,7 @@ int main(int argc, char *argv[]){
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
 
-	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '~', 16, 8);
+	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '~', 16, 8, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	viewer->addTerrain(&ground);
 	viewer->addCollidesWith(&object);
@@ -195,7 +195,7 @@ int main(int argc, char *argv[]){
 		if(show_help){
 			glDisable(GL_DEPTH_TEST);
 			tg.printText( (char*)s.c_str() , 10, 10, 50);
-			tg.printText( (char*)"EJFS1G10 - CW3", 10, 550, 55);
+			tg.printText( (char*)"EJFS1G10 - CW3", 10, 750, 50);
 			glEnable(GL_DEPTH_TEST);
 		}
 

@@ -16,6 +16,7 @@ class TextGenerator {
 
 		int _num_chars_x, _num_chars_y;
 		char _char_start, _char_stop;
+		int _window_width, _window_height;
 
 		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTextureNum);
 		void useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName);
@@ -23,7 +24,14 @@ class TextGenerator {
 		GLuint ACTIVE_TEXTURE;
 
 	public:
-		TextGenerator(char* font_file_name, GLuint programID, char char_start, char char_stop, int num_chars_x, int num_chars_y);
+		TextGenerator(char* font_file_name, 
+			      GLuint programID, 
+			      char char_start, 
+			      char char_stop, 
+			      int num_chars_x, 
+			      int num_chars_y, 
+			      int window_width, 
+			      int window_height);
 		void printText(char* text, int x, int y, int size);
 	
 
