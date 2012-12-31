@@ -130,6 +130,8 @@ int main(int argc, char *argv[]){
 	viewer->addTerrain(&ground);
 	viewer->addCollidesWith(&object);
 
+	object.setPosition(glm::vec3(5,1,10));
+
 	ground.setScale(glm::vec3(0.1,0.01,0.1));
 
 	glfwSetWindowTitle("Mars In Fiction");	
