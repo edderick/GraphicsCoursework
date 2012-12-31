@@ -38,7 +38,6 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	_rotation_axis = glm::vec3(1,0,0);
 	_rotation_magnitude = 0;
 
-
 	_ambient_texture_num = 0;
 	_diffuse_texture_num = 1;
 	_specular_texture_num = 2;
@@ -55,6 +54,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 		_faceAvg.push_back(avg);
 	}
 
+	calculateRadius();
 }		
 
 void Object::draw() {
@@ -227,3 +227,58 @@ std::vector <glm::vec3> Object::getFaceAverages(){
 	return _faceAvg;
 }
 
+GLfloat Object::getRadius(){
+	return _radius;
+}
+
+void Object::setPosition(glm::vec3 position){
+	_position = position;
+}
+
+glm::vec3 Object::getPosition(){
+	return _position;
+}
+
+void Object::setRotation(GLfloat magnitude, glm::vec3 axis){
+	_rotation_magnitude = magnitude;
+	_rotation_axis = axis;
+}
+
+glm::vec3 Object::getRotation(){
+	return glm::vec3(_rotation_magnitude, _rotation_magnitude, _rotation_magnitude) * _rotation_axis;
+}
+
+void Object::setScale(glm::vec3 scale){
+	_scale = scale;
+}
+
+glm::vec3 Object::getScale(){
+	return _scale;
+}
+
+glm::mat4 Object::getModelMatrix(){
+	return makeModelMatrix();
+}
+
+
+//TODO verify
+void Object::calculateRadius(){
+	glm::vec4 world_origin = glm::vec4(0,0,0,1) * getModelMatrix();
+
+	GLfloat longest = 0;	
+
+	for (int i = 0; i < _vertices.size(); i++){
+
+		glm::vec4 world_vertex = glm::vec4(_vertices[i].x, _vertices[i].y, _vertices[i].z, 1.0) * getModelMatrix();
+
+		GLfloat distance_from_origin_squared = pow(world_origin.x - world_vertex.x, 2) 
+							+ pow(world_origin.y - world_vertex.y, 2) 
+							+ pow(world_origin.z - world_vertex.z, 2); 	
+	
+		if (distance_from_origin_squared > longest){
+			longest = distance_from_origin_squared;
+		}
+	}
+
+	_radius =  sqrt(longest);
+}

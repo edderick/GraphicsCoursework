@@ -18,16 +18,22 @@ class Viewer {
 		glm::vec3 _position;
 		glm::vec3 _direction;
 		glm::vec3 _up;
-		
+	
+		GLfloat _radius;
+
 		glm::vec3 _velocity;
 		GLfloat _cameraRotationVelocity;
 		
 		GLfloat _lastAccessedTime;
 		
 		std::vector<Object*> _terrain;
+		std::vector<Object*> _collidesWith;
 
 		void move(GLfloat dx, GLfloat dy, GLfloat dz);
 		void rotateCamera(GLfloat angle);
+
+		bool checkTerrainCollision();
+		bool checkObjectCollisions();
 	public:
 		Viewer();
 		
@@ -48,7 +54,8 @@ class Viewer {
 		void setCameraRotationVelocity(GLfloat velocity);
 
 		void addTerrain(Object* object);
-	
+		void addCollidesWith(Object* object);
+
 		glm::vec3 getPosition();
 		glm::vec3 getLookAt();
 		glm::vec3 getUp();

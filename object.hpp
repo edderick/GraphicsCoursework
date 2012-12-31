@@ -41,27 +41,40 @@ class Object {
 		void setUpTransformations();
 		void setUpMaterials();
 
+		void calculateRadius();
+	
 	protected:
 		virtual glm::mat4 makeProjectionMatrix();
 		virtual glm::mat4 makeViewMatrix();
-		
+		virtual glm::mat4 makeModelMatrix();
+
 		Viewer* _viewer;
 
 		glm::vec3 _position;
 		GLfloat _rotation_magnitude;
 		glm::vec3 _rotation_axis;
+		glm::vec3 _scale;
 
+		GLfloat _radius;
+		
 	public:
 		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 
 		std::vector <glm::vec3>  getFaceAverages();
-	
+		GLfloat getRadius();
 
-		//TODO create accessors	
-		glm::vec3 _scale;
+		void setPosition(glm::vec3 position);
+		glm::vec3 getPosition();
+
+		void setRotation(GLfloat magnitude, glm::vec3 axis);
+		glm::vec3 getRotation();
+
+		void setScale(glm::vec3 scale);
+		glm::vec3 getScale();
+
+		glm::mat4 getModelMatrix();
 
 		//TODO move back?
-		virtual glm::mat4 makeModelMatrix();
 		void draw();
 };
 

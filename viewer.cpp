@@ -13,10 +13,17 @@ Viewer::Viewer() {
 	_current_angle = 3 * PI;
 
 	_lastAccessedTime = (GLfloat) glfwGetTime();
+	
+	_radius = 0.1;
+
 }
 
 void Viewer::addTerrain(Object* object){
 	_terrain.push_back(object);
+}
+
+void Viewer::addCollidesWith(Object* object){
+	_collidesWith.push_back(object);
 }
 
 void Viewer::gotoLocation(glm::vec3 position, glm::vec3 direction){
@@ -24,15 +31,15 @@ void Viewer::gotoLocation(glm::vec3 position, glm::vec3 direction){
 	_direction = direction;
 }
 
-void Viewer::update(){
-	int moveFlag = 1;
+bool Viewer::checkTerrainCollision(){
+	bool collision = 0;
 	
 	for (int i = 0; i < _terrain.size(); i++){
 	
 		//Prevent clipping though things	
-		glm::vec3 hyp_pos = _position + (glm::vec3(0.2,0.2,0.2) * _direction );
+		glm::vec3 hyp_pos = _position + (glm::vec3(_radius * 2, _radius * 2, _radius * 2) * _direction );
 
-		glm::mat4 m = _terrain[i]->makeModelMatrix();
+		glm::mat4 m = _terrain[i]->getModelMatrix();
 		glm::mat4 inverseM = glm::inverse(m);
 	
 		glm::vec4 model_position_4 = inverseM * glm::vec4(hyp_pos.x, hyp_pos.y, hyp_pos.z, 1);
@@ -45,7 +52,7 @@ void Viewer::update(){
 		
 		for(int j=0; j < vertices.size(); j++){
 		
-			if (distance < 1) {
+			if (distance == 0.1) {
 				break;
 			}
 
@@ -61,33 +68,68 @@ void Viewer::update(){
 		
 		
 		if(world_vertex.y + 0.1> _position.y){
-		 	//If we can climb, the climb
-			if (world_vertex.y - _position.y < 0.5)	{
+		 	//If we can climb, then climb
+			if (world_vertex.y - _position.y < 0.2)	{
 				_position.y = world_vertex.y + 0.1;
 			} else {
 				//Otherwise, ABORT
-				moveFlag = 0;
+				collision = 1;
 			}
 		}
 
 	}
 
-	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
+	return collision;
+}
+
+bool Viewer::checkObjectCollisions(){
+	bool collision = 0;
+
+	for(int i = 0; i < _collidesWith.size(); i++){
+		glm::vec3 relative_positon = _position - (_collidesWith[i]->getPosition() );
+		GLfloat distance_squared = pow(relative_positon.x, 2) + pow(relative_positon.y, 2) + pow(relative_positon.z, 2);
+		GLfloat min_distance_squared = pow(_radius, 2) + pow(_collidesWith[i]->getRadius(), 2);
+
+		if(distance_squared < min_distance_squared){
+			collision = 1;
+		}
+	}
+
+	return collision;
+}
+
+void Viewer::update(){
+
+ 	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
 	glm::vec3 displacement = _velocity * elapsedTime;
 	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;
 
 	rotateCamera(cameraRotation);
-	if(moveFlag){
-		move(displacement.x, displacement.y, - displacement.z);
-	}
+	//if(moveFlag){
+	move(displacement.x, displacement.y, - displacement.z);
+	//}
 	_lastAccessedTime = glfwGetTime();
 
 }
 
 void Viewer::move(float dx, float dy, float dz){
+	glm::vec3 old_position = _position;
+
 	_position.x = _position.x + dz * -sin(_current_angle) + dx * -sin(_current_angle + (PI /2));
 	_position.y = _position.y + dy;
 	_position.z = _position.z + dz * -cos(_current_angle) + dx * -cos(_current_angle + (PI/2));
+
+	bool moveFlag = 1;
+		
+	moveFlag -= checkTerrainCollision();
+	moveFlag -= checkObjectCollisions();
+	
+	if (!moveFlag){
+		//ROLLBACK
+		_position = old_position;
+	}
+
+
 }
 
 glm::vec3 Viewer::getMovePos(float dx, float dy, float dz){
