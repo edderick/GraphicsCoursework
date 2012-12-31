@@ -12,14 +12,19 @@
 #include "heightmaploader.hpp"
 #include "textgenerator.hpp"
 
+#include "tour.hpp"
+
 const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
 
 bool show_help = 0;
 
+bool tour = 0;
+
 //Viewer is global as it's state is modified by key_callback
 Viewer* viewer = new Viewer(); 
+Tour t(viewer);
 
 //Handle controls
 void key_callback(int key, int action){
@@ -68,6 +73,12 @@ void key_callback(int key, int action){
 		viewer->gotoLocation(glm::vec3(0,0,0), glm::vec3(-1,0,-1));
 	} else if ((key == 'H' || key == 'h') && action == GLFW_PRESS){
 		show_help = !show_help;
+	} else if ((key == 'T' || key == 't') && action == GLFW_PRESS){
+		tour = !tour;
+
+		if(tour){
+			t.restart();
+		}
 	}
 
 }
@@ -136,16 +147,30 @@ int main(int argc, char *argv[]){
 
 	glfwSetWindowTitle("Mars In Fiction");	
 
+
+	WayPoint w1 = WayPoint(glm::vec3(0,2,0), glm::vec3(1,0,0));
+	WayPoint w2 = WayPoint(glm::vec3(10,2,10), glm::vec3(0,0,1));
+	WayPoint w3 = WayPoint(glm::vec3(1,1,0), glm::vec3(1,0,1));
+
+	t.addWayPoint(0.0, &w1, 1);
+	t.addWayPoint(5.0, &w2, 1);
+	//t.addWayPoint(15.0, &w3, 1);
+	
+
 	int count = 0;
 	GLfloat lastTime = glfwGetTime();
-
-std::string s;
+	std::string s;
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	
-		viewer->update();
+		if(tour){
+			t.update();
+		} else {
+			viewer->update();
+		}
 
+	
 		object.draw();
 		ground.draw();
 		skybox.draw();

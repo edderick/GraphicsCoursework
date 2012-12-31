@@ -20,7 +20,8 @@ class Tour {
 	private:
 		std::vector<WayPoint* > _wayPoints;
 		std::vector<GLfloat> _times;
-		
+		std::vector<GLuint> _modes;
+
 		Viewer* _viewer;
 		
 		GLfloat _startTime; 
@@ -29,15 +30,19 @@ class Tour {
 
 		//time is passed in to ensure consitency
 		glm::vec3 calculatePosition(int index, GLfloat percent);
-	 	glm::vec3 calculateDirection(int index, GLfloat percent);
+	 	glm::vec3 calculateMotionDirection(int index, GLfloat percent);
+		glm::vec3 calculateLookDirection(int index, GLfloat percent);
 
 		int getIndexForTime(GLfloat time);
 		float getPercentOfWayPoint(int index, GLfloat time);
-	
+
+		int MOTION_MODE;
+		int LOOK_MODE;
+
 	public:
 		Tour(Viewer* viewer);
 
-		void addWayPoint(GLfloat time, WayPoint* wayPoint);
+		void addWayPoint(GLfloat time, WayPoint* wayPoint, int mode = 0);
 		
 		//YAGNI
 		//void pause();
@@ -45,6 +50,8 @@ class Tour {
 
 		void start();
 		void update();
-		void reset();	
+		void reset();
+
+		void restart();
 };
 #endif

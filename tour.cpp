@@ -7,11 +7,15 @@ WayPoint::WayPoint(glm::vec3 position, glm::vec3 direction){
 
 Tour::Tour(Viewer* viewer){
 	_viewer = viewer;
+
+	MOTION_MODE = 0;
+	LOOK_MODE = 1;
 }
 
-void Tour::addWayPoint(GLfloat time, WayPoint* wayPoint){
+void Tour::addWayPoint(GLfloat time, WayPoint* wayPoint, int mode){
 	_wayPoints.push_back(wayPoint);
 	_times.push_back(time);
+	_modes.push_back(mode);
 }
 
 void Tour::start(){
@@ -26,28 +30,38 @@ void Tour::update(){
 	GLfloat percent = getPercentOfWayPoint(index, time);
 
 	glm::vec3 position = calculatePosition(index, percent);
-	glm::vec3 direction = calculateDirection(index, percent);
-
+	glm::vec3 direction; 
+	
+	if(_modes[index] == MOTION_MODE){
+		direction = calculateMotionDirection(index, percent);
+	} else {
+		direction = calculateLookDirection(index, percent);
+	}
+	
 	_viewer->gotoLocation(position, direction);
-
-	_viewer->update();
 }
 
 void Tour::reset(){
 	_startTime = glfwGetTime();
+	_started = 0;
+}
+
+void Tour::restart(){
+	reset();
+	start();
 }
 
 int Tour::getIndexForTime(GLfloat time){
 	for(int i = 0; i < _times.size(); i++){
-		if (_times[i] > time) return i;
+		if (_times[i] > time) return i - 1;
 	}
 	
 	//if not found, return the last index 
-	return _times.size();
+	return _times.size() - 1;
 }
 
 GLfloat Tour::getPercentOfWayPoint(int index, GLfloat time){
-	if(index == _times.size()) return 1;
+	if(index == _times.size() - 1) return 1;
 
 	GLfloat start_time = _times[index];	
 	GLfloat end_time = _times[index + 1];
@@ -56,7 +70,7 @@ GLfloat Tour::getPercentOfWayPoint(int index, GLfloat time){
 }
 
 glm::vec3 Tour::calculatePosition(int index, GLfloat percent){
-	if(index == _wayPoints.size()) return _wayPoints[index]->_position;
+	if(index == _wayPoints.size() - 1) return _wayPoints[index]->_position;
 
 	glm::vec3 start_pos = _wayPoints[index]->_position;
 	glm::vec3 end_pos = _wayPoints[index + 1]->_position;
@@ -66,22 +80,30 @@ glm::vec3 Tour::calculatePosition(int index, GLfloat percent){
 	return start_pos + (delta * glm::vec3(percent, percent, percent));
 }
 
-glm::vec3 Tour::calculateDirection(int index, GLfloat percent){
-
-//TODO ME -- curently this just uses the direction of travel
-// I want it more Dragon Ride like
-
-
-	if(index == _wayPoints.size()) return _wayPoints[index]->_position;
+glm::vec3 Tour::calculateMotionDirection(int index, GLfloat percent){
+	if(index == _wayPoints.size() - 1){ 
+		index--;	
+	}
 
 	glm::vec3 start_pos = _wayPoints[index]->_position;
 	glm::vec3 end_pos = _wayPoints[index + 1]->_position;
 
 	glm::vec3 delta = end_pos - start_pos;	
 	
-	return start_pos + (delta * glm::vec3(percent + 0.1, percent + 0.1, percent + 0.1));
-
-
+	return delta;
 }
 
 
+glm::vec3 Tour::calculateLookDirection(int index, GLfloat percent){
+//TODO Verify that this is correct
+	if(index == _wayPoints.size() - 1){ 
+		return _wayPoints[index]->_direction;
+	}
+
+	glm::vec3 start_dir = _wayPoints[index]->_direction;
+	glm::vec3 end_dir = _wayPoints[index + 1]->_direction;
+
+	glm::vec3 delta = end_dir - start_dir;	
+	
+	return start_dir + (delta * glm::vec3(percent, percent, percent));
+}
