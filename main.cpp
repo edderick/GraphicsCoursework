@@ -28,55 +28,62 @@ Tour t(viewer);
 
 //Handle controls
 void key_callback(int key, int action){
-	if ((key == 'W' || key == 'w') && action == GLFW_PRESS){
-		viewer->setForwardVelocity(1);
-	} else if ((key == 'W' || key == 'w') && action == GLFW_RELEASE){
-		viewer->setForwardVelocity(0);
-	} else if ((key == 'S' || key == 's') && action == GLFW_PRESS){
-		viewer->setForwardVelocity(-1);
-	} else if ((key == 'S' || key == 's') && action == GLFW_RELEASE){
-		viewer->setForwardVelocity(0);
-	} else if ((key == 'A' || key == 'a') && action == GLFW_PRESS){
-		viewer->setStrafeVelocity(-1);
-	} else if ((key == 'A' || key == 'a') && action == GLFW_RELEASE){
-		viewer->setStrafeVelocity(0);
-	} else if ((key == 'D' || key == 'd') && action == GLFW_PRESS){
-		viewer->setStrafeVelocity(1);
-	} else if ((key == 'D' || key == 'd') && action == GLFW_RELEASE){
-		viewer->setStrafeVelocity(0);
-	} else if ((key == GLFW_KEY_UP) && action == GLFW_PRESS){
-		viewer->changeVelocity(0,0,0.1);
-	} else if ((key == GLFW_KEY_DOWN) && action == GLFW_PRESS){
-		viewer->changeVelocity(0,0,-0.1);
-	} else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_PRESS){
-		viewer->setUpVelocity(1);
-	}  else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_RELEASE){
-		viewer->setUpVelocity(0);
-	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_PRESS){
-		viewer->setUpVelocity(-1);
-	} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
-		viewer->setUpVelocity(0);
-	} else if ((key == GLFW_KEY_LEFT) && action == GLFW_PRESS){
-		viewer->setCameraRotationVelocity(1);
-	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_PRESS){
-		viewer->setCameraRotationVelocity(-1);
-	}  else if ((key == GLFW_KEY_LEFT) && action == GLFW_RELEASE){
-		viewer->setCameraRotationVelocity(0);
-	} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_RELEASE){
-		viewer->setCameraRotationVelocity(0);
-	} else if ((key == GLFW_KEY_SPACE) && action == GLFW_PRESS){
-		viewer->setCameraRotationVelocity(0);
-		viewer->setVelocity(0,0,0);
-	} else if ((key == 'P' || key == 'p') && action == GLFW_PRESS){
-		viewer->setCameraRotationVelocity(0);
-		viewer->setVelocity(0,0,0);
-		viewer->gotoLocation(glm::vec3(0,0,0), glm::vec3(-1,0,-1));
-	} else if ((key == 'H' || key == 'h') && action == GLFW_PRESS){
+	if(!tour) {
+		if ((key == 'W' || key == 'w') && action == GLFW_PRESS){
+			viewer->setForwardVelocity(1);
+		} else if ((key == 'W' || key == 'w') && action == GLFW_RELEASE){
+			viewer->setForwardVelocity(0);
+		} else if ((key == 'S' || key == 's') && action == GLFW_PRESS){
+			viewer->setForwardVelocity(-1);
+		} else if ((key == 'S' || key == 's') && action == GLFW_RELEASE){
+			viewer->setForwardVelocity(0);
+		} else if ((key == 'A' || key == 'a') && action == GLFW_PRESS){
+			viewer->setStrafeVelocity(-1);
+		} else if ((key == 'A' || key == 'a') && action == GLFW_RELEASE){
+			viewer->setStrafeVelocity(0);
+		} else if ((key == 'D' || key == 'd') && action == GLFW_PRESS){
+			viewer->setStrafeVelocity(1);
+		} else if ((key == 'D' || key == 'd') && action == GLFW_RELEASE){
+			viewer->setStrafeVelocity(0);
+		} else if ((key == GLFW_KEY_UP) && action == GLFW_PRESS){
+			viewer->changeVelocity(0,0,0.1);
+		} else if ((key == GLFW_KEY_DOWN) && action == GLFW_PRESS){
+			viewer->changeVelocity(0,0,-0.1);
+		} else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_PRESS){
+			viewer->setUpVelocity(1);
+		}  else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_RELEASE){
+			viewer->setUpVelocity(0);
+		} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_PRESS){
+			viewer->setUpVelocity(-1);
+		} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
+			viewer->setUpVelocity(0);
+		} else if ((key == GLFW_KEY_LEFT) && action == GLFW_PRESS){
+			viewer->setCameraRotationVelocity(1);
+		} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_PRESS){
+			viewer->setCameraRotationVelocity(-1);
+		}  else if ((key == GLFW_KEY_LEFT) && action == GLFW_RELEASE){
+			viewer->setCameraRotationVelocity(0);
+		} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_RELEASE){
+			viewer->setCameraRotationVelocity(0);
+		} else if ((key == GLFW_KEY_SPACE) && action == GLFW_PRESS){
+			viewer->setCameraRotationVelocity(0);
+			viewer->setVelocity(0,0,0);
+		} else if ((key == 'P' || key == 'p') && action == GLFW_PRESS){
+			viewer->setCameraRotationVelocity(0);
+			viewer->setVelocity(0,0,0);
+			viewer->gotoLocation(glm::vec3(0,0,0), glm::vec3(-1,0,-1));
+		}
+	} 
+	if ((key == 'H' || key == 'h') && action == GLFW_PRESS){
 		show_help = !show_help;
 	} else if ((key == 'T' || key == 't') && action == GLFW_PRESS){
 		tour = !tour;
 
 		if(tour){
+			//Stop any motion
+			viewer->setCameraRotationVelocity(0);
+			viewer->setVelocity(0,0,0);
+
 			t.restart();
 		}
 	}
@@ -148,8 +155,8 @@ int main(int argc, char *argv[]){
 	glfwSetWindowTitle("Mars In Fiction");	
 
 
-	WayPoint w1 = WayPoint(glm::vec3(0,2,0), glm::vec3(1,0,0));
-	WayPoint w2 = WayPoint(glm::vec3(10,2,10), glm::vec3(0,0,1));
+	WayPoint w1 = WayPoint(glm::vec3(0,1,0), glm::vec3(1,0,0));
+	WayPoint w2 = WayPoint(glm::vec3(0,1,0), glm::vec3(0,0,1));
 	WayPoint w3 = WayPoint(glm::vec3(1,1,0), glm::vec3(1,0,1));
 
 	t.addWayPoint(0.0, &w1, 1);

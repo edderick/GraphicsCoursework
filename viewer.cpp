@@ -29,6 +29,7 @@ void Viewer::addCollidesWith(Object* object){
 void Viewer::gotoLocation(glm::vec3 position, glm::vec3 direction){
 	_position = position;
 	_direction = direction;
+	_current_angle = asin(_direction.x);
 }
 
 bool Viewer::checkTerrainCollision(){
