@@ -28,10 +28,10 @@ void TextGenerator::printText(char* text, int x, int y, int size){
 
 	for (int i = 0; i < strlen(text); i++){
 		//Vertex Quad
-		glm::vec2 v_t_l = glm::vec2(x+i*size, y+size);
-		glm::vec2 v_t_r = glm::vec2(x+i*size+size, y+size);
-		glm::vec2 v_b_l = glm::vec2(x+i*size, y);
-		glm::vec2 v_b_r = glm::vec2(x+i*size+size, y);
+		glm::vec2 v_b_l = glm::vec2(x+i*size, y+size);
+		glm::vec2 v_b_r = glm::vec2(x+i*size+size, y+size);
+		glm::vec2 v_t_l = glm::vec2(x+i*size, y);
+		glm::vec2 v_t_r = glm::vec2(x+i*size+size, y);
 
 		//Create first triangle of Quad
 		vertices.push_back(v_t_l);

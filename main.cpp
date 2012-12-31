@@ -194,8 +194,8 @@ int main(int argc, char *argv[]){
 		
 		if(show_help){
 			glDisable(GL_DEPTH_TEST);
-			tg.printText( (char*)s.c_str() , 10, 10, 50);
-			tg.printText( (char*)"EJFS1G10 - CW3", 10, 750, 50);
+			tg.printText( (char*)s.c_str() , 10, 750, 50);
+			tg.printText( (char*)"ejfs1g10 - CW3", 10, 10, 50);
 			glEnable(GL_DEPTH_TEST);
 		}
 
