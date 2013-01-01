@@ -10,7 +10,7 @@ Viewer::Viewer() {
 	_velocity = glm::vec3(0,0,0);
 	_cameraRotationVelocity = 0;
 
-	_current_angle = 3 * PI;
+	_current_angle = PI;
 
 	_lastAccessedTime = (GLfloat) glfwGetTime();
 	
@@ -29,7 +29,18 @@ void Viewer::addCollidesWith(Object* object){
 void Viewer::gotoLocation(glm::vec3 position, glm::vec3 direction){
 	_position = position;
 	_direction = direction;
-	_current_angle = asin(_direction.x);
+	
+	glm::vec3 origin_direction(0,0,1); 
+
+	_current_angle = acos(
+		(_direction.x * origin_direction.x + _direction.z * origin_direction.z) 
+		/ (
+		sqrt(_direction.x * _direction.x + _direction.z * _direction.z)
+		* 
+		sqrt(origin_direction.x * origin_direction.x + origin_direction.z * origin_direction.z)
+		)
+		);
+
 }
 
 bool Viewer::checkTerrainCollision(){
