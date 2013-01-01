@@ -163,7 +163,19 @@ int main(int argc, char *argv[]){
 	t.addWayPoint(0.0, &w1, 1);
 	t.addWayPoint(5.0, &w2, 1);
 	//t.addWayPoint(15.0, &w3, 1);
-	
+
+	Animutator* a = new Animutator();
+
+	KeyFrame k1 = KeyFrame(glm::vec3(0,0,0));
+	KeyFrame k2 = KeyFrame(glm::vec3(10,0,1), 720);
+	KeyFrame k3 = KeyFrame(glm::vec3(0,0,0), 720 * 2);
+
+	a->addKeyFrame(0.0, &k1);
+	a->addKeyFrame(10.0, &k2);
+	a->addKeyFrame(20.0, &k3);
+
+	object.addAnimutator(a);
+
 
 	int count = 0;
 	GLfloat lastTime = glfwGetTime();
@@ -178,7 +190,6 @@ int main(int argc, char *argv[]){
 			viewer->update();
 		}
 
-	
 		object.draw();
 		ground.draw();
 		skybox.draw();

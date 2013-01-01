@@ -46,6 +46,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), _diffuse_texture_num);//, "DiffuseSampler");
 	_specular_texture = setUpTexture(_material->getSpecularTexture(), _specular_texture_num);//, "SpecularSampler");
 
+	_animutator = NULL;
 
 	for (int i = 0; i < _vertices.size(); i +=3){
 		glm::vec3 avg = glm::vec3((_vertices[i+0].x + _vertices[i+1].x + _vertices[i+2].x) / 3,
@@ -87,12 +88,25 @@ void Object::draw() {
 	glDisableVertexAttribArray(2);
 }
 
+void Object::addAnimutator(Animutator* animutator){
+	_animutator = animutator;
+}
 
 glm::mat4 Object::makeModelMatrix(){
+	
+	if(_animutator != NULL){
+		_animutator->update();
+
+		_scale = _animutator->getScale();
+		_rotation_axis = _animutator->getRotationAxis();
+		_rotation_magnitude = _animutator->getRotationMagnitude();
+		_position = _animutator->getPosition();
+	}
+	
 	glm::mat4 model = glm::mat4(1.f);
+	model = glm::translate(model, _position);
 	model = glm::scale(model, _scale);
 	model = glm::rotate(model, _rotation_magnitude, _rotation_axis);
-	model = glm::translate(model, _position);
 	return model;
 }
 

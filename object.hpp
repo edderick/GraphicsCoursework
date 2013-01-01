@@ -11,6 +11,8 @@
 #include "material.hpp"
 #include "viewer.hpp"
 
+#include "animutator.hpp"
+
 class Viewer;
 
 class Object {
@@ -18,6 +20,8 @@ class Object {
 		const char* _obj_file_name;
 		
 		Material* _material;
+
+		Animutator* _animutator;
 
 		GLuint _programID;
 		GLenum _draw_mode;
@@ -74,7 +78,8 @@ class Object {
 
 		glm::mat4 getModelMatrix();
 
-		//TODO move back?
+		void addAnimutator(Animutator* animutator);	
+
 		void draw();
 };
 
