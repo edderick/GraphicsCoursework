@@ -72,22 +72,23 @@ void key_callback(int key, int action){
 			viewer->setCameraRotationVelocity(0);
 			viewer->setVelocity(0,0,0);
 			viewer->gotoLocation(glm::vec3(0,0,0), glm::vec3(-1,0,-1));
-		}
-	} 
-	if ((key == 'H' || key == 'h') && action == GLFW_PRESS){
-		show_help = !show_help;
-	} else if ((key == 'T' || key == 't') && action == GLFW_PRESS){
-		tour = !tour;
-
-		if(tour){
+		} else if ((key == 'T' || key == 't') && action == GLFW_PRESS){
+			tour = 1;	
 			//Stop any motion
 			viewer->setCameraRotationVelocity(0);
 			viewer->setVelocity(0,0,0);
 
 			t.restart();
 		}
-	}
 
+	} else {
+		if((key == 'E' || key == 'e') && action == GLFW_PRESS){
+			tour = 0;
+		}
+	}
+	if ((key == 'H' || key == 'h') && action == GLFW_PRESS){
+		show_help = !show_help;
+	}
 }
 
 int main(int argc, char *argv[]){
@@ -194,8 +195,36 @@ int main(int argc, char *argv[]){
 		
 		if(show_help){
 			glDisable(GL_DEPTH_TEST);
-			tg.printText( (char*)s.c_str() , 10, 750, 50);
 			tg.printText( (char*)"ejfs1g10 - CW3", 10, 10, 50);
+			
+			tg.printText( (char*)"Esc, Q:", 10, 70, 23);
+			tg.printText( (char*)"Exit", 280, 75, 23);
+
+			tg.printText( (char*)"P:", 10, 100, 23);
+			tg.printText( (char*)"Screenshot View Point", 280, 105, 23);
+		
+			tg.printText( (char*)"T:", 10, 130, 23);
+			tg.printText( (char*)"Start Tour", 280, 135, 23);
+
+			tg.printText( (char*)"E:", 10, 160, 23);
+			tg.printText( (char*)"End Tour", 280, 165, 23);
+
+			tg.printText( (char*)"Left/Right:", 10, 190, 23);
+			tg.printText( (char*)"Turn Camera", 280, 195, 23);
+		
+			tg.printText( (char*)"Pg Up/Down:", 10, 220, 23);
+			tg.printText( (char*)"Change Elevation", 280, 225, 23);
+	
+			tg.printText( (char*)"Up:", 10, 250, 23);
+			tg.printText( (char*)"Accelerate", 280, 255, 23);
+	
+			tg.printText( (char*)"Down:", 10, 280, 23);
+			tg.printText( (char*)"Decelerate", 280, 285, 23);
+		
+			tg.printText( (char*)"Space:", 10, 310, 23);
+			tg.printText( (char*)"Stop Moving", 280, 315, 23);
+
+			tg.printText( (char*)s.c_str() , 10, 750, 50);
 			glEnable(GL_DEPTH_TEST);
 		}
 
