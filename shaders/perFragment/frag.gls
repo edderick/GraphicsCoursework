@@ -24,9 +24,9 @@ uniform sampler2D AmbientSampler;
 uniform sampler2D DiffuseSampler;
 uniform sampler2D SpecularSampler;
 
-uniform int ambient_mode[10]; 
-uniform int diffuse_mode[10];
-uniform int specular_mode[10];
+uniform int ambient_mode[20]; 
+uniform int diffuse_mode[20];
+uniform int specular_mode[20];
 
 uniform float specularity[10];
 

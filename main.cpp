@@ -135,21 +135,27 @@ int main(int argc, char *argv[]){
 	glEnable(GL_DEPTH_TEST);
 
 	//Load in obj files & height maps
-	ObjLoader prettyMonkeyObj = ObjLoader("models","thunderbird1.obj");
+	ObjLoader t2ContainerObj = ObjLoader("models","t2container.obj");
+	ObjLoader thunderBird2Obj = ObjLoader("models","thunderbird3.obj");
 	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.jpg");
 	ObjLoader skyboxObj = ObjLoader("models","skybox.obj");
 
 	//Create objects
-	Object object(&prettyMonkeyObj, perFragmentShaderID, viewer, GL_FILL);
+	Object t2container(&t2ContainerObj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird2(&thunderBird2Obj, perFragmentShaderID, viewer, GL_FILL);
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
 
 	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '~', 16, 8, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	viewer->addTerrain(&ground);
-	viewer->addCollidesWith(&object);
+//	viewer->addCollidesWith(&object);
 
-	object.setPosition(glm::vec3(5,1,10));
+	t2container.setPosition(glm::vec3(0,1,0));
+	t2container.setScale(glm::vec3(0.2,0.2,0.2));
+
+	thunderBird2.setPosition(glm::vec3(0,1,0));
+	thunderBird2.setScale(glm::vec3(0.2,0.2,0.2));
 
 	ground.setScale(glm::vec3(0.1,0.01,0.1));
 
@@ -172,15 +178,14 @@ int main(int argc, char *argv[]){
 	KeyFrame k4 = KeyFrame(glm::vec3(0,1,0), -90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
 
 	a->addKeyFrame(0.0, &k1);
-	a->addKeyFrame(10.0, &k2);
-	a->addKeyFrame(15.0, &k3);
-	a->addKeyFrame(25.0, &k4);
-	a->addKeyFrame(30.0, &k1);
+	//a->addKeyFrame(10.0, &k2);
+	//a->addKeyFrame(15.0, &k3);
+	//a->addKeyFrame(25.0, &k4);
+	//a->addKeyFrame(30.0, &k1);
 
-	object.addAnimutator(a);
+	//object.addAnimutator(a);
 
-
-	object.setScale(glm::vec3(1,5,1));
+	//object.setScale(glm::vec3(1,5,1));
 
 	int count = 0;
 	GLfloat lastTime = glfwGetTime();
@@ -194,8 +199,9 @@ int main(int argc, char *argv[]){
 		} else {
 			viewer->update();
 		}
-
-		object.draw();
+		
+		thunderBird2.draw();
+		//t2container.draw();
 		ground.draw();
 		skybox.draw();
 
