@@ -161,7 +161,7 @@ void ObjLoader::handle_face(char* line, int length){
 	//std::cout << "v: " << v1 << ", " << v2 << ", " << v3 << "\n";
 	//std::cout << "t: " << t1 << ", " << t2 << ", " << t3 << "\n";
 	//std::cout << "n: " << n1 << ", " << n2 << ", " << n3 << "\n";
-		
+	
 	//Add triangle to elements list
 	elements.push_back(v1); elements.push_back(v2); elements.push_back(v3);
 	texture_refs.push_back(t1); texture_refs.push_back(t2); texture_refs.push_back(t3);

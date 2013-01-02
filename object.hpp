@@ -29,7 +29,7 @@ class Object {
 
 		std::vector<GLuint> group_start, group_length;
 	
-		std::vector<GLuint> _ambient_texture_num, _diffuse_texture_num, _specular_texture_num;
+		std::vector<GLint> _ambient_texture_num, _diffuse_texture_num, _specular_texture_num;
 		std::vector<GLuint> _ambient_texture, _diffuse_texture, _specular_texture;
 		std::vector<int> _ambient_mode, _diffuse_mode, _specular_mode;
 
@@ -37,10 +37,10 @@ class Object {
 		std::vector<float> _specularities;
 	
 		GLuint _vaoID; 
-		GLuint _vertex_vboID;
-		GLuint _normal_vboID;
-		GLuint _UV_vboID;
-		GLuint _Material_Num_vboID;
+		std::vector<GLuint> _vertex_vboID;
+		std::vector<GLuint> _normal_vboID;
+		std::vector<GLuint> _UV_vboID;
+		std::vector<GLuint> _Material_Num_vboID;
 		
 		std::vector<glm::vec3> _vertices;
 		std::vector<glm::vec3> _normals;

@@ -159,7 +159,9 @@ Material* MtlLoader::getMaterial(char* material_name){
 
 void MtlLoader::process_line(char* line, int length){
 	//YAGNI - Can add more things as they are needed!
-	
+ 
+ 	if (length <= 1) return;
+
 	char * token = strtok(line, " ");
 
 	//std::cout << token << ": ";

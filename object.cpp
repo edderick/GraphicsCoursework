@@ -19,35 +19,6 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	glGenVertexArrays(1, &_vaoID);
 	glBindVertexArray(_vaoID);
 
-	glGenBuffers(1, &_vertex_vboID);
-	glBindBuffer(GL_ARRAY_BUFFER, _vertex_vboID);
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(_vertices[0]), &_vertices[0], GL_STATIC_DRAW); 
-
-	glGenBuffers(1, &_normal_vboID);
-	glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID);
-	glBufferData(GL_ARRAY_BUFFER, _normals.size() * sizeof(_normals[0]), &_normals[0], GL_STATIC_DRAW);
-
-	glGenBuffers(1, &_UV_vboID);
-	glBindBuffer(GL_ARRAY_BUFFER, _UV_vboID);
-	glBufferData(GL_ARRAY_BUFFER, _UVs.size() * sizeof(_UVs[0]), &_UVs[0], GL_STATIC_DRAW);
-
-	glGenBuffers(1, &_Material_Num_vboID);
-	glBindBuffer(GL_ARRAY_BUFFER, _Material_Num_vboID);
-	glBufferData(GL_ARRAY_BUFFER, _material_nums.size() * sizeof(_material_nums[0]), &_material_nums[0], GL_STATIC_DRAW);
-
-	_materials = gg->getMaterials();
-
-	_position = glm::vec3(0,0,0);
-	_scale = glm::vec3(1,1,1);
-	//_scale = glm::vec3(0.1,0.01,0.1);
-	_rotation_axis = glm::vec3(1,0,0);
-	_rotation_magnitude = 0;
-
-	_ambient_mode.resize(_materials.size());
-	_diffuse_mode.resize(_materials.size());
-	_specular_mode.resize(_materials.size());
-
-
 	//TODO confirm
 	int start = 0;
 	int count = 1;
@@ -64,10 +35,46 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	group_start.push_back(start);
 	group_length.push_back(count);
 
+	_vertex_vboID.resize(group_start.size());
+	_normal_vboID.resize(group_start.size());
+	_UV_vboID.resize(group_start.size());
+	_Material_Num_vboID.resize(group_start.size());
+	
+	for(int i = 0; i < group_start.size(); i++){
+		glGenBuffers(1, &_vertex_vboID[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _vertex_vboID[i]);
+		glBufferData(GL_ARRAY_BUFFER, group_length[i] * sizeof(_vertices[0]), &_vertices[group_start[i]], GL_STATIC_DRAW); 
+
+		glGenBuffers(1, &_normal_vboID[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID[i]);
+		glBufferData(GL_ARRAY_BUFFER,  group_length[i]  * sizeof(_normals[0]), &_normals[group_start[i]], GL_STATIC_DRAW);
+
+		glGenBuffers(1, &_UV_vboID[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _UV_vboID[i]);
+		glBufferData(GL_ARRAY_BUFFER,  group_length[i]  * sizeof(_UVs[0]), &_UVs[group_start[i]], GL_STATIC_DRAW);
+
+		glGenBuffers(1, &_Material_Num_vboID[i]);
+		glBindBuffer(GL_ARRAY_BUFFER, _Material_Num_vboID[i]);
+		glBufferData(GL_ARRAY_BUFFER,  group_length[i] * sizeof(_material_nums[0]), &_material_nums[group_start[i]], GL_STATIC_DRAW);
+	}
+
+	_materials = gg->getMaterials();
+
+	_position = glm::vec3(0,0,0);
+	_scale = glm::vec3(1,1,1);
+	//_scale = glm::vec3(0.1,0.01,0.1);
+	_rotation_axis = glm::vec3(1,0,0);
+	_rotation_magnitude = 0;
+
+	_ambient_mode.resize(_materials.size());
+	_diffuse_mode.resize(_materials.size());
+	_specular_mode.resize(_materials.size());
+
+
 	for (int i = 0; i < _materials.size(); i++){
-		_ambient_texture_num.push_back(0 + i);
-		_diffuse_texture_num.push_back(1 + i);
-		_specular_texture_num.push_back(2 + i);
+		_ambient_texture_num.push_back(0 + i * 3);
+		_diffuse_texture_num.push_back(1 + i * 3);
+		_specular_texture_num.push_back(2 + i * 3);
 
 		_ambient_mode.push_back(0);
 		_diffuse_mode.push_back(0);
@@ -128,37 +135,36 @@ void Object::draw() {
 	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
 
 	for (int i = 0; i < group_start.size(); i++){
+		glEnableVertexAttribArray(0);
+		glBindAttribLocation(_programID, 0, "in_Positon");
+		glBindBuffer(GL_ARRAY_BUFFER, _vertex_vboID[i]);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
 
-	glEnableVertexAttribArray(0);
-	glBindAttribLocation(_programID, 0, "in_Positon");
-	glBindBuffer(GL_ARRAY_BUFFER, _vertex_vboID);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+		glEnableVertexAttribArray(1);
+		glBindAttribLocation(_programID, 1, "in_Normal");
+		glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID[i]);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
 
-	glEnableVertexAttribArray(1);
-	glBindAttribLocation(_programID, 1, "in_Normal");
-	glBindBuffer(GL_ARRAY_BUFFER, _normal_vboID);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+		glEnableVertexAttribArray(2);
+		glBindAttribLocation(_programID, 2, "in_UV");
+		glBindBuffer(GL_ARRAY_BUFFER, _UV_vboID[i]);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void *) 0);;
 
-	glEnableVertexAttribArray(2);
-	glBindAttribLocation(_programID, 2, "in_UV");
-	glBindBuffer(GL_ARRAY_BUFFER, _UV_vboID);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void *) 0);;
+		glEnableVertexAttribArray(3);
+		glBindAttribLocation(_programID, 3, "in_Material_Num");
+		glBindBuffer(GL_ARRAY_BUFFER, _Material_Num_vboID[i]);
+		glVertexAttribPointer(3, 1, GL_UNSIGNED_INT, GL_FALSE, 0, (void *) 0);;
 
-	glEnableVertexAttribArray(3);
-	glBindAttribLocation(_programID, 3, "in_Material_Num");
-	glBindBuffer(GL_ARRAY_BUFFER, _Material_Num_vboID);
-	glVertexAttribPointer(3, 1, GL_UNSIGNED_INT, GL_FALSE, 0, (void *) 0);;
+		glUniform1i(glGetUniformLocation(_programID, "AmbientSampler"), _ambient_texture_num[_material_nums[group_start[i]]]);
+		glUniform1i(glGetUniformLocation(_programID, "DiffuseSampler"), _diffuse_texture_num[_material_nums[group_start[i]]]);
+		glUniform1i(glGetUniformLocation(_programID, "SpecularSampler"), _specular_texture_num[_material_nums[group_start[i]]]);
 
-	glUniform1ui(glGetUniformLocation(_programID, "AmbientSampler"), _ambient_texture_num[_material_nums[group_start[i]]]);
-	glUniform1ui(glGetUniformLocation(_programID, "DiffuseSampler"), _diffuse_texture_num[_material_nums[group_start[i]]]);
-	glUniform1ui(glGetUniformLocation(_programID, "SpecularSampler"), _specular_texture_num[_material_nums[group_start[i]]]);
+		glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
 
-	glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(3);
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
+		glDisableVertexAttribArray(3);
 	}
 }
 
