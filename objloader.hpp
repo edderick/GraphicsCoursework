@@ -20,7 +20,7 @@ class ObjLoader : public GeometryGenerator {
 
 		GLuint currentMaterialNum;
 
-		std::vector<GLuint> materialNums;
+		std::vector<std::vector<GLuint> > materialNums;
 		std::vector<Material*> materials;
 
 		const char* _models_dir;
@@ -29,9 +29,9 @@ class ObjLoader : public GeometryGenerator {
 		std::vector<glm::vec3> textureCoords;
 		std::vector<glm::vec3> normals;
 		
-		std::vector<GLuint> elements; 
-		std::vector<GLuint> texture_refs;
-		std::vector<GLuint> normal_refs; 
+		std::vector<std::vector<GLuint> > elements; 
+		std::vector<std::vector<GLuint> > texture_refs;
+		std::vector<std::vector<GLuint> > normal_refs; 
 		
 		void handle_face(char* line, int length);
 		void handle_vector(char* line, int length, std::vector<glm::vec3> *vector);

@@ -130,12 +130,12 @@ int main(int argc, char *argv[]){
 	GLuint textShaderID = setupShaders("shaders/text/vert.gls", "shaders/text/frag.gls");
 	
 	//TODO sort out SkyBox so that this can be removed
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 
 	//Load in obj files & height maps
-	ObjLoader prettyMonkeyObj = ObjLoader("models","thunderbird.obj");
+	ObjLoader prettyMonkeyObj = ObjLoader("models","thunderbird1.obj");
 	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.jpg");
 	ObjLoader skyboxObj = ObjLoader("models","skybox.obj");
 

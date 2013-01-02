@@ -8,7 +8,6 @@
 
 class Material {
 	private:
-		char* _name;
 		
 		GLfloat _Ns, _Ni, _d;
 		glm::vec3 _Ka, _Kd, _Ks;
@@ -19,7 +18,10 @@ class Material {
 		char* _map_Kd_file_name; 
 		char* _map_Ks_file_name;
 	public:
+		char* _name;
 		Material(char* name);
+
+	        bool operator==(const Material lhs) const;
 
 		//Setters!
 		void setAmbientColor(glm::vec3 Ka);

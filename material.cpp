@@ -13,6 +13,11 @@ Material::Material(char* name){
 
 }
 
+bool Material::operator==(const Material lhs) const{
+	//return 1;
+	return lhs._name == _name;
+}
+
 void Material::setAmbientColor(glm::vec3 Ka){
 	_Ka = Ka;
 }
