@@ -8,7 +8,12 @@
 #include <vector>
 
 class HeightMapLoader : public GeometryGenerator {
+	
 	public:
+		//TODO get set...
+		int height; 
+		int width;
+		
 		std::vector<glm::vec3> _vertices;
 		std::vector<glm::vec2> _tex_coords;
 		std::vector<glm::vec3> _normals;

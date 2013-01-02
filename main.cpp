@@ -18,8 +18,9 @@ const GLuint WINDOW_WIDTH = 800;
 const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
 
-bool show_help = 0;
+const char* TITLE = "Mars in Fiction";
 
+bool show_help = 0;
 bool tour = 0;
 
 //Viewer is global as it's state is modified by key_callback
@@ -73,7 +74,8 @@ void key_callback(int key, int action){
 			viewer->setVelocity(0,0,0);
 			viewer->gotoLocation(glm::vec3(0,0,0), glm::vec3(-1,0,-1));
 		} else if ((key == 'T' || key == 't') && action == GLFW_PRESS){
-			tour = 1;	
+			tour = 1;
+
 			//Stop any motion
 			viewer->setCameraRotationVelocity(0);
 			viewer->setVelocity(0,0,0);
@@ -122,44 +124,53 @@ int main(int argc, char *argv[]){
 	//various glfw settings
 	glfwEnable(GLFW_STICKY_KEYS);
 	glfwSetKeyCallback(&key_callback);
+	glfwSetWindowTitle(TITLE);	
 	
 	//Load in and set program (Shaders)
-	GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
-	GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
+	// GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
+	// GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
 	GLuint textShaderID = setupShaders("shaders/text/vert.gls", "shaders/text/frag.gls");
 	
-	//TODO sort out SkyBox so that this can be removed
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 
-	//Load in obj files & height maps
-	ObjLoader t2ContainerObj = ObjLoader("models","t2container.obj");
-	ObjLoader thunderBird2Obj = ObjLoader("models","thunderbird3.obj");
+
+	//Load in terrain and sky box
 	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.jpg");
 	ObjLoader skyboxObj = ObjLoader("models","skybox.obj");
 
-	//Create objects
-	Object t2container(&t2ContainerObj, perFragmentShaderID, viewer, GL_FILL);
-	Object thunderBird2(&thunderBird2Obj, perFragmentShaderID, viewer, GL_FILL);
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
+	
+	
+	//Load in thunder birds
+	ObjLoader thunderBird1Obj = ObjLoader("models", "thunderbird1.obj");
+	ObjLoader t2ContainerObj = ObjLoader("models","t2container.obj");
+	ObjLoader thunderBird2Obj = ObjLoader("models","thunderbird2.obj");
+	ObjLoader thunderBird3Obj = ObjLoader("models","thunderbird3.obj");
 
+	Object thunderBird1(&thunderBird1Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object t2container(&t2ContainerObj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird2(&thunderBird2Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird3(&thunderBird1Obj, perFragmentShaderID, viewer, GL_FILL);
+
+	//Create text generator
 	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '~', 16, 8, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+	//Set up collisions
 	viewer->addTerrain(&ground);
 //	viewer->addCollidesWith(&object);
 
-	t2container.setPosition(glm::vec3(0,1,0));
+	t2container.setPosition(glm::vec3(0,00.1,0));
 	t2container.setScale(glm::vec3(0.2,0.2,0.2));
 
-	thunderBird2.setPosition(glm::vec3(0,1,0));
+	thunderBird2.setPosition(glm::vec3(0,0.1,0));
 	thunderBird2.setScale(glm::vec3(0.2,0.2,0.2));
 
 	ground.setScale(glm::vec3(0.1,0.01,0.1));
-
-	glfwSetWindowTitle("Mars In Fiction");	
+	ground.setPosition(glm::vec3(-groundObj.width/2 * 0.1,0,-groundObj.height/2 * 0.1));
 
 
 	WayPoint w1 = WayPoint(glm::vec3(0,1,0), glm::vec3(1,0,0));
@@ -201,7 +212,8 @@ int main(int argc, char *argv[]){
 		}
 		
 		thunderBird2.draw();
-		//t2container.draw();
+		t2container.draw();
+		
 		ground.draw();
 		skybox.draw();
 

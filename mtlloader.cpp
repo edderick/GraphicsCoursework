@@ -20,7 +20,8 @@
 #include "utils.hpp"
 #include "mtlloader.hpp"
 
-#define DEBUG 1
+#define NOISEY 0
+
 
 void resetTok(char * token){
 	token[strlen(token)] = ' ';
@@ -30,7 +31,7 @@ void MtlLoader::handle_new_material(char* line, int length){
 	char * token = strtok(line, " \n");
 	token = strtok(NULL, " \n");
 
-	std::cout << "Creating material: " << token << "\n";
+	if(NOISEY) std::cout << "Creating material: " << token << "\n";
 
 	material = new Material(token);
 	materials.insert( std::pair<const char*, Material*>(token, material));
@@ -48,7 +49,7 @@ void MtlLoader::handle_ambient_color(char* line, int length){
 	token = strtok(NULL, " \n");
 	float b = atof(token);
 
-	std::cout << "Setting ambient color: " << r << ", " << g << ", " << b << "\n";
+	if (NOISEY) std::cout << "Setting ambient color: " << r << ", " << g << ", " << b << "\n";
 	material->setAmbientColor(glm::vec3(r,g,b));
 }
 
@@ -64,7 +65,7 @@ void MtlLoader::handle_diffuse_color(char* line, int length){
 	token = strtok(NULL, " \n");
 	float b = atof(token);
 
-	std::cout << "Setting diffuse color: " << r << ", " << g << ", " << b << "\n";
+	if (NOISEY) std::cout << "Setting diffuse color: " << r << ", " << g << ", " << b << "\n";
 	material->setDiffuseColor(glm::vec3(r,g,b));
 }
 
@@ -80,7 +81,7 @@ void MtlLoader::handle_specular_color(char* line, int length){
 	token = strtok(NULL, " \n");
 	float b = atof(token);
 
-	std::cout << "Setting specular color: " << r << ", " << g << ", " << b << "\n";
+	if (NOISEY) std::cout << "Setting specular color: " << r << ", " << g << ", " << b << "\n";
 	material->setSpecularColor(glm::vec3(r,g,b));
 }
 
@@ -90,7 +91,7 @@ void MtlLoader::handle_illumination(char* line, int length){
 	token = strtok(NULL, " \n");
 	GLuint i = atoi(token);
 
-	std::cout << "Setting Illumination: " << i << "\n";
+	if (NOISEY) std::cout << "Setting Illumination: " << i << "\n";
 	material->setIllumination(i);
 }
 
@@ -101,7 +102,7 @@ void MtlLoader::handle_transparency(char* line, int length){
 	token = strtok(NULL, " \n");
 	GLfloat Tr = atof(token);
 
-	std::cout << "Setting transparency: " << Tr << "\n";
+	if (NOISEY) std::cout << "Setting transparency: " << Tr << "\n";
 	material->setTransparency(Tr);
 }
 
@@ -111,7 +112,7 @@ void MtlLoader::handle_specularity(char* line, int length){
 	token = strtok(NULL, " \n");
 	GLfloat Ns = atof(token);
 
-	std::cout << "Setting Specularity: " << Ns << "\n";
+	if (NOISEY) std::cout << "Setting Specularity: " << Ns << "\n";
 	material->setSpecularity(Ns);
 }
 
@@ -121,7 +122,7 @@ void MtlLoader::handle_optical_density(char* line, int length){
 	token = strtok(NULL, " \n");
 	GLfloat Ni = atof(token);
 
-	std::cout << "Setting Optical Density: " << Ni << "\n";
+	if (NOISEY) std::cout << "Setting Optical Density: " << Ni << "\n";
 	material->setOpticalDensity(Ni);
 }
 
@@ -130,7 +131,7 @@ void MtlLoader::handle_ambient_texture(char* line, int length){
 
 	token = strtok(NULL, " \n");
 
-	std::cout << "Setting Ambient Texture: " << token << "\n";
+	if (NOISEY) std::cout << "Setting Ambient Texture: " << token << "\n";
 	material->setAmbientTexture(token);
 }
 
@@ -139,7 +140,7 @@ void MtlLoader::handle_diffuse_texture(char* line, int length){
 
 	token = strtok(NULL, " \n");
 
-	std::cout << "Setting Diffuse Texture: " << token << "\n";
+	if (NOISEY) std::cout << "Setting Diffuse Texture: " << token << "\n";
 	material->setDiffuseTexture(token);
 }
 
@@ -148,7 +149,7 @@ void MtlLoader::handle_specular_texture(char* line, int length){
 
 	token = strtok(NULL, " \n");
 
-	std::cout << "Setting Specular Texture: " << token << "\n";
+	if (NOISEY) std::cout << "Setting Specular Texture: " << token << "\n";
 	material->setSpecularTexture(token);
 }
 
@@ -224,7 +225,7 @@ void MtlLoader::load_materials(char* file_name){
 		i++;
 	}
 	
-	if (DEBUG) {
+	if (NOISEY) {
 	}
 }
 

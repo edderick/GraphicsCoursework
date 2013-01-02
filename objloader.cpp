@@ -20,7 +20,7 @@
 #include "utils.hpp"
 #include "objloader.hpp"
 
-#define DEBUG 1
+#define NOISEY 0
 
 template <typename T>
 struct pointer_values_equal
@@ -194,12 +194,8 @@ void ObjLoader::handle_use_material(char* line, int length){
 	char* head = strtok(line, " ");
 	char* token = strtok(NULL, " \n");
 
-	std::cout << "Using material: "<< token << "\n";
-
-
+	if(NOISEY) std::cout << "Using material: "<< token << "\n";
 	Material* temp_material = mtlLoader.getMaterial(token);
-
-
 
 	if(temp_material == NULL) std::cout << "Material Not found";
 	else {
@@ -211,7 +207,6 @@ void ObjLoader::handle_use_material(char* line, int length){
 
 		if(it != materials.end()) {
 			/* v contains x */
-			std::cout << "Reused Material\n";
 			currentMaterialNum = distance(materials.begin(), it);
 		} else {
 			/* v does not contain x */
@@ -234,7 +229,7 @@ void ObjLoader::handle_material_library(char* line, int length){
 
 	token = strtok(NULL, " \n");
 
-	std::cout << "Loading: " << _models_dir << "/" << token << "\n";
+	if(NOISEY) std::cout << "Loading: " << _models_dir << "/" << token << "\n";
 
 	char path[255];
 	strcpy(path, _models_dir);
@@ -290,7 +285,7 @@ ObjLoader::ObjLoader(const char* models_dir, const char* file_name){
 		i++;
 	}
 
-	if (DEBUG) {
+	if (NOISEY) {
 		std::cout << "Characters: " << i;
 		std::cout << "\nLines: " << n;
 		std::cout << "\nVertices: "  << vertices.size();

@@ -46,8 +46,8 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 	//Create a 2D array of the heights
 
 	//Create a triangle strip (best of just making plain triangles..)
-	int height = heights[0].size();
-	int width = heights.size();
+	height = heights[0].size();
+	width = heights.size();
 
 	float MULT = 1;
 

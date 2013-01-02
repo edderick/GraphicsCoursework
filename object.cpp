@@ -269,10 +269,11 @@ GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTextureNum) {
 
 		//TEXTURE
 		glActiveTexture(GL_TEXTURE0 + ActiveTextureNum);
-		//glload must be initialized for glimg texture creation to work.
-		if(glload::LoadFunctions() == glload::LS_LOAD_FAILED)
-			std::cout << "Failed To Load";
 
+		//glload must be initialized for glimg texture creation to work. 
+		if(glload::LoadFunctions() == glload::LS_LOAD_FAILED) 
+		        std::cout << "Failed To Load"; 
+		        
 		//Loading succeeded. Now load a texture.
 		try
 		{
