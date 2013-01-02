@@ -21,6 +21,7 @@ void Tour::addWayPoint(GLfloat time, WayPoint* wayPoint, int mode){
 void Tour::start(){
 	_started = 1;
 	_startTime = glfwGetTime();
+	_viewer->resetElevation();
 }
 
 void Tour::update(){

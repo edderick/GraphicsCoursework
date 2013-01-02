@@ -14,8 +14,6 @@
 
 #include "tour.hpp"
 
-const GLuint WINDOW_WIDTH = 800;
-const GLuint WINDOW_HEIGHT = 800;
 const GLfloat PI = 3.14159; 
 
 const char* TITLE = "Mars in Fiction";
@@ -51,13 +49,13 @@ void key_callback(int key, int action){
 		} else if ((key == GLFW_KEY_DOWN) && action == GLFW_PRESS){
 			viewer->changeVelocity(0,0,-0.1);
 		} else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_PRESS){
-			viewer->setUpVelocity(1);
+			viewer->setElevationVelocity(1);
 		}  else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_RELEASE){
-			viewer->setUpVelocity(0);
+			viewer->setElevationVelocity(0);
 		} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_PRESS){
-			viewer->setUpVelocity(-1);
+			viewer->setElevationVelocity(-1);
 		} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
-			viewer->setUpVelocity(0);
+			viewer->setElevationVelocity(0);
 		} else if ((key == GLFW_KEY_LEFT) && action == GLFW_PRESS){
 			viewer->setCameraRotationVelocity(1);
 		} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_PRESS){
@@ -138,7 +136,7 @@ int main(int argc, char *argv[]){
 
 
 	//Load in terrain and sky box
-	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.jpg");
+	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.png");
 	ObjLoader skyboxObj = ObjLoader("models","skybox.obj");
 
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
@@ -154,7 +152,7 @@ int main(int argc, char *argv[]){
 	Object thunderBird1(&thunderBird1Obj, perFragmentShaderID, viewer, GL_FILL);
 	Object t2container(&t2ContainerObj, perFragmentShaderID, viewer, GL_FILL);
 	Object thunderBird2(&thunderBird2Obj, perFragmentShaderID, viewer, GL_FILL);
-	Object thunderBird3(&thunderBird1Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird3(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
 
 	//Create text generator
 	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '~', 16, 8, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -163,14 +161,19 @@ int main(int argc, char *argv[]){
 	viewer->addTerrain(&ground);
 //	viewer->addCollidesWith(&object);
 
-	t2container.setPosition(glm::vec3(0,00.1,0));
+	thunderBird1.setPosition(glm::vec3(-2,0.1,0));
+
+	t2container.setPosition(glm::vec3(0,0,0));
 	t2container.setScale(glm::vec3(0.2,0.2,0.2));
 
-	thunderBird2.setPosition(glm::vec3(0,0.1,0));
+	thunderBird2.setPosition(glm::vec3(0,0,0));
 	thunderBird2.setScale(glm::vec3(0.2,0.2,0.2));
 
-	ground.setScale(glm::vec3(0.1,0.01,0.1));
-	ground.setPosition(glm::vec3(-groundObj.width/2 * 0.1,0,-groundObj.height/2 * 0.1));
+	thunderBird3.setPosition(glm::vec3(2,0.5,0));
+
+
+	ground.setScale(glm::vec3(0.35,0.025,0.35));
+	ground.setPosition(glm::vec3(-groundObj.width/2 * 0.35,0,-groundObj.height/2 * 0.35));
 
 
 	WayPoint w1 = WayPoint(glm::vec3(0,1,0), glm::vec3(1,0,0));
@@ -211,8 +214,10 @@ int main(int argc, char *argv[]){
 			viewer->update();
 		}
 		
+		thunderBird1.draw();
 		thunderBird2.draw();
 		t2container.draw();
+		thunderBird3.draw();
 		
 		ground.draw();
 		skybox.draw();
@@ -258,7 +263,7 @@ int main(int argc, char *argv[]){
 			tg.printText( (char*)"Space:", 10, 310, 23);
 			tg.printText( (char*)"Stop Moving", 280, 315, 23);
 
-			tg.printText( (char*)s.c_str() , 10, 750, 50);
+			tg.printText( (char*)s.c_str() , 10, 710, 50);
 			glEnable(GL_DEPTH_TEST);
 		}
 

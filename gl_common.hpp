@@ -1,6 +1,7 @@
 #ifndef __GL_COMMON_HPP__
 #define __GL_COMMON_HPP__
 
+
 //Standard includes 
 #include <stdlib.h> 
 #include <stdio.h> 
@@ -24,5 +25,7 @@
 #include <glimg/ImageCreatorExceptions.h>
 #include <glimg/TextureGeneratorExceptions.h>
 
+const GLuint WINDOW_WIDTH = 1024;
+const GLuint WINDOW_HEIGHT = 768;
 
 #endif

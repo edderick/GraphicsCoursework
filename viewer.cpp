@@ -3,9 +3,11 @@
 const float PI = 3.14;
 
 Viewer::Viewer() {
-	_position = glm::vec3(0,1,5);
+	_position = glm::vec3(0,5,5);
 	_direction = glm::vec3(0,0,-1);
 	_up = glm::vec3(0,1,0);
+
+	_elevation = glm::vec3(0,0.2,0);
 
 	_velocity = glm::vec3(0,0,0);
 	_cameraRotationVelocity = 0;
@@ -16,6 +18,11 @@ Viewer::Viewer() {
 	
 	_radius = 0.1;
 
+	_fall_speed = 0.01;
+}
+
+void Viewer::resetElevation(){
+	_elevation = glm::vec3(0,0.2,0);
 }
 
 void Viewer::addTerrain(Object* object){
@@ -79,14 +86,17 @@ bool Viewer::checkTerrainCollision(){
 		glm::vec4 world_vertex = m * glm::vec4(min_vertex->x, min_vertex->y, min_vertex->z, 1);
 		
 		
-		if(world_vertex.y + 0.1> _position.y){
+		if(world_vertex.y + 0.1 > _position.y){
+			_fall_speed = 0;
 		 	//If we can climb, then climb
-			if (world_vertex.y - _position.y < 0.2)	{
+			if (world_vertex.y - _position.y < 0.1)	{
 				_position.y = world_vertex.y + 0.1;
 			} else {
 				//Otherwise, ABORT
 				collision = 1;
 			}
+		} else {
+			_fall_speed += 0.01;
 		}
 
 	}
@@ -113,6 +123,11 @@ bool Viewer::checkObjectCollisions(){
 void Viewer::update(){
 
  	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
+	
+	changeElevation(_elevation_velocity * elapsedTime);
+
+	_velocity = _velocity - glm::vec3(0,_fall_speed,0);
+
 	glm::vec3 displacement = _velocity * elapsedTime;
 	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;
 
@@ -168,7 +183,19 @@ void Viewer::setUpVelocity(GLfloat velocity){
 }
 
 void Viewer::setForwardVelocity(GLfloat velocity){
-	_velocity.z = velocity;
+		_velocity.z = velocity;
+}
+
+void Viewer::changeElevation(GLfloat delta){
+
+	if(_elevation.y + delta < 0.1) return;
+	if(_elevation.y + delta > 2) return;
+
+	_elevation = _elevation + glm::vec3(0, delta, 0);
+}
+
+void Viewer::setElevationVelocity(GLfloat velocity){
+	_elevation_velocity = velocity;
 }
 
 void Viewer::changeVelocity(GLfloat dax, GLfloat day, GLfloat daz){
@@ -178,9 +205,11 @@ void Viewer::changeVelocity(GLfloat dax, GLfloat day, GLfloat daz){
 
 	if (_velocity.x < 0){
 		_velocity.x = 0;
-	} else if (_velocity.y < 0){
+	} 
+	if (_velocity.y < 0){
 		_velocity.y = 0;
-	} else if (_velocity.z < 0){
+	}
+	if (_velocity.z < 0){
 		_velocity.z = 0;
 	}
 }
@@ -198,11 +227,11 @@ void Viewer::setCameraRotationVelocity(GLfloat velocity){
 
 // z inverting goes on here!
 glm::vec3 Viewer::getPosition(){
-		return _position;
+	return _position + _elevation;
 }
 
 glm::vec3 Viewer::getLookAt(){
-	return _position + _direction;
+	return _position + _direction + _elevation;
 }
 
 glm::vec3 Viewer::getDirection(){

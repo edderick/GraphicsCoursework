@@ -17,7 +17,6 @@ glm::mat4 Skybox::makeViewMatrix(){
 }
 
 glm::mat4 Skybox::makeProjectionMatrix(){
-        glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.f);
-        return projection;
+        return Object::makeProjectionMatrix();
 }
 

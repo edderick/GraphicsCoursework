@@ -3,6 +3,7 @@
 const GLfloat PI = 3.14159; 
 
 
+
 std::vector<glm::vec3> _faceAvg;
 
 Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode) {
@@ -197,7 +198,7 @@ glm::mat4 Object::makeViewMatrix(){
 }
 
 glm::mat4 Object::makeProjectionMatrix(){
-	glm::mat4 projection = glm::perspective(45.0f, 1.0f, 0.1f, 200.f);
+	glm::mat4 projection = glm::perspective(45.0f, (float) WINDOW_WIDTH / (float) WINDOW_HEIGHT , 0.01f, 500.f);
 	return projection;
 }
 

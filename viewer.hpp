@@ -14,12 +14,17 @@ class Object;
 class Viewer {
 	private:
 		GLfloat _current_angle;
+	
+		GLfloat _elevation_velocity;
+		glm::vec3 _elevation;
 
 		glm::vec3 _position;
 		glm::vec3 _direction;
 		glm::vec3 _up;
 	
 		GLfloat _radius;
+
+		GLfloat _fall_speed;
 
 		glm::vec3 _velocity;
 		GLfloat _cameraRotationVelocity;
@@ -38,6 +43,8 @@ class Viewer {
 		Viewer();
 		
 		void update();
+		
+		void resetElevation();
 
 		void gotoLocation(glm::vec3 position, glm::vec3 direction);
 
@@ -55,6 +62,10 @@ class Viewer {
 
 		void addTerrain(Object* object);
 		void addCollidesWith(Object* object);
+
+		void changeElevation(GLfloat delta);
+		void setElevationVelocity(GLfloat velocity);
+
 
 		glm::vec3 getPosition();
 		glm::vec3 getLookAt();
