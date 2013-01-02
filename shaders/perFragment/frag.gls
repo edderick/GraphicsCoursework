@@ -6,6 +6,8 @@ in vec4 camera_normal;
 in vec4 camera_light_direction;
 in vec4 camera_direction;
 
+flat in uint materialNum;
+
 //in float distance;
 
 in vec2 UV;
@@ -14,19 +16,19 @@ out vec4 gl_FragColor;
 
 const float light_power = 0.5f;
 
-uniform vec3 in_ambient_color;
-uniform vec3 in_diffuse_color;
-uniform vec3 in_specular_color;
+uniform vec3 in_ambient_color[10];
+uniform vec3 in_diffuse_color[10];
+uniform vec3 in_specular_color[10];
 
 uniform sampler2D AmbientSampler;
 uniform sampler2D DiffuseSampler;
 uniform sampler2D SpecularSampler;
 
-uniform int ambient_mode; 
-uniform int diffuse_mode;
-uniform int specular_mode;
+uniform int ambient_mode[10]; 
+uniform int diffuse_mode[10];
+uniform int specular_mode[10];
 
-uniform float specularity;
+uniform float specularity[10];
 
 const int OFF = 0;
 const int COLOR = 1;
@@ -38,43 +40,45 @@ void main(void) {
 	//IF ambient_mode == OFF:
 	vec4 ambient = vec4(0,0,0,1);
 
-	if (ambient_mode == COLOR) {
-		ambient = vec4(in_ambient_color.xyz,1.0) ;
-	} else if(ambient_mode == TEXTURE) {
+	if (ambient_mode[materialNum] == COLOR) {
+		ambient = vec4(in_ambient_color[materialNum].xyz,1.0) ;
+	} else if(ambient_mode[materialNum] == TEXTURE) {
 		ambient = texture(AmbientSampler, UV) * vec4(0.5,0.5,0.5,1);
-	} else if (ambient_mode == BLEND) {
-		ambient = vec4(in_ambient_color.xyz,1.0) * texture(AmbientSampler, UV);
+	} else if (ambient_mode[materialNum] == BLEND) {
+		ambient = vec4(in_ambient_color[materialNum].xyz,1.0) * texture(AmbientSampler, UV);
 	}
 
 	//IF diffuse_mode == OFF:
 	vec4 diffuse = vec4(0,0,0,1); // /(distance/distance);
 
-	if (diffuse_mode == COLOR){
-		diffuse = light_power  * vec4(in_diffuse_color.xyz, 1.0) * clamp(dot(camera_normal, camera_light_direction),0,1);	
-	} else if (diffuse_mode == TEXTURE) {		
+	if (diffuse_mode[materialNum] == COLOR){
+		diffuse = light_power  * vec4(in_diffuse_color[materialNum].xyz, 1.0) * clamp(dot(camera_normal, camera_light_direction),0,1);	
+	} else if (diffuse_mode[materialNum] == TEXTURE) {		
 		diffuse = light_power  * texture(DiffuseSampler, UV) * clamp(dot(camera_normal, camera_light_direction),0,1);	
-	} else if (diffuse_mode == BLEND) {
-		diffuse = light_power  * texture(DiffuseSampler, UV) * vec4(in_diffuse_color.xyz, 1.0) 
+	} else if (diffuse_mode[materialNum] == BLEND) {
+		diffuse = light_power  * texture(DiffuseSampler, UV) * vec4(in_diffuse_color[materialNum].xyz, 1.0) 
 		        * clamp(dot(camera_normal, camera_light_direction),0,1);	
 	}
 	
 	
-	vec4 specular;
+	vec4 specular = vec4(0,0,0,1);
 
 	if(dot(camera_light_direction, camera_normal) < 0.0){
-		specular = vec4(0,0,0,0);
+		specular = vec4(0,0,0,1);
+	} else if (specularity[materialNum] == 0){
+		specular = vec4(0,0,0,1);
 	} else {
 		vec4 reflection = normalize(reflect(camera_light_direction, camera_normal));
 
-		if (specular_mode == COLOR) {
-			specular = light_power * vec4(in_specular_color.xyz, 1.)  * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity);
-		} else if (specular_mode == TEXTURE) {
-			specular = light_power * texture(SpecularSampler, UV) * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity) ;
-		} else if (specular_mode == BLEND) {
-			specular = light_power * vec4(in_specular_color.xyz, 1.) *  texture(SpecularSampler, UV) 
-				 * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity) ;
+		if (specular_mode[materialNum] == COLOR) {
+			specular = light_power * vec4(in_specular_color[materialNum].xyz, 1.)  * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity[materialNum]);
+		} else if (specular_mode[materialNum] == TEXTURE) {
+			specular = light_power * texture(SpecularSampler, UV) * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity[materialNum]) ;
+		} else if (specular_mode[materialNum] == BLEND) {
+			specular = light_power * vec4(in_specular_color[materialNum].xyz, 1.) *  texture(SpecularSampler, UV) 
+				 * pow(clamp(dot(camera_direction, reflection), 0, 1), specularity[materialNum]) ;
 		}
 	}
 
-	gl_FragColor =  diffuse + ambient;
+	gl_FragColor =  specular + diffuse + ambient;
 }

@@ -18,29 +18,35 @@ class Viewer;
 class Object {
 	private:
 		const char* _obj_file_name;
-		
-		Material* _material;
+	
+		std::vector<GLuint> _material_nums;
+		std::vector<Material *> _materials;
 
 		Animutator* _animutator;
 
 		GLuint _programID;
 		GLenum _draw_mode;
 
-		GLuint _ambient_texture_num, _diffuse_texture_num, _specular_texture_num;
-		GLuint _ambient_texture, _diffuse_texture, _specular_texture;
-		GLuint _ambient_mode, _diffuse_mode, _specular_mode;
+		std::vector<GLuint> group_start, group_length;
+	
+		std::vector<GLuint> _ambient_texture_num, _diffuse_texture_num, _specular_texture_num;
+		std::vector<GLuint> _ambient_texture, _diffuse_texture, _specular_texture;
+		std::vector<int> _ambient_mode, _diffuse_mode, _specular_mode;
 
+		std::vector<glm::vec3> _specular_colors, _ambient_colors, _diffuse_colors;
+		std::vector<float> _specularities;
+	
 		GLuint _vaoID; 
 		GLuint _vertex_vboID;
 		GLuint _normal_vboID;
 		GLuint _UV_vboID;
+		GLuint _Material_Num_vboID;
 		
 		std::vector<glm::vec3> _vertices;
 		std::vector<glm::vec3> _normals;
 		std::vector<glm::vec2> _UVs;
 
 		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTextureNum);
-		void useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName);
 
 		void setUpTransformations();
 		void setUpMaterials();

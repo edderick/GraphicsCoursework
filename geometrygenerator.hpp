@@ -16,7 +16,8 @@ class GeometryGenerator {
 		virtual std::vector<glm::vec2> getTextureCoords() = 0; 
 		virtual std::vector<glm::vec3> getNormals() = 0;
 
-		virtual Material* getMaterial() = 0;
+		virtual std::vector<Material*> getMaterials() = 0;
+		virtual std::vector<GLuint> getMaterialNums() = 0;
 };
 
 #endif

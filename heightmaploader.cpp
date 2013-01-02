@@ -101,14 +101,26 @@ std::vector<glm::vec3> HeightMapLoader::getNormals(){
 	return _normals;
 }
 
-Material* HeightMapLoader::getMaterial(){
-
+std::vector<Material*> HeightMapLoader::getMaterials(){
 	MtlLoader mtl = MtlLoader();
 	mtl.load_materials((char*)"models/ground.mtl");
-	return mtl.getMaterial((char*)"Material_gnd.jpg");
+	Material* m = mtl.getMaterial((char*)"Material_gnd.jpg");
+	
+	std::vector<Material*> v;
+	v.push_back(m);
 
+	return v;
 	//Just use mtlLoader
+}
 
+std::vector<GLuint> HeightMapLoader::getMaterialNums(){
+	std::vector<GLuint> v;
+	
+	for (int i = 0 ; i < _normals.size(); i++){
+		v.push_back(0);
+	}
+	
+	return v;
 }
 
 #ifdef HMTEST

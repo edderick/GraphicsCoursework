@@ -19,7 +19,8 @@ class HeightMapLoader : public GeometryGenerator {
 		virtual std::vector<glm::vec2> getTextureCoords();
 		virtual std::vector<glm::vec3> getNormals();
 
-		virtual Material* getMaterial();
+		virtual std::vector<Material*> getMaterials();
+		virtual std::vector<GLuint> getMaterialNums();
 };
 
 #endif

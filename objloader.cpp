@@ -33,9 +33,12 @@ void ObjLoader::handle_vector(char* line, int length,  std::vector<glm::vec3> *v
 	int token_length = 0;
 	
 	int i = 0;
+	bool digit_seen = 0;
+	
 	while (i < length){
 		token_length++;
-		if (line[i] == ' ' || line[i] == '\n'){
+
+		if ((line[i] == ' ' || line[i] == '\n') && digit_seen){
 			// Buffer and null terminate current token
 			char* buf = new char[token_length + 1];
 			for (int j = 0; j < token_length; j++) buf[j] = token[j];
@@ -53,6 +56,9 @@ void ObjLoader::handle_vector(char* line, int length,  std::vector<glm::vec3> *v
 			state++;
 			token = token + token_length;
 			token_length = 0;
+			digit_seen = 0;
+		} else { 
+			digit_seen++;
 		}
 		i++;
 	}
@@ -86,9 +92,9 @@ void ObjLoader::handle_face(char* line, int length){
 	int state = 0;
 	//sub_state 0 - v, 1 - t, 2 - n
 	int sub_state = 0;
-	int v1 = -1, v2 = -1, v3 = -1;
-	int t1 = -1, t2 = -1, t3 = -1;
-	int n1 = -1, n2 = -1, n3 = -1;
+	int v1 = -1, v2 = -1, v3 = -1, v4 = -1;
+	int t1 = -1, t2 = -1, t3 = -1, t4 = -1;
+	int n1 = -1, n2 = -1, n3 = -1, n4 = -1;
 
 	char* token = line;
 	int token_length = 0;
@@ -110,6 +116,7 @@ void ObjLoader::handle_face(char* line, int length){
 					case (1): v1 = atoi(buf) - 1; break;
 					case (2): v2 = atoi(buf) - 1; break;
 					case (3): v3 = atoi(buf) - 1; break;
+					case (4): v4 = atoi(buf) - 1; break;
 				}
 				break;
 	
@@ -120,6 +127,7 @@ void ObjLoader::handle_face(char* line, int length){
 					case (1): t1 = atoi(buf) - 1; break;
 					case (2): t2 = atoi(buf) - 1; break;
 					case (3): t3 = atoi(buf) - 1; break;
+					case (4): t4 = atoi(buf) - 1; break;
 				}
 				break;
 
@@ -130,6 +138,7 @@ void ObjLoader::handle_face(char* line, int length){
 					case (1): n1 = atoi(buf) - 1; break;
 					case (2): n2 = atoi(buf) - 1; break;
 					case (3): n3 = atoi(buf) - 1; break;
+					case (4): n4 = atoi(buf) - 1; break;
 				}
 				break;
 			}
@@ -152,11 +161,21 @@ void ObjLoader::handle_face(char* line, int length){
 	//std::cout << "v: " << v1 << ", " << v2 << ", " << v3 << "\n";
 	//std::cout << "t: " << t1 << ", " << t2 << ", " << t3 << "\n";
 	//std::cout << "n: " << n1 << ", " << n2 << ", " << n3 << "\n";
-
+		
 	//Add triangle to elements list
 	elements.push_back(v1); elements.push_back(v2); elements.push_back(v3);
 	texture_refs.push_back(t1); texture_refs.push_back(t2); texture_refs.push_back(t3);
 	normal_refs.push_back(n1); normal_refs.push_back(n2); normal_refs.push_back(n3);
+	materialNums.push_back(currentMaterialNum);materialNums.push_back(currentMaterialNum);materialNums.push_back(currentMaterialNum);
+
+	if(v4 != -1){
+		//v1 = tl; v2 = tr; v3 = bl; v4 = br
+		elements.push_back(v1); elements.push_back(v3); elements.push_back(v4);
+		texture_refs.push_back(t1); texture_refs.push_back(t3); texture_refs.push_back(t4);
+		normal_refs.push_back(n1); normal_refs.push_back(n3); normal_refs.push_back(n4);
+		materialNums.push_back(currentMaterialNum);materialNums.push_back(currentMaterialNum);materialNums.push_back(currentMaterialNum);
+	}
+
 }
 
 void ObjLoader::handle_use_material(char* line, int length){
@@ -165,10 +184,15 @@ void ObjLoader::handle_use_material(char* line, int length){
 
 	std::cout << "Using material: "<< token << "\n";
 	
-	material = mtlLoader.getMaterial(token);
 
-	if(material == NULL) std::cout << "Material Not found";
+	Material* temp_material = mtlLoader.getMaterial(token);
 
+
+	if(temp_material == NULL) std::cout << "Material Not found";
+	else {
+		materials.push_back(temp_material);
+		currentMaterialNum = materials.size() - 1;
+	}
 	token[strlen(token)] = ' ';
 }
 
@@ -204,6 +228,8 @@ void ObjLoader::process_line(char* line, int length){
 
 
 ObjLoader::ObjLoader(const char* models_dir, const char* file_name){
+	currentMaterialNum = -1;
+
 	char path[255];
 	strcpy(path, models_dir);
 	strcat(path, "/");
@@ -275,8 +301,12 @@ std::vector<glm::vec2> ObjLoader::getTextureCoords(){
 	return texture_coords_list;
 }
 
-Material* ObjLoader::getMaterial(){
-	return material;
+std::vector<Material*> ObjLoader::getMaterials(){
+	return materials;
+}
+
+std::vector<GLuint> ObjLoader::getMaterialNums(){
+	return materialNums;
 }
 
 #ifdef OLTEST

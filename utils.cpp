@@ -8,7 +8,11 @@
 #include <string.h>
 #include <math.h>
 
+#include <cerrno>
+
 #include "utils.hpp"
+
+#include "gl_common.hpp"
 
 /* A simple function that will read a file into an allocated char pointer buffer */
 char* filetobuf(const char *file)
@@ -16,10 +20,11 @@ char* filetobuf(const char *file)
 	FILE *fptr;
 	long length;
 	char *buf;
-
+	
 	fptr = fopen(file, "r"); /* Open file for reading */
 	if (!fptr){
-		fprintf(stderr, "%s not found\n", file);
+		
+		std::cout << "Can't open " << file << "\n errno: " << errno << "\n";
 		exit(0);
 	} /* Return NULL on failure */
 	fseek(fptr, 0, SEEK_END); /* Seek to the end of the file */

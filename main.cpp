@@ -130,12 +130,12 @@ int main(int argc, char *argv[]){
 	GLuint textShaderID = setupShaders("shaders/text/vert.gls", "shaders/text/frag.gls");
 	
 	//TODO sort out SkyBox so that this can be removed
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 
 	//Load in obj files & height maps
-	ObjLoader prettyMonkeyObj = ObjLoader("models","prettyMonkey.obj");
+	ObjLoader prettyMonkeyObj = ObjLoader("models","thunderbird.obj");
 	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.jpg");
 	ObjLoader skyboxObj = ObjLoader("models","skybox.obj");
 
@@ -166,16 +166,21 @@ int main(int argc, char *argv[]){
 
 	Animutator* a = new Animutator();
 
-	KeyFrame k1 = KeyFrame(glm::vec3(0,0,0));
-	KeyFrame k2 = KeyFrame(glm::vec3(10,0,1), 720);
-	KeyFrame k3 = KeyFrame(glm::vec3(0,0,0), 720 * 2);
+	KeyFrame k1 = KeyFrame(glm::vec3(0,1,0), 90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame k2 = KeyFrame(glm::vec3(10,1,0), 90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame k3 = KeyFrame(glm::vec3(10,1,0), -90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5)); 
+	KeyFrame k4 = KeyFrame(glm::vec3(0,1,0), -90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
 
 	a->addKeyFrame(0.0, &k1);
 	a->addKeyFrame(10.0, &k2);
-	a->addKeyFrame(20.0, &k3);
+	a->addKeyFrame(15.0, &k3);
+	a->addKeyFrame(25.0, &k4);
+	a->addKeyFrame(30.0, &k1);
 
 	object.addAnimutator(a);
 
+
+	object.setScale(glm::vec3(1,5,1));
 
 	int count = 0;
 	GLfloat lastTime = glfwGetTime();

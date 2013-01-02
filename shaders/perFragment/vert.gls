@@ -5,6 +5,7 @@ precision highp float;
 in vec3 in_Position; 
 in vec3 in_Normal; 
 in vec2 in_UV;
+in uint in_Material_Num;
 
 uniform mat4 m;
 uniform mat4 v;
@@ -21,9 +22,10 @@ out vec4 camera_direction;
 out vec4 camera_light_direction;
 //out float distance; 
 out vec2 UV;
+flat out uint materialNum;
+
 
 void main(void) {
-
 	camera_normal = normalize(mv * vec4(in_Normal, 0.0));
 	camera_light_direction = normalize(v * (light_position[0] -  m * vec4(in_Position, 1.f)));
 	camera_direction = normalize(mv  * vec4(in_Position, 1.0));
@@ -32,5 +34,5 @@ void main(void) {
 		
 	gl_Position = mvp * vec4(in_Position, 1.0);
 	UV = in_UV;
-
+	materialNum = in_Material_Num;
 }

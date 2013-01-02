@@ -1,0 +1,12 @@
+# Blender MTL File: ''
+# Material Count: 1
+newmtl _img.jpg
+Ns 5
+Ka 0.000000 0.000000 0.000000
+Kd 0.8 0.8 0.8
+Ks 0.8 0.8 0.8
+d 1
+illum 2
+map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/img.jpg
+
+

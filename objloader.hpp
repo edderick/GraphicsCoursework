@@ -17,7 +17,11 @@ class ObjLoader : public GeometryGenerator {
 	private: 
 		
 		MtlLoader mtlLoader;
-		Material* material;
+
+		GLuint currentMaterialNum;
+
+		std::vector<GLuint> materialNums;
+		std::vector<Material*> materials;
 
 		const char* _models_dir;
 
@@ -47,7 +51,8 @@ class ObjLoader : public GeometryGenerator {
 		virtual std::vector<glm::vec2> getTextureCoords();
 		virtual std::vector<glm::vec3> getNormals();
 
-		virtual Material* getMaterial();
+		virtual std::vector<Material*> getMaterials();
+		virtual std::vector<GLuint> getMaterialNums();
 };
 
 #endif

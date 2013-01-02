@@ -1,0 +1,15 @@
+# Blender MTL File: ''
+# Material Count: 1
+newmtl Material_gnd.jpg
+Ns 5
+Ka 0.500000 0.000000 0.000000
+Kd 0.10000 0.10000 0.10000
+Ks 0.100000 0.100000 0.100000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/mars.jpg
+map_Kd /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/mars.jpg
+
+
+

@@ -14,6 +14,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	_vertices = gg->getVertices();
 	_normals = gg->getNormals();
 	_UVs = gg->getTextureCoords();
+	_material_nums = gg->getMaterialNums();
 
 	glGenVertexArrays(1, &_vaoID);
 	glBindVertexArray(_vaoID);
@@ -30,7 +31,11 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	glBindBuffer(GL_ARRAY_BUFFER, _UV_vboID);
 	glBufferData(GL_ARRAY_BUFFER, _UVs.size() * sizeof(_UVs[0]), &_UVs[0], GL_STATIC_DRAW);
 
-	_material = gg->getMaterial();
+	glGenBuffers(1, &_Material_Num_vboID);
+	glBindBuffer(GL_ARRAY_BUFFER, _Material_Num_vboID);
+	glBufferData(GL_ARRAY_BUFFER, _material_nums.size() * sizeof(_material_nums[0]), &_material_nums[0], GL_STATIC_DRAW);
+
+	_materials = gg->getMaterials();
 
 	_position = glm::vec3(0,0,0);
 	_scale = glm::vec3(1,1,1);
@@ -38,20 +43,76 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	_rotation_axis = glm::vec3(1,0,0);
 	_rotation_magnitude = 0;
 
-	_ambient_texture_num = 0;
-	_diffuse_texture_num = 1;
-	_specular_texture_num = 2;
-	
-	_ambient_texture = setUpTexture(_material->getAmbientTexture(), _ambient_texture_num);//, "AmbientSampler");
-	_diffuse_texture = setUpTexture(_material->getDiffuseTexture(), _diffuse_texture_num);//, "DiffuseSampler");
-	_specular_texture = setUpTexture(_material->getSpecularTexture(), _specular_texture_num);//, "SpecularSampler");
+	_ambient_mode.resize(_materials.size());
+	_diffuse_mode.resize(_materials.size());
+	_specular_mode.resize(_materials.size());
 
+
+	//TODO confirm
+	int start = 0;
+	int count = 1;
+	for (int i = 0; i < _material_nums.size() -1; i++){
+		if(_material_nums[i] == _material_nums[i + 1]){
+			count++;
+		} else {
+			group_start.push_back(start);
+			group_length.push_back(count);
+			count = 1;
+			start = i + 1;
+		}
+	}
+	group_start.push_back(start);
+	group_length.push_back(count);
+
+	for (int i = 0; i < _materials.size(); i++){
+		_ambient_texture_num.push_back(0 + i);
+		_diffuse_texture_num.push_back(1 + i);
+		_specular_texture_num.push_back(2 + i);
+
+		_ambient_mode.push_back(0);
+		_diffuse_mode.push_back(0);
+		_specular_mode.push_back(0);
+
+		_ambient_colors.push_back(_materials[i]->getAmbientColor());
+		_diffuse_colors.push_back(_materials[i]->getDiffuseColor());
+		_specular_colors.push_back(_materials[i]->getSpecularColor());
+
+
+		//TODO confirm that this works...
+		if(_ambient_colors[i] != glm::vec3(-1,-1,-1)){
+			_ambient_mode[i]= 1;
+		}
+		if(_diffuse_colors[i] != glm::vec3(-1,-1,-1)){
+			_diffuse_mode[i] = 1;
+		}
+		if(_specular_colors[i] != glm::vec3(-1,-1,-1)){
+			_specular_mode[i] =1;
+		}
+
+		_ambient_texture.push_back(setUpTexture(_materials[i]->getAmbientTexture(), _ambient_texture_num[i]));//, "AmbientSampler");
+		_diffuse_texture.push_back(setUpTexture(_materials[i]->getDiffuseTexture(), _diffuse_texture_num[i]));//, "DiffuseSampler");
+		_specular_texture.push_back(setUpTexture(_materials[i]->getSpecularTexture(), _specular_texture_num[i]));//, "SpecularSampler");
+
+		//TODO confirm that this works...
+		if(_ambient_texture[i] != -1){
+			_ambient_mode[i] = 2;
+		}
+		if(_diffuse_texture[i] != -1){
+			_diffuse_mode[i] = 2;
+		}
+		if(_specular_texture[i] != -1){
+			_specular_mode[i] = 2;
+		}
+	
+		_specularities.push_back(_materials[i]->getSpecularity());
+
+	}
 	_animutator = NULL;
 
 	for (int i = 0; i < _vertices.size(); i +=3){
 		glm::vec3 avg = glm::vec3((_vertices[i+0].x + _vertices[i+1].x + _vertices[i+2].x) / 3,
-					  (_vertices[i+0].y + _vertices[i+1].y + _vertices[i+2].y) / 3,
-					  (_vertices[i+0].z + _vertices[i+1].z + _vertices[i+2].z) / 3);
+				(_vertices[i+0].y + _vertices[i+1].y + _vertices[i+2].y) / 3,
+				(_vertices[i+0].z + _vertices[i+1].z + _vertices[i+2].z) / 3);
 		_faceAvg.push_back(avg);
 	}
 
@@ -60,11 +121,13 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 
 void Object::draw() {
 	glUseProgram(_programID);
-	
+
 	setUpTransformations();
 	setUpMaterials();
 
 	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
+
+	for (int i = 0; i < group_start.size(); i++){
 
 	glEnableVertexAttribArray(0);
 	glBindAttribLocation(_programID, 0, "in_Positon");
@@ -81,11 +144,22 @@ void Object::draw() {
 	glBindBuffer(GL_ARRAY_BUFFER, _UV_vboID);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void *) 0);;
 
+	glEnableVertexAttribArray(3);
+	glBindAttribLocation(_programID, 3, "in_Material_Num");
+	glBindBuffer(GL_ARRAY_BUFFER, _Material_Num_vboID);
+	glVertexAttribPointer(3, 1, GL_UNSIGNED_INT, GL_FALSE, 0, (void *) 0);;
+
+	glUniform1ui(glGetUniformLocation(_programID, "AmbientSampler"), _ambient_texture_num[_material_nums[group_start[i]]]);
+	glUniform1ui(glGetUniformLocation(_programID, "DiffuseSampler"), _diffuse_texture_num[_material_nums[group_start[i]]]);
+	glUniform1ui(glGetUniformLocation(_programID, "SpecularSampler"), _specular_texture_num[_material_nums[group_start[i]]]);
+
 	glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
+	}
 }
 
 void Object::addAnimutator(Animutator* animutator){
@@ -93,7 +167,7 @@ void Object::addAnimutator(Animutator* animutator){
 }
 
 glm::mat4 Object::makeModelMatrix(){
-	
+
 	if(_animutator != NULL){
 		_animutator->update();
 
@@ -102,7 +176,7 @@ glm::mat4 Object::makeModelMatrix(){
 		_rotation_magnitude = _animutator->getRotationMagnitude();
 		_position = _animutator->getPosition();
 	}
-	
+
 	glm::mat4 model = glm::mat4(1.f);
 	model = glm::translate(model, _position);
 	model = glm::scale(model, _scale);
@@ -147,52 +221,37 @@ void Object::setUpTransformations(){
 }	
 
 void Object::setUpMaterials(){
-	_ambient_mode = 0;
-	_diffuse_mode = 0;
-	_specular_mode = 0;
+	if(_materials.size() > 0){
 
-	if(_material != NULL){
+		glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), _ambient_colors.size(), &_ambient_colors[0][0]);
+		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), _diffuse_colors.size(), &_diffuse_colors[0][0]);
+		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), _specular_colors.size(), &_specular_colors[0][0]);
 
-		glm::vec3  ambient_color = _material->getAmbientColor();
-		glm::vec3  diffuse_color = _material->getDiffuseColor();
-		glm::vec3  specular_color = _material->getSpecularColor();
+		for(int i = 0; i < _ambient_texture.size(); i++){
+			glActiveTexture(GL_TEXTURE0 + _ambient_texture_num[i]);
+			glBindTexture(GL_TEXTURE_2D, _ambient_texture[i]);
+		}	
 
-		if(ambient_color != glm::vec3(-1,-1,-1)){
-			glUniform3fv(glGetUniformLocation(_programID, "in_ambient_color"), 1, glm::value_ptr(ambient_color));
-			_ambient_mode = 1;
-		}
 
-		if(diffuse_color != glm::vec3(-1,-1,-1)){
-			glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), 1, glm::value_ptr(diffuse_color));
-			_diffuse_mode = 1;
-		}
+		for(int i = 0; i < _diffuse_texture.size(); i++){
+			glActiveTexture(GL_TEXTURE0 + _diffuse_texture_num[i]);
+			glBindTexture(GL_TEXTURE_2D, _diffuse_texture[i]);
+		}	
 
-		if(specular_color != glm::vec3(-1,-1,-1)){
-			glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), 1, glm::value_ptr(specular_color));
-			_specular_mode = 1;
-		}
+		
+		for(int i = 0; i < _specular_texture.size(); i++){
+			glActiveTexture(GL_TEXTURE0 + _specular_texture_num[i]);
+			glBindTexture(GL_TEXTURE_2D, _specular_texture[i]);
+		}	
+
+		glUniform1fv(glGetUniformLocation(_programID, "specularity"), _specularities.size(), &_specularities[0]);
+
 	}
 
-	if(_ambient_texture != -1){ 
-		_ambient_mode = 2;
-		useTexture(_ambient_texture, _ambient_texture_num, "AmbientSampler");
-	}
+	glUniform1iv(glGetUniformLocation(_programID, "ambient_mode"), _ambient_mode.size(), &_ambient_mode[0]);
+	glUniform1iv(glGetUniformLocation(_programID, "diffuse_mode"), _diffuse_mode.size(),&_diffuse_mode[0]);
+	glUniform1iv(glGetUniformLocation(_programID, "specular_mode"), _specular_mode.size(),&_specular_mode[0]);
 
-	if(_diffuse_texture != -1){
-		_diffuse_mode = 2;
-		useTexture(_diffuse_texture, _diffuse_texture_num, "DiffuseSampler");
-	}
-
-	if(_specular_texture != -1){
-		_specular_texture = 2;
-		useTexture(_specular_texture, _diffuse_texture_num, "SpecularSampler");
-	}
-
-	glUniform1i(glGetUniformLocation(_programID, "ambient_mode"), _ambient_mode);
-	glUniform1i(glGetUniformLocation(_programID, "diffuse_mode"), _diffuse_mode);
-	glUniform1i(glGetUniformLocation(_programID, "specular_mode"), _specular_mode);
-
-	glUniform1f(glGetUniformLocation(_programID, "specularity"), _material->getSpecularity());
 
 }
 
@@ -225,16 +284,6 @@ GLuint Object::setUpTexture(char* texture_file_name, GLuint ActiveTextureNum) {
 
 
 	return textureID;
-}
-
-void Object::useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName) {
-	if(textureID != -1){
-		glActiveTexture(GL_TEXTURE0 + ActiveTextureNum);
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		GLuint TextureID  = glGetUniformLocation(_programID, SamplerName);
-		glUniform1i(TextureID, ActiveTextureNum);
-	}
-
 }
 
 std::vector <glm::vec3> Object::getFaceAverages(){
@@ -286,9 +335,9 @@ void Object::calculateRadius(){
 		glm::vec4 world_vertex = glm::vec4(_vertices[i].x, _vertices[i].y, _vertices[i].z, 1.0) * getModelMatrix();
 
 		GLfloat distance_from_origin_squared = pow(world_origin.x - world_vertex.x, 2) 
-							+ pow(world_origin.y - world_vertex.y, 2) 
-							+ pow(world_origin.z - world_vertex.z, 2); 	
-	
+			+ pow(world_origin.y - world_vertex.y, 2) 
+			+ pow(world_origin.z - world_vertex.z, 2); 	
+
 		if (distance_from_origin_squared > longest){
 			longest = distance_from_origin_squared;
 		}
