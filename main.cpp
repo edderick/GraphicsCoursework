@@ -142,7 +142,7 @@ int main(int argc, char *argv[]){
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
 	
-	
+
 	//Load in thunder birds
 	ObjLoader thunderBird1Obj = ObjLoader("models", "thunderbird1.obj");
 	ObjLoader t2ContainerObj = ObjLoader("models","t2container.obj");

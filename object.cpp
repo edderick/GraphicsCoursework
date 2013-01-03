@@ -220,7 +220,7 @@ void Object::setUpTransformations(){
 
 	//TODO Create Lightsource class and possibly multiple lightsources
 	std::vector<glm::vec4> lightsources;
-	lightsources.push_back(glm::vec4(0,10,0,1));
+	lightsources.push_back(glm::vec4(0,10,0,0));
 
 	glUniform1i(glGetUniformLocation(_programID, "num_of_light_sources"), lightsources.size());
 	glUniform4fv(glGetUniformLocation(_programID, "light_position"), lightsources.size(), &lightsources[0][0]);

@@ -78,16 +78,49 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 		}
 	}
 
+	std::vector<glm::vec3> _face_normals;
+
 	//Calculate triangle normals...
 	for (int i = 0; i < _vertices.size(); i+= 3){
 		glm::vec3 & a = _vertices[i+0];
 		glm::vec3 & c = _vertices[i+1];
 		glm::vec3 & b = _vertices[i+2];
 
-		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
-		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
-		_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
+		_face_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
 	}
+
+	std::cout <<  " start " << width << " " << height ;
+
+		for (int count = 0; count < _vertices.size(); count++){
+
+			int i = _vertices[count].x;
+			int j = _vertices[count].z;
+
+			int h = height -1;
+
+			int index1 = 2 * ((j-1) + (i-1)*h);
+			int index2 = index1 + 1;
+
+			int index3 = 2 * (j + (i-1)*h) + 1;
+			int index4 = 2 * ((j-1) + i*h) + 1;
+
+			int index5 = 2 *(j + i*h);
+			int index6 = index5 + 1;
+
+			glm::vec3 normal;
+
+			if (index1 >= 0 && index1 < _face_normals.size()) normal = normal + _face_normals[index1];
+			if (index2 >= 0 && index2 < _face_normals.size()) normal = normal + _face_normals[index2];
+			if (index3 >= 0 && index3 < _face_normals.size()) normal = normal + _face_normals[index3];
+			if (index4 >= 0 && index4 < _face_normals.size()) normal = normal + _face_normals[index4];
+			if (index5 >= 0 && index5 < _face_normals.size()) normal = normal + _face_normals[index5];
+			if (index6 >= 0 && index6 < _face_normals.size()) normal = normal + _face_normals[index6];
+			
+			_normals.push_back(glm::normalize(normal));
+		}
+	
+
+	std::cout << " end ";
 
 }
 
