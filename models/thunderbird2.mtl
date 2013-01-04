@@ -7,7 +7,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_hull.jpg
+map_Ka textures/t2_hull.jpg
 
 newmtl Metal
 Ns 5
@@ -16,7 +16,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_metal.jpg
+map_Ka textures/t2_metal.jpg
 
 newmtl EnginesRed
 Ns 5
@@ -25,7 +25,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_engine_red.jpg
+map_Ka textures/t2_engine_red.jpg
 
 newmtl TailFin
 Ns 5
@@ -34,7 +34,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_tail_fin.jpg
+map_Ka textures/t2_tail_fin.jpg
 
 newmtl EnginesWhite
 Ns 5
@@ -43,7 +43,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_engine_white.jpg
+map_Ka textures/t2_engine_white.jpg
 
 newmtl Wings
 Ns 5
@@ -52,7 +52,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_wings.jpg
+map_Ka textures/t2_wings.jpg
 
 newmtl YellowGold
 Ns 5
@@ -61,7 +61,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_yellow.jpg
+map_Ka textures/t2_yellow.jpg
 
 newmtl Yellow
 Ns 5
@@ -70,7 +70,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t2_yellow.jpg
+map_Ka textures/t2_yellow.jpg
 
 newmtl Black
 Ns 5

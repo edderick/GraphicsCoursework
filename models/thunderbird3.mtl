@@ -7,7 +7,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t3_body.jpg
+map_Ka textures/t3_body.jpg
 
 newmtl BodyWhite
 Ns 5
@@ -16,7 +16,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t3_bodywhite.jpg
+map_Ka textures/t3_bodywhite.jpg
 
 newmtl BodyGray
 Ns 5
@@ -25,7 +25,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t3_bodygrey.jpg
+map_Ka textures/t3_bodygrey.jpg
 
 newmtl WingWhite
 Ns 5
@@ -34,7 +34,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t3_wingwhite.jpg
+map_Ka textures/t3_wingwhite.jpg
 
 newmtl WingBlack
 Ns 5
@@ -51,7 +51,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t3_wingbody.jpg
+map_Ka textures/t3_wingbody.jpg
 
 newmtl WingGray
 Ns 5
@@ -60,7 +60,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t3_winggrey.jpg
+map_Ka textures/t3_winggrey.jpg
 
 newmtl BodyBlack
 Ns 5
@@ -77,4 +77,4 @@ Kd 0.1 0.1 0.1
 Ks 0.0 0.0 0.0
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t3_yellow.jpg
+map_Ka textures/t3_yellow.jpg

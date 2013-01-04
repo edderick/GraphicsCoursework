@@ -7,7 +7,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t1_metal.jpg
+map_Ka textures/t1_metal.jpg
 
 newmtl Engines
 Ns 5
@@ -16,7 +16,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t1_engine.jpg
+map_Ka textures/t1_engine.jpg
 
 newmtl Blue
 Ns 5
@@ -25,7 +25,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t1_blue.jpg
+map_Ka textures/t1_blue.jpg
 
 newmtl Fins
 Ns 5
@@ -34,7 +34,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t1_fins.jpg
+map_Ka textures/t1_fins.jpg
 
 newmtl Nose
 Ns 5
@@ -43,7 +43,7 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t1_nose.jpg
+map_Ka textures/t1_nose.jpg
 
 newmtl Gray
 Ns 5
@@ -52,6 +52,6 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Ka /home/ejfs1g10/Dropbox/src/year3/comp3004/cw3/COMP3004/textures/t1_gray.jpg
+map_Ka textures/t1_gray.jpg
 
 
