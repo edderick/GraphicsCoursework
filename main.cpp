@@ -156,7 +156,7 @@ int main(int argc, char *argv[]){
 	Object thunderBird3(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
 	
 	std::vector<Object*> eggs;
-	int number_of_eggs = 4 * 3;
+	int number_of_eggs = 4 * 4;
 	for (int i = 0; i < number_of_eggs; i++){
 		eggs.push_back(new Object(&eggObj, perFragmentShaderID, viewer, GL_FILL));
 	}
@@ -236,6 +236,29 @@ int main(int argc, char *argv[]){
 	eggs[11]->setRadius(0.2);
 	eggs[11]->setScale(glm::vec3(0.115,0.115,0.115));
 	eggs[11]->setRotation(-25, glm::vec3(1,0,0));
+
+	glm::vec3 eggsGroup4Position(-21.112, 0.54, -0.519565);
+	
+	eggs[12]->setPosition(eggsGroup4Position + glm::vec3(0,0.05,0));
+	eggs[12]->setRadius(0.2);
+	eggs[12]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[12]->setRotation(50, glm::vec3(0,1,1));
+
+	eggs[13]->setPosition(eggsGroup4Position + glm::vec3(0.2,0.01,0));
+	eggs[13]->setRadius(0.2);
+	eggs[13]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[13]->setRotation(0, glm::vec3(0,1,1));
+
+	eggs[14]->setPosition(eggsGroup4Position + glm::vec3(0,0.05,0.2));
+	eggs[14]->setRadius(0.2);
+	eggs[14]->setScale(glm::vec3(0.08,0.08,0.08));
+	eggs[14]->setRotation(0, glm::vec3(1,1,0));
+
+	eggs[15]->setPosition(eggsGroup4Position + glm::vec3(0.1,0.05,-0.2));
+	eggs[15]->setRadius(0.2);
+	eggs[15]->setScale(glm::vec3(0.115,0.115,0.115));
+	eggs[15]->setRotation(-25, glm::vec3(1,0,0));
+
 
 	thunderBird1.setPosition(glm::vec3(-2,0.1,0));
 

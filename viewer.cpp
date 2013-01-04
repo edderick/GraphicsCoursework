@@ -35,19 +35,14 @@ void Viewer::addCollidesWith(Object* object){
 
 void Viewer::gotoLocation(glm::vec3 position, glm::vec3 direction){
 	_position = position;
-	_direction = direction;
+	_direction = glm::normalize(direction);
 	
-	glm::vec3 origin_direction(0,0,1); 
+	glm::vec3 origin_direction(0,0,1);
 
-	_current_angle = acos(
-		(_direction.x * origin_direction.x + _direction.z * origin_direction.z) 
-		/ (
-		sqrt(_direction.x * _direction.x + _direction.z * _direction.z)
-		* 
-		sqrt(origin_direction.x * origin_direction.x + origin_direction.z * origin_direction.z)
-		)
-		);
+	double y = (_direction.x * origin_direction.z) - (origin_direction.x * _direction.z);
+	double x = (_direction.x * origin_direction.x) + (_direction.z * origin_direction.z);
 
+	_current_angle = atan2(y,x);
 }
 
 bool Viewer::checkTerrainCollision(){
