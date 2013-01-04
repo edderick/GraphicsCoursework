@@ -160,6 +160,8 @@ int main(int argc, char *argv[]){
 	Object thunderBird2B(&thunderBird2Obj, perFragmentShaderID, viewer, GL_FILL);
 	
 	Object thunderBird3(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird3B(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird3C(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
 	
 	std::vector<Object*> eggs;
 	int number_of_eggs = 4 * 10;
@@ -421,6 +423,14 @@ int main(int argc, char *argv[]){
 	thunderBird3.setScale(glm::vec3(0.4,0.4,0.4));
 	thunderBird3.setRotation(-90, glm::vec3(1,0,0));
 
+	thunderBird3B.setPosition(glm::vec3(22.3989, 0.541667, -5.00961));
+	thunderBird3B.setScale(glm::vec3(0.4,0.4,0.4));
+	thunderBird3B.setRotation(-90, glm::vec3(1,0,0));
+	
+	thunderBird3B.setPosition(glm::vec3(2,2,12.5));
+	thunderBird3B.setScale(glm::vec3(0.4,0.4,0.4));
+	thunderBird3B.setRotation(-90, glm::vec3(1,0,0));
+
 
 	ground.setScale(glm::vec3(0.35,0.025,0.35));
 	ground.setPosition(glm::vec3(-groundObj.width/2 * 0.35,0,-groundObj.height/2 * 0.35));
@@ -517,16 +527,16 @@ int main(int argc, char *argv[]){
 
 	Animutator* tb1CAnim = new Animutator();
 
-	KeyFrame tb1CKF1 = KeyFrame(glm::vec3(0,1,1), 90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
-	KeyFrame tb1CKF2 = KeyFrame(glm::vec3(10,1,1), 90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
-	KeyFrame tb1CKF3 = KeyFrame(glm::vec3(10,1,1), -90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5)); 
-	KeyFrame tb1CKF4 = KeyFrame(glm::vec3(0,1,1), -90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1CKF1 = KeyFrame(glm::vec3(25.7527, 1.5, -29.4807), -77.7031, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1CKF2 = KeyFrame(glm::vec3(-24.549, 2.76667, -18.516), -77.7031, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1CKF3 = KeyFrame(glm::vec3(-24.549, 2.76667, -18.516), 102.297, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5)); 
+	KeyFrame tb1CKF4 = KeyFrame(glm::vec3(25.7527, 1.5, -29.4807), 102.297, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
 
 	tb1CAnim->addKeyFrame(0.0, &tb1CKF1);
-	tb1CAnim->addKeyFrame(10.0, &tb1CKF2);
-	tb1CAnim->addKeyFrame(12.5, &tb1CKF3);
-	tb1CAnim->addKeyFrame(22.5, &tb1CKF4);
-	tb1CAnim->addKeyFrame(25.0, &tb1CKF1);
+	tb1CAnim->addKeyFrame(7.5, &tb1CKF2);
+	tb1CAnim->addKeyFrame(9, &tb1CKF3);
+	tb1CAnim->addKeyFrame(16.5, &tb1CKF4);
+	tb1CAnim->addKeyFrame(18, &tb1CKF1);
 
 	thunderBird1C.addAnimutator(tb1CAnim);
 
@@ -568,6 +578,26 @@ int main(int argc, char *argv[]){
 
 	thunderBird3.addAnimutator(tb3cAnim);
 
+	Animutator* tb3BcAnim = new Animutator();
+	KeyFrame tb3BKF1 = KeyFrame(glm::vec3(22.3989, 2, -5.00961), -90, glm::vec3(1,0,0), glm::vec3(0.4,0.4,0.4));
+	KeyFrame tb3BKF2 = KeyFrame(glm::vec3(22.3989, 4.5, -5.00961), -90, glm::vec3(1,0,0), glm::vec3(0.4,0.4,0.4));
+
+	tb3BcAnim->addKeyFrame(0.0, &tb3BKF1);
+	tb3BcAnim->addKeyFrame(5.0, &tb3BKF2);
+	tb3BcAnim->addKeyFrame(10.0, &tb3BKF1);
+
+	thunderBird3B.addAnimutator(tb3BcAnim);
+
+	Animutator* tb3CcAnim = new Animutator();
+	KeyFrame tb3CKF1 = KeyFrame(glm::vec3(-30.3314, 1.9, 2.7756), -90, glm::vec3(1,0,0), glm::vec3(0.4,0.4,0.4));
+	KeyFrame tb3CKF2 = KeyFrame(glm::vec3(-30.3314, 4.6, 2.7756), -90, glm::vec3(1,0,0), glm::vec3(0.4,0.4,0.4));
+
+	tb3CcAnim->addKeyFrame(0.0, &tb3CKF1);
+	tb3CcAnim->addKeyFrame(5.0, &tb3CKF2);
+	tb3CcAnim->addKeyFrame(10.0, &tb3CKF1);
+
+	thunderBird3C.addAnimutator(tb3CcAnim);
+
 	int count = 0;
 	GLfloat lastTime = glfwGetTime();
 	std::string s;
@@ -591,6 +621,9 @@ int main(int argc, char *argv[]){
 		t2containerB.draw();
 		
 		thunderBird3.draw();
+		thunderBird3B.draw();
+		thunderBird3C.draw();
+		
 	
 		for (int i = 0; i < eggs.size(); i++){
 			eggs[i]->draw();
