@@ -220,7 +220,7 @@ void Object::setUpTransformations(){
 
 	//TODO Create Lightsource class and possibly multiple lightsources
 	std::vector<glm::vec4> lightsources;
-	lightsources.push_back(glm::vec4(0,10,0,0));
+	lightsources.push_back(glm::vec4(100,300,100,1));
 
 	glUniform1i(glGetUniformLocation(_programID, "num_of_light_sources"), lightsources.size());
 	glUniform4fv(glGetUniformLocation(_programID, "light_position"), lightsources.size(), &lightsources[0][0]);
@@ -300,6 +300,10 @@ std::vector <glm::vec3> Object::getFaceAverages(){
 
 GLfloat Object::getRadius(){
 	return _radius;
+}
+
+void Object::setRadius(GLfloat radius){
+	_radius = radius;
 }
 
 void Object::setPosition(glm::vec3 position){

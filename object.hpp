@@ -71,6 +71,8 @@ class Object {
 		Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum draw_mode = GL_LINE);
 
 		std::vector <glm::vec3>  getFaceAverages();
+		
+		void setRadius(GLfloat radius);
 		GLfloat getRadius();
 
 		void setPosition(glm::vec3 position);

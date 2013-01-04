@@ -3,8 +3,8 @@
 const float PI = 3.14;
 
 Viewer::Viewer() {
-	_position = glm::vec3(0,5,5);
-	_direction = glm::vec3(0,0,-1);
+	_position = glm::vec3(1.42417, 0.116667, 0.276567);
+	_direction = glm::vec3(0,0,1);
 	_up = glm::vec3(0,1,0);
 
 	_elevation = glm::vec3(0,0.2,0);
@@ -12,7 +12,7 @@ Viewer::Viewer() {
 	_velocity = glm::vec3(0,0,0);
 	_cameraRotationVelocity = 0;
 
-	_current_angle = PI;
+	_current_angle = -PI / 10;
 
 	_lastAccessedTime = (GLfloat) glfwGetTime();
 	
@@ -108,9 +108,9 @@ bool Viewer::checkObjectCollisions(){
 	bool collision = 0;
 
 	for(int i = 0; i < _collidesWith.size(); i++){
-		glm::vec3 relative_positon = _position - (_collidesWith[i]->getPosition() );
+		glm::vec3 relative_positon = (_position + (_direction * glm::vec3(0.1,0.1,0.1) ))- (_collidesWith[i]->getPosition() );
 		GLfloat distance_squared = pow(relative_positon.x, 2) + pow(relative_positon.y, 2) + pow(relative_positon.z, 2);
-		GLfloat min_distance_squared = pow(_radius, 2) + pow(_collidesWith[i]->getRadius(), 2);
+		GLfloat min_distance_squared =  pow(_collidesWith[i]->getRadius(), 2);
 
 		if(distance_squared < min_distance_squared){
 			collision = 1;
@@ -127,6 +127,7 @@ void Viewer::update(){
 	changeElevation(_elevation_velocity * elapsedTime);
 
 	_velocity = _velocity - glm::vec3(0,_fall_speed,0);
+	_direction.y = 0;
 
 	glm::vec3 displacement = _velocity * elapsedTime;
 	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;
@@ -137,6 +138,8 @@ void Viewer::update(){
 	//}
 	_lastAccessedTime = glfwGetTime();
 
+	std::cout << _position.x << ", " << _position.y << ", " << _position.z << "\n";
+
 }
 
 void Viewer::move(float dx, float dy, float dz){
@@ -146,12 +149,19 @@ void Viewer::move(float dx, float dy, float dz){
 	_position.y = _position.y + dy;
 	_position.z = _position.z + dz * -cos(_current_angle) + dx * -cos(_current_angle + (PI/2));
 
-	if (checkTerrainCollision() || checkObjectCollisions()){
+	if (checkTerrainCollision()){
 		//ROLLBACK
 		_position = old_position;
 		
 		setVelocity(0,0,0);
+	} 
 
+	if (checkObjectCollisions()){
+		_position.x = _position.x - dz * -sin(_current_angle);
+		_position.z = _position.z - dz * -cos(_current_angle);
+
+
+		setForwardVelocity(0);
 	}
 
 
