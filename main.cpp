@@ -24,6 +24,8 @@ bool tour = 0;
 //Viewer is global as it's state is modified by key_callback
 Viewer* viewer = new Viewer(); 
 Tour t(viewer);
+	
+
 
 //Handle controls
 void key_callback(int key, int action){
@@ -45,9 +47,9 @@ void key_callback(int key, int action){
 		} else if ((key == 'D' || key == 'd') && action == GLFW_RELEASE){
 			viewer->setStrafeVelocity(0);
 		} else if ((key == GLFW_KEY_UP) && action == GLFW_PRESS){
-			viewer->changeVelocity(0,0,0.1);
+			viewer->changeVelocity(0,0,0.2);
 		} else if ((key == GLFW_KEY_DOWN) && action == GLFW_PRESS){
-			viewer->changeVelocity(0,0,-0.1);
+			viewer->changeVelocity(0,0,-0.2);
 		} else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_PRESS){
 			viewer->setElevationVelocity(1);
 		}  else if ((key == GLFW_KEY_PAGEUP) && action == GLFW_RELEASE){
@@ -57,9 +59,9 @@ void key_callback(int key, int action){
 		} else if ((key == GLFW_KEY_PAGEDOWN) && action == GLFW_RELEASE){
 			viewer->setElevationVelocity(0);
 		} else if ((key == GLFW_KEY_LEFT) && action == GLFW_PRESS){
-			viewer->setCameraRotationVelocity(1);
+			viewer->setCameraRotationVelocity(2);
 		} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_PRESS){
-			viewer->setCameraRotationVelocity(-1);
+			viewer->setCameraRotationVelocity(-2);
 		}  else if ((key == GLFW_KEY_LEFT) && action == GLFW_RELEASE){
 			viewer->setCameraRotationVelocity(0);
 		} else if ((key == GLFW_KEY_RIGHT) && action == GLFW_RELEASE){
@@ -176,7 +178,7 @@ int main(int argc, char *argv[]){
 	viewer->addTerrain(&ground);
 	for (int i = 0; i < eggs.size(); i++){
 		viewer->addCollidesWith(eggs[i]);
-	}
+	}	
 	
 	glm::vec3 eggsGroup1Position(1.2,0.225,6.5);
 
@@ -435,48 +437,72 @@ int main(int argc, char *argv[]){
 	ground.setScale(glm::vec3(0.35,0.025,0.35));
 	ground.setPosition(glm::vec3(-groundObj.width/2 * 0.35,0,-groundObj.height/2 * 0.35));
 
+	std::vector<glm::vec3> positions;
 
-	WayPoint w1 = WayPoint(glm::vec3(-6.42059,0.25837,4.494014), glm::vec3(1,0,0));
-	WayPoint w2 = WayPoint(glm::vec3(-3.85007,0.1,7.12377), glm::vec3(0,0,1));
-	WayPoint w3 = WayPoint(glm::vec3(-0.601204,0.1,3.592329), glm::vec3(1,0,1));
-	WayPoint w4 = WayPoint(glm::vec3(8.2538,0.1,2.5428), glm::vec3(1,0,1));
-	WayPoint w5 = WayPoint(glm::vec3(10.6809,0.38337,-3.84069), glm::vec3(1,0,1));
-	WayPoint w6 = WayPoint(glm::vec3(-5.13897,0.1,-11.4451), glm::vec3(1,0,1));
-	WayPoint w7 = WayPoint(glm::vec3(-14.3374,0.1,-8.11471), glm::vec3(1,0,1));
-	WayPoint w8 = WayPoint(glm::vec3(-20.2777, 0.1, 8.26625), glm::vec3(1,0,1));
-	WayPoint w9 = WayPoint(glm::vec3(-22.3929, 1.35833,19.6362), glm::vec3(1,0,1));
-	WayPoint w10 = WayPoint(glm::vec3(1.64004, 0.1, 33.6688), glm::vec3(1,0,1));
-	WayPoint w11 = WayPoint(glm::vec3(30.9513, 0.683333, 18.214), glm::vec3(1,0,1));
-	WayPoint w12 = WayPoint(glm::vec3(32.9145, 1.56667, -11.0445), glm::vec3(1,0,1));
-	WayPoint w13 = WayPoint(glm::vec3(31.17666, 0.808333, -22.8479), glm::vec3(1,0,1));
-	WayPoint w14 = WayPoint(glm::vec3(-29.7966, 0.35, -27.9126), glm::vec3(1,0,1));
-	WayPoint w15 = WayPoint(glm::vec3(-33.6018, 0.433333, -25.1177), glm::vec3(1,0,1));
-	WayPoint w16 = WayPoint(glm::vec3(-29.1175, 2.39167, -17.2737), glm::vec3(1,0,1));
-	WayPoint w17 = WayPoint(glm::vec3(-27.6434, 2.1833, -14.5711), glm::vec3(1,0,1));
-	WayPoint w18 = WayPoint(glm::vec3(-33.0654, 3.5, 2.62864), glm::vec3(1,0,1));
-	WayPoint w19 = WayPoint(glm::vec3(-20.6909, 4, 3.49496), glm::vec3(1,0,1));
-	WayPoint w20 = WayPoint(glm::vec3(-3.85007, 3.5 , 7.12377), glm::vec3(1,0,0));
+	positions.push_back(glm::vec3(-6.42059,0.25837,4.494014));
+	positions.push_back(glm::vec3(-3.85007,0.1,7.12377));
+	positions.push_back(glm::vec3(-0.601204,0.1,3.592329));
+	positions.push_back(glm::vec3(8.2538,0.1,2.5428));
+	positions.push_back(glm::vec3(10.6809,0.38337,-3.84069));
+	positions.push_back(glm::vec3(-5.13897,0.1,-11.4451));
+	positions.push_back(glm::vec3(-14.3374,0.1,-8.11471));
+	positions.push_back(glm::vec3(-20.2777, 0.1, 8.26625));
+	positions.push_back(glm::vec3(-22.3929, 1.35833,19.6362));
+	positions.push_back(glm::vec3(1.64004, 0.1, 33.6688));
+	positions.push_back(glm::vec3(30.9513, 0.683333, 18.214));
+	positions.push_back(glm::vec3(32.9145, 1.56667, -11.0445));
+	positions.push_back(glm::vec3(31.17666, 0.808333, -22.8479));
+	positions.push_back(glm::vec3(-29.7966, 0.35, -27.9126));
+	positions.push_back(glm::vec3(-33.6018, 0.433333, -25.1177));
+	positions.push_back(glm::vec3(-29.1175, 2.39167, -17.2737));
+	positions.push_back(glm::vec3(-27.6434, 2.1833, -14.5711));
+	positions.push_back(glm::vec3(-33.0654, 3.5, 2.62864));
+	positions.push_back(glm::vec3(-20.6909, 4, 3.49496));
+	positions.push_back(glm::vec3(-3.85007, 3.5 , 7.12377));
 
-	t.addWayPoint(0.0, &w1, 0);
-	t.addWayPoint(2.0, &w2, 0);
-	t.addWayPoint(4.0, &w3, 0);
-	t.addWayPoint(6.0, &w4, 0);
-	t.addWayPoint(8.0, &w5, 0);
-	t.addWayPoint(10.0, &w6, 0);
-	t.addWayPoint(12.0, &w7, 0);
-	t.addWayPoint(14.0, &w8, 0);
-	t.addWayPoint(16.0, &w9, 0);
-	t.addWayPoint(18.0, &w10, 0);
-	t.addWayPoint(20.0, &w11, 0);
-	t.addWayPoint(22.0, &w12, 0);
-	t.addWayPoint(24.0, &w13, 0);
-	t.addWayPoint(26.0, &w14, 0);
-	t.addWayPoint(28.0, &w15, 0);
-	t.addWayPoint(30.0, &w16, 0);
-	t.addWayPoint(32.0, &w17, 0);
-	t.addWayPoint(34.0, &w18, 0);
-	t.addWayPoint(36.0, &w19, 0);
-	t.addWayPoint(38.0, &w20, 0);
+
+
+	WayPoint w1 = WayPoint(positions[0], positions[1] - positions[0]);
+	WayPoint w2 = WayPoint(positions[1], positions[2] - positions[1]);
+	WayPoint w3 = WayPoint(positions[2], positions[3] - positions[2]);
+	WayPoint w4 = WayPoint(positions[3], positions[4] - positions[3]);
+	WayPoint w5 = WayPoint(positions[4], positions[5] - positions[4]);
+	WayPoint w6 = WayPoint(positions[5], positions[6] - positions[5]);
+	WayPoint w7 = WayPoint(positions[6], positions[7] - positions[6]);
+	WayPoint w8 = WayPoint(positions[7], positions[8] - positions[7]);
+	WayPoint w9 = WayPoint(positions[8], positions[9] - positions[8]);
+	WayPoint w10 = WayPoint(positions[9], positions[10] - positions[9]);
+	WayPoint w11 = WayPoint(positions[10], positions[11] - positions[10]);
+	WayPoint w12 = WayPoint(positions[11], positions[12] - positions[11]);
+	WayPoint w13 = WayPoint(positions[12], positions[13] - positions[12]);
+	WayPoint w14 = WayPoint(positions[13], positions[14] - positions[13]);
+	WayPoint w15 = WayPoint(positions[14], positions[15] - positions[14]);
+	WayPoint w16 = WayPoint(positions[15], positions[16] - positions[15]);
+	WayPoint w17 = WayPoint(positions[16], positions[17] - positions[16]);
+	WayPoint w18 = WayPoint(positions[17], positions[18] - positions[17]);
+	WayPoint w19 = WayPoint(positions[18], positions[19] - positions[18]);
+	WayPoint w20 = WayPoint(positions[19], positions[20] - positions[19]);
+	
+	t.addWayPoint(0.0, &w1, 1);
+	t.addWayPoint(2.0, &w2, 1);
+	t.addWayPoint(4.0, &w3, 1);
+	t.addWayPoint(6.0, &w4, 1);
+	t.addWayPoint(8.0, &w5, 1);
+	t.addWayPoint(10.0, &w6, 1);
+	t.addWayPoint(12.0, &w7, 1);
+	t.addWayPoint(14.0, &w8, 1);
+	t.addWayPoint(16.0, &w9, 1);
+	t.addWayPoint(18.0, &w10, 1);
+	t.addWayPoint(20.0, &w11, 1);
+	t.addWayPoint(22.0, &w12, 1);
+	t.addWayPoint(24.0, &w13, 1);
+	t.addWayPoint(26.0, &w14, 1);
+	t.addWayPoint(28.0, &w15, 1);
+	t.addWayPoint(30.0, &w16, 1);
+	t.addWayPoint(32.0, &w17, 1);
+	t.addWayPoint(34.0, &w18, 1);
+	t.addWayPoint(36.0, &w19, 1);
+	t.addWayPoint(38.0, &w20, 1);
 
 	Animutator* tb1Anim = new Animutator();
 

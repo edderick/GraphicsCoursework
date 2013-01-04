@@ -118,7 +118,7 @@ bool Viewer::checkObjectCollisions(){
 void Viewer::update(){
 
  	GLfloat elapsedTime = glfwGetTime() - _lastAccessedTime;
-	
+	_lastAccessedTime = glfwGetTime();
 	changeElevation(_elevation_velocity * elapsedTime);
 
 	_velocity = _velocity - glm::vec3(0,_fall_speed,0);
@@ -128,13 +128,7 @@ void Viewer::update(){
 	GLfloat cameraRotation = _cameraRotationVelocity * elapsedTime;
 
 	rotateCamera(cameraRotation);
-	//if(moveFlag){
 	move(displacement.x, displacement.y, - displacement.z);
-	//}
-	_lastAccessedTime = glfwGetTime();
-
-	std::cout << _position.x << ", " << _position.y << ", " << _position.z << "\n";
-
 }
 
 void Viewer::move(float dx, float dy, float dz){
@@ -155,11 +149,8 @@ void Viewer::move(float dx, float dy, float dz){
 		_position.x = _position.x - dz * -sin(_current_angle);
 		_position.z = _position.z - dz * -cos(_current_angle);
 
-
 		setForwardVelocity(0);
 	}
-
-
 }
 
 glm::vec3 Viewer::getMovePos(float dx, float dy, float dz){

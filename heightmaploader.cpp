@@ -89,7 +89,7 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 		_face_normals.push_back(glm::normalize(glm::cross(c - a, b - a)));
 	}
 
-	std::cout <<  " start " << width << " " << height ;
+	//std::cout <<  " start " << width << " " << height ;
 
 		for (int count = 0; count < _vertices.size(); count++){
 
@@ -120,7 +120,6 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 		}
 	
 
-	std::cout << " end ";
 
 }
 
