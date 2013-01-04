@@ -151,12 +151,18 @@ int main(int argc, char *argv[]){
 	ObjLoader eggObj = ObjLoader("models", "egg.obj");
 
 	Object thunderBird1(&thunderBird1Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird1B(&thunderBird1Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird1C(&thunderBird1Obj, perFragmentShaderID, viewer, GL_FILL);
+	
 	Object t2container(&t2ContainerObj, perFragmentShaderID, viewer, GL_FILL);
 	Object thunderBird2(&thunderBird2Obj, perFragmentShaderID, viewer, GL_FILL);
+	Object t2containerB(&t2ContainerObj, perFragmentShaderID, viewer, GL_FILL);
+	Object thunderBird2B(&thunderBird2Obj, perFragmentShaderID, viewer, GL_FILL);
+	
 	Object thunderBird3(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
 	
 	std::vector<Object*> eggs;
-	int number_of_eggs = 4 * 4;
+	int number_of_eggs = 4 * 10;
 	for (int i = 0; i < number_of_eggs; i++){
 		eggs.push_back(new Object(&eggObj, perFragmentShaderID, viewer, GL_FILL));
 	}
@@ -259,6 +265,138 @@ int main(int argc, char *argv[]){
 	eggs[15]->setScale(glm::vec3(0.115,0.115,0.115));
 	eggs[15]->setRotation(-25, glm::vec3(1,0,0));
 
+	glm::vec3 eggsGroup5Position(-11.3236, 0.333333, 20.3212);
+	
+	eggs[16]->setPosition(eggsGroup5Position + glm::vec3(0,0.05,0));
+	eggs[16]->setRadius(0.2);
+	eggs[16]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[16]->setRotation(50, glm::vec3(0,1,1));
+
+	eggs[17]->setPosition(eggsGroup5Position + glm::vec3(0.2,0.01,0));
+	eggs[17]->setRadius(0.2);
+	eggs[17]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[17]->setRotation(0, glm::vec3(0,1,1));
+
+	eggs[18]->setPosition(eggsGroup5Position + glm::vec3(0,0.05,0.2));
+	eggs[18]->setRadius(0.2);
+	eggs[18]->setScale(glm::vec3(0.08,0.08,0.08));
+	eggs[18]->setRotation(0, glm::vec3(1,1,0));
+
+	eggs[19]->setPosition(eggsGroup5Position + glm::vec3(0.1,0.05,-0.2));
+	eggs[19]->setRadius(0.2);
+	eggs[19]->setScale(glm::vec3(0.115,0.115,0.115));
+	eggs[19]->setRotation(-25, glm::vec3(1,0,0));
+
+	glm::vec3 eggsGroup6Position(15.4433, 0.325, 30.8257);
+	
+	eggs[20]->setPosition(eggsGroup6Position + glm::vec3(0,0.05,0));
+	eggs[20]->setRadius(0.2);
+	eggs[20]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[20]->setRotation(50, glm::vec3(0,1,1));
+
+	eggs[21]->setPosition(eggsGroup6Position + glm::vec3(0.2,0.01,0));
+	eggs[21]->setRadius(0.2);
+	eggs[21]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[21]->setRotation(0, glm::vec3(0,1,1));
+
+	eggs[22]->setPosition(eggsGroup6Position + glm::vec3(0,0.05,0.2));
+	eggs[22]->setRadius(0.2);
+	eggs[22]->setScale(glm::vec3(0.08,0.08,0.08));
+	eggs[22]->setRotation(0, glm::vec3(1,1,0));
+
+	eggs[23]->setPosition(eggsGroup6Position + glm::vec3(0.1,0.05,-0.2));
+	eggs[23]->setRadius(0.2);
+	eggs[23]->setScale(glm::vec3(0.115,0.115,0.115));
+	eggs[23]->setRotation(-25, glm::vec3(1,0,0));
+
+	glm::vec3 eggsGroup7Position(24.1003, 0.291667, 2.19043);
+	
+	eggs[24]->setPosition(eggsGroup7Position + glm::vec3(0,0.05,0));
+	eggs[24]->setRadius(0.2);
+	eggs[24]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[24]->setRotation(50, glm::vec3(0,1,1));
+
+	eggs[25]->setPosition(eggsGroup7Position + glm::vec3(0.2,0.01,0));
+	eggs[25]->setRadius(0.2);
+	eggs[25]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[25]->setRotation(0, glm::vec3(0,1,1));
+
+	eggs[26]->setPosition(eggsGroup7Position + glm::vec3(0,0.05,0.2));
+	eggs[26]->setRadius(0.2);
+	eggs[26]->setScale(glm::vec3(0.08,0.08,0.08));
+	eggs[26]->setRotation(0, glm::vec3(1,1,0));
+
+	eggs[27]->setPosition(eggsGroup7Position + glm::vec3(0.1,0.05,-0.2));
+	eggs[27]->setRadius(0.2);
+	eggs[27]->setScale(glm::vec3(0.115,0.115,0.115));
+	eggs[27]->setRotation(-25, glm::vec3(1,0,0));
+
+	glm::vec3 eggsGroup8Position(36.8265, 0.45, -30.415);
+	
+	eggs[28]->setPosition(eggsGroup8Position + glm::vec3(0,0.05,0));
+	eggs[28]->setRadius(0.2);
+	eggs[28]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[28]->setRotation(50, glm::vec3(0,1,1));
+
+	eggs[29]->setPosition(eggsGroup8Position + glm::vec3(0.2,0.01,0));
+	eggs[29]->setRadius(0.2);
+	eggs[29]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[29]->setRotation(0, glm::vec3(0,1,1));
+
+	eggs[30]->setPosition(eggsGroup8Position + glm::vec3(0,0.05,0.2));
+	eggs[30]->setRadius(0.2);
+	eggs[30]->setScale(glm::vec3(0.08,0.08,0.08));
+	eggs[30]->setRotation(0, glm::vec3(1,1,0));
+
+	eggs[31]->setPosition(eggsGroup8Position + glm::vec3(0.1,0.05,-0.2));
+	eggs[31]->setRadius(0.2);
+	eggs[31]->setScale(glm::vec3(0.115,0.115,0.115));
+	eggs[31]->setRotation(-25, glm::vec3(1,0,0));
+
+	glm::vec3 eggsGroup9Position(-7.79755, 0.1, -30.9879);
+	
+	eggs[32]->setPosition(eggsGroup9Position + glm::vec3(0,0.05,0));
+	eggs[32]->setRadius(0.2);
+	eggs[32]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[32]->setRotation(50, glm::vec3(0,1,1));
+
+	eggs[33]->setPosition(eggsGroup9Position + glm::vec3(0.2,0.01,0));
+	eggs[33]->setRadius(0.2);
+	eggs[33]->setScale(glm::vec3(0.1,0.1,0.1));
+	eggs[33]->setRotation(0, glm::vec3(0,1,1));
+
+	eggs[34]->setPosition(eggsGroup9Position + glm::vec3(0,0.05,0.2));
+	eggs[34]->setRadius(0.2);
+	eggs[34]->setScale(glm::vec3(0.08,0.08,0.08));
+	eggs[34]->setRotation(0, glm::vec3(1,1,0));
+
+	eggs[35]->setPosition(eggsGroup9Position + glm::vec3(0.1,0.05,-0.2));
+	eggs[35]->setRadius(0.2);
+	eggs[35]->setScale(glm::vec3(0.115,0.115,0.115));
+	eggs[35]->setRotation(-25, glm::vec3(1,0,0));
+
+	glm::vec3 eggsGroupAPosition(-35.7026, 0.1, -5.2669);
+	
+	eggs[36]->setPosition(eggsGroupAPosition + glm::vec3(0,0.05,0));
+	eggs[36]->setRadius(0.3);
+	eggs[36]->setScale(glm::vec3(0.35,0.35,0.35));
+	eggs[36]->setRotation(50, glm::vec3(0,1,1));
+
+	eggs[37]->setPosition(eggsGroupAPosition + glm::vec3(0.45,0.01,0));
+	eggs[37]->setRadius(0.4);
+	eggs[37]->setScale(glm::vec3(0.35,0.35,0.35));
+	eggs[37]->setRotation(0, glm::vec3(0,1,1));
+
+	eggs[38]->setPosition(eggsGroupAPosition + glm::vec3(0,0.05,0.45));
+	eggs[38]->setRadius(0.4);
+	eggs[38]->setScale(glm::vec3(0.3,0.3,0.3));
+	eggs[38]->setRotation(3, glm::vec3(1,1,0));
+
+	eggs[39]->setPosition(eggsGroupAPosition + glm::vec3(0.25,0.05,-0.45));
+	eggs[39]->setRadius(0.4);
+	eggs[39]->setScale(glm::vec3(0.4,0.4,0.4));
+	eggs[39]->setRotation(-25, glm::vec3(1,0,0));
+
 
 	thunderBird1.setPosition(glm::vec3(-2,0.1,0));
 
@@ -269,6 +407,15 @@ int main(int argc, char *argv[]){
 	thunderBird2.setPosition(glm::vec3(-7.5,0.15,5));
 	thunderBird2.setScale(glm::vec3(0.2,0.2,0.2));
 	thunderBird2.setRotation(90, glm::vec3(0,1,0));
+
+	t2containerB.setPosition(glm::vec3(-13.7941, 0.0, -11.716));
+	t2containerB.setScale(glm::vec3(0.2,0.2,0.2));
+	t2containerB.setRotation(120, glm::vec3(0,1,0));
+
+	thunderBird2B.setPosition(glm::vec3(-13.7941, 0.0, -11.716));
+	thunderBird2B.setScale(glm::vec3(0.2,0.2,0.2));
+	thunderBird2B.setRotation(120, glm::vec3(0,1,0));
+	
 	
 	thunderBird3.setPosition(glm::vec3(2,2,12.5));
 	thunderBird3.setScale(glm::vec3(0.4,0.4,0.4));
@@ -286,6 +433,19 @@ int main(int argc, char *argv[]){
 	WayPoint w5 = WayPoint(glm::vec3(10.6809,0.38337,-3.84069), glm::vec3(1,0,1));
 	WayPoint w6 = WayPoint(glm::vec3(-5.13897,0.1,-11.4451), glm::vec3(1,0,1));
 	WayPoint w7 = WayPoint(glm::vec3(-14.3374,0.1,-8.11471), glm::vec3(1,0,1));
+	WayPoint w8 = WayPoint(glm::vec3(-20.2777, 0.1, 8.26625), glm::vec3(1,0,1));
+	WayPoint w9 = WayPoint(glm::vec3(-22.3929, 1.35833,19.6362), glm::vec3(1,0,1));
+	WayPoint w10 = WayPoint(glm::vec3(1.64004, 0.1, 33.6688), glm::vec3(1,0,1));
+	WayPoint w11 = WayPoint(glm::vec3(30.9513, 0.683333, 18.214), glm::vec3(1,0,1));
+	WayPoint w12 = WayPoint(glm::vec3(32.9145, 1.56667, -11.0445), glm::vec3(1,0,1));
+	WayPoint w13 = WayPoint(glm::vec3(31.17666, 0.808333, -22.8479), glm::vec3(1,0,1));
+	WayPoint w14 = WayPoint(glm::vec3(-29.7966, 0.35, -27.9126), glm::vec3(1,0,1));
+	WayPoint w15 = WayPoint(glm::vec3(-33.6018, 0.433333, -25.1177), glm::vec3(1,0,1));
+	WayPoint w16 = WayPoint(glm::vec3(-29.1175, 2.39167, -17.2737), glm::vec3(1,0,1));
+	WayPoint w17 = WayPoint(glm::vec3(-27.6434, 2.1833, -14.5711), glm::vec3(1,0,1));
+	WayPoint w18 = WayPoint(glm::vec3(-33.0654, 3.5, 2.62864), glm::vec3(1,0,1));
+	WayPoint w19 = WayPoint(glm::vec3(-20.6909, 4, 3.49496), glm::vec3(1,0,1));
+	WayPoint w20 = WayPoint(glm::vec3(-3.85007, 3.5 , 7.12377), glm::vec3(1,0,0));
 
 	t.addWayPoint(0.0, &w1, 0);
 	t.addWayPoint(2.0, &w2, 0);
@@ -294,6 +454,19 @@ int main(int argc, char *argv[]){
 	t.addWayPoint(8.0, &w5, 0);
 	t.addWayPoint(10.0, &w6, 0);
 	t.addWayPoint(12.0, &w7, 0);
+	t.addWayPoint(14.0, &w8, 0);
+	t.addWayPoint(16.0, &w9, 0);
+	t.addWayPoint(18.0, &w10, 0);
+	t.addWayPoint(20.0, &w11, 0);
+	t.addWayPoint(22.0, &w12, 0);
+	t.addWayPoint(24.0, &w13, 0);
+	t.addWayPoint(26.0, &w14, 0);
+	t.addWayPoint(28.0, &w15, 0);
+	t.addWayPoint(30.0, &w16, 0);
+	t.addWayPoint(32.0, &w17, 0);
+	t.addWayPoint(34.0, &w18, 0);
+	t.addWayPoint(36.0, &w19, 0);
+	t.addWayPoint(38.0, &w20, 0);
 
 	Animutator* tb1Anim = new Animutator();
 
@@ -310,6 +483,54 @@ int main(int argc, char *argv[]){
 
 	thunderBird1.addAnimutator(tb1Anim);
 
+
+	Animutator* tb1BAnim = new Animutator();
+
+	KeyFrame tb1BKF1 = KeyFrame(glm::vec3(-23.027, 1.35, 16.35409), -110.328, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF2 = KeyFrame(glm::vec3(-24.5907, 2.29167, 15.7748), -110.328, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF3 = KeyFrame(glm::vec3(-24.5907, 2.29167, 15.7748), -38.604, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF4 = KeyFrame(glm::vec3(-32.497, 1, 25.6773), -38.604, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5)); 
+	KeyFrame tb1BKF5 = KeyFrame(glm::vec3(-32.497, 1, 25.6773), 5.98309, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5)); 
+	KeyFrame tb1BKF6 = KeyFrame(glm::vec3(-31.8602, 1.55833, 31.7533), 5.98309, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF7 = KeyFrame(glm::vec3(-31.8602, 1.55833, 31.7533), 38.384, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF8 = KeyFrame(glm::vec3(-28.5349, 1, 35.9512), 38.384, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF9 = KeyFrame(glm::vec3(-28.5349, 1, 35.9512), 99.0798, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF10 = KeyFrame(glm::vec3(-13.2714, 1, 33.5119), 99.0798, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF11 = KeyFrame(glm::vec3(-13.2714, 1, 33.5119), -150.378, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1BKF12 = KeyFrame(glm::vec3(-23.027, 1.35, 16.35409), -150.378, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	
+	tb1BAnim->addKeyFrame(0.0, &tb1BKF1);
+	tb1BAnim->addKeyFrame(5.0, &tb1BKF2);
+	tb1BAnim->addKeyFrame(5.5, &tb1BKF3);
+	tb1BAnim->addKeyFrame(10.5, &tb1BKF4);
+	tb1BAnim->addKeyFrame(11.0, &tb1BKF5);
+	tb1BAnim->addKeyFrame(16.0, &tb1BKF6);
+	tb1BAnim->addKeyFrame(16.5, &tb1BKF7);
+	tb1BAnim->addKeyFrame(21.5, &tb1BKF8);
+	tb1BAnim->addKeyFrame(22.0, &tb1BKF9);
+	tb1BAnim->addKeyFrame(27.0, &tb1BKF10);
+	tb1BAnim->addKeyFrame(27.5, &tb1BKF11);
+	tb1BAnim->addKeyFrame(32.5, &tb1BKF12);
+	tb1BAnim->addKeyFrame(33.0, &tb1BKF1);
+	
+	thunderBird1B.addAnimutator(tb1BAnim);
+
+	Animutator* tb1CAnim = new Animutator();
+
+	KeyFrame tb1CKF1 = KeyFrame(glm::vec3(0,1,1), 90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1CKF2 = KeyFrame(glm::vec3(10,1,1), 90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+	KeyFrame tb1CKF3 = KeyFrame(glm::vec3(10,1,1), -90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5)); 
+	KeyFrame tb1CKF4 = KeyFrame(glm::vec3(0,1,1), -90, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
+
+	tb1CAnim->addKeyFrame(0.0, &tb1CKF1);
+	tb1CAnim->addKeyFrame(10.0, &tb1CKF2);
+	tb1CAnim->addKeyFrame(12.5, &tb1CKF3);
+	tb1CAnim->addKeyFrame(22.5, &tb1CKF4);
+	tb1CAnim->addKeyFrame(25.0, &tb1CKF1);
+
+	thunderBird1C.addAnimutator(tb1CAnim);
+
+
 	Animutator* tb2cAnim = new Animutator();
 
 	KeyFrame tbc2KF1 = KeyFrame(glm::vec3(-7.5, 0.15, 5), 90, glm::vec3(0,1,0), glm::vec3(0.2,0.2,0.2));
@@ -322,6 +543,20 @@ int main(int argc, char *argv[]){
 	tb2cAnim->addKeyFrame(10.5, &tbc2KF1);
 
 	t2container.addAnimutator(tb2cAnim);
+
+	Animutator* tb2cBAnim = new Animutator();
+
+	KeyFrame tbc2BKF1 = KeyFrame(glm::vec3(-13.7941, 0.0, -11.716), 120, glm::vec3(0,1,0), glm::vec3(0.2,0.2,0.2));
+	KeyFrame tbc2BKF2 = KeyFrame(glm::vec3(-13.7941, -0.4, -11.716), 120, glm::vec3(0,1,0), glm::vec3(0.2,0.2,0.2));
+
+	tb2cBAnim->addKeyFrame(0.0, &tbc2BKF1);
+	tb2cBAnim->addKeyFrame(5.0, &tbc2BKF2);
+	tb2cBAnim->addKeyFrame(5.5, &tbc2BKF2);
+	tb2cBAnim->addKeyFrame(10.0, &tbc2BKF1);
+	tb2cBAnim->addKeyFrame(10.5, &tbc2BKF1);
+
+	t2containerB.addAnimutator(tb2cBAnim);
+
 
 	Animutator* tb3cAnim = new Animutator();
 	KeyFrame tb3KF1 = KeyFrame(glm::vec3(2, 1.90, 12.5), -90, glm::vec3(1,0,0), glm::vec3(0.4,0.4,0.4));
@@ -347,8 +582,14 @@ int main(int argc, char *argv[]){
 		}
 		
 		thunderBird1.draw();
+		thunderBird1B.draw();
+		thunderBird1C.draw();
+		
 		thunderBird2.draw();
 		t2container.draw();
+		thunderBird2B.draw();
+		t2containerB.draw();
+		
 		thunderBird3.draw();
 	
 		for (int i = 0; i < eggs.size(); i++){
