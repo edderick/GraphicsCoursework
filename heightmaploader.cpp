@@ -81,7 +81,7 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 	std::vector<glm::vec3> _face_normals;
 
 	//Calculate triangle normals...
-	for (int i = 0; i < _vertices.size(); i+= 3){
+	for (unsigned int i = 0; i < _vertices.size(); i+= 3){
 		glm::vec3 & a = _vertices[i+0];
 		glm::vec3 & c = _vertices[i+1];
 		glm::vec3 & b = _vertices[i+2];
@@ -91,7 +91,7 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 
 	//std::cout <<  " start " << width << " " << height ;
 
-		for (int count = 0; count < _vertices.size(); count++){
+		for (unsigned int count = 0; count < _vertices.size(); count++){
 
 			int i = _vertices[count].x;
 			int j = _vertices[count].z;
@@ -109,12 +109,12 @@ HeightMapLoader::HeightMapLoader(const char* height_map_dir, const char* file_na
 
 			glm::vec3 normal;
 
-			if (index1 >= 0 && index1 < _face_normals.size()) normal = normal + _face_normals[index1];
-			if (index2 >= 0 && index2 < _face_normals.size()) normal = normal + _face_normals[index2];
-			if (index3 >= 0 && index3 < _face_normals.size()) normal = normal + _face_normals[index3];
-			if (index4 >= 0 && index4 < _face_normals.size()) normal = normal + _face_normals[index4];
-			if (index5 >= 0 && index5 < _face_normals.size()) normal = normal + _face_normals[index5];
-			if (index6 >= 0 && index6 < _face_normals.size()) normal = normal + _face_normals[index6];
+			if (index1 >= 0 && index1 < (int) _face_normals.size()) normal = normal + _face_normals[index1];
+			if (index2 >= 0 && index2 < (int) _face_normals.size()) normal = normal + _face_normals[index2];
+			if (index3 >= 0 && index3 < (int) _face_normals.size()) normal = normal + _face_normals[index3];
+			if (index4 >= 0 && index4 < (int) _face_normals.size()) normal = normal + _face_normals[index4];
+			if (index5 >= 0 && index5 < (int) _face_normals.size()) normal = normal + _face_normals[index5];
+			if (index6 >= 0 && index6 < (int) _face_normals.size()) normal = normal + _face_normals[index6];
 			
 			_normals.push_back(glm::normalize(normal));
 		}
@@ -148,7 +148,7 @@ std::vector<Material*> HeightMapLoader::getMaterials(){
 std::vector<GLuint> HeightMapLoader::getMaterialNums(){
 	std::vector<GLuint> v;
 	
-	for (int i = 0 ; i < _normals.size(); i++){
+	for (unsigned int i = 0 ; i < _normals.size(); i++){
 		v.push_back(0);
 	}
 	

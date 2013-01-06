@@ -30,7 +30,7 @@ class Object {
 		std::vector<GLuint> group_start, group_length;
 	
 		std::vector<GLint> _ambient_texture_num, _diffuse_texture_num, _specular_texture_num;
-		std::vector<GLuint> _ambient_texture, _diffuse_texture, _specular_texture;
+		std::vector<GLint> _ambient_texture, _diffuse_texture, _specular_texture;
 		std::vector<int> _ambient_mode, _diffuse_mode, _specular_mode;
 
 		std::vector<glm::vec3> _specular_colors, _ambient_colors, _diffuse_colors;

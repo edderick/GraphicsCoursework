@@ -35,7 +35,7 @@ void Animutator::update(){
 }
 
 int Animutator::getIndexForTime(GLfloat time){
-	for(int i = 0; i < _times.size(); i++){
+	for(unsigned int i = 0; i < _times.size(); i++){
 		        if (_times[i] > time) return i - 1;
 	}
 
@@ -44,7 +44,7 @@ int Animutator::getIndexForTime(GLfloat time){
 }
 
 float Animutator::getPercentOfKeyFrame(int index, GLfloat time){
-	if(index == _times.size() - 1) return 1;
+	if(index == (int) _times.size() - 1) return 1;
 
 	GLfloat start_time = _times[index];     
 	GLfloat end_time = _times[index + 1];
@@ -82,7 +82,7 @@ GLfloat Animutator::extrapolateFloat(GLfloat f1, GLfloat f2, float percent){
 glm::vec3 Animutator::calculatePosition(int index, GLfloat percent){
 	//Animation loops
 	int next_index = index + 1;
-	if (index == _keyFrames.size() - 1) {
+	if (index == (int) _keyFrames.size() - 1) {
 		next_index = 0;
 	}
 
@@ -95,7 +95,7 @@ glm::vec3 Animutator::calculatePosition(int index, GLfloat percent){
 glm::vec3 Animutator::calculateScale(int index, GLfloat percent){
 	//Animation loops
 	int next_index = index + 1;
-	if (index == _keyFrames.size() - 1) {
+	if (index == (int) _keyFrames.size() - 1) {
 		next_index = 0;
 	}
 
@@ -108,7 +108,7 @@ glm::vec3 Animutator::calculateScale(int index, GLfloat percent){
 glm::vec3 Animutator::calculateRotationAxis(int index, GLfloat percent){
 	//Animation loops
 	int next_index = index + 1;
-	if (index == _keyFrames.size() - 1) {
+	if (index == (int) _keyFrames.size() - 1) {
 		next_index = 0;
 	}
 
@@ -121,7 +121,7 @@ glm::vec3 Animutator::calculateRotationAxis(int index, GLfloat percent){
 GLfloat Animutator::calculateRotationMagnitude(int index, GLfloat percent){
 	//Animation loops	
 	int next_index = index + 1;
-	if (index == _keyFrames.size() - 1) {
+	if (index == (int) _keyFrames.size() - 1) {
 		next_index = 0;
 	}
 

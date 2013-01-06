@@ -48,7 +48,7 @@ void Viewer::gotoLocation(glm::vec3 position, glm::vec3 direction){
 bool Viewer::checkTerrainCollision(){
 	bool collision = 0;
 	
-	for (int i = 0; i < _terrain.size(); i++){
+	for (unsigned int i = 0; i < _terrain.size(); i++){
 	
 		//Prevent clipping though things	
 		glm::vec3 hyp_pos = _position + (glm::vec3(_radius * 2, _radius * 2, _radius * 2) * _direction );
@@ -64,7 +64,7 @@ bool Viewer::checkTerrainCollision(){
 		glm::vec3* min_vertex;
 		GLfloat distance = FLT_MAX;
 		
-		for(int j=0; j < vertices.size(); j++){
+		for(unsigned int j=0; j < vertices.size(); j++){
 		
 			if (distance == 0.1) {
 				break;
@@ -102,7 +102,7 @@ bool Viewer::checkTerrainCollision(){
 bool Viewer::checkObjectCollisions(){
 	bool collision = 0;
 
-	for(int i = 0; i < _collidesWith.size(); i++){
+	for(unsigned int i = 0; i < _collidesWith.size(); i++){
 		glm::vec3 relative_positon = (_position + (_direction * glm::vec3(0.1,0.1,0.1) ))- (_collidesWith[i]->getPosition() );
 		GLfloat distance_squared = pow(relative_positon.x, 2) + pow(relative_positon.y, 2) + pow(relative_positon.z, 2);
 		GLfloat min_distance_squared =  pow(_collidesWith[i]->getRadius(), 2);

@@ -191,7 +191,7 @@ void ObjLoader::handle_face(char* line, int length){
 }
 
 void ObjLoader::handle_use_material(char* line, int length){
-	char* head = strtok(line, " ");
+	strtok(line, " ");
 	char* token = strtok(NULL, " \n");
 
 	if(NOISEY) std::cout << "Using material: "<< token << "\n";
@@ -296,8 +296,8 @@ ObjLoader::ObjLoader(const char* models_dir, const char* file_name){
 std::vector<glm::vec3> ObjLoader::getVertices(){
 	std::vector<glm::vec3> vertex_list;
 
-	for (int j = 0; j < elements.size(); j++){
-	for (int i = 0; i < elements[j].size(); i++){
+	for (unsigned int j = 0; j < elements.size(); j++){
+	for (unsigned int i = 0; i < elements[j].size(); i++){
 		if (elements[j][i] == -1) return std::vector<glm::vec3>();
 		vertex_list.push_back(vertices[elements[j][i]]);
 		//	std::cout << vertex_list[normal_refs[i]].x << ","<< vertex_list[normal_refs[i]].y << ","<< vertex_list[normal_refs[i]].z << "\n";
@@ -309,8 +309,8 @@ std::vector<glm::vec3> ObjLoader::getVertices(){
 std::vector<glm::vec3> ObjLoader::getNormals(){
 	std::vector<glm::vec3> normal_list;
 	
-	for (int j = 0; j < normal_refs.size(); j++){
-	for (int i = 0; i < normal_refs[j].size(); i++){
+	for (unsigned int j = 0; j < normal_refs.size(); j++){
+	for (unsigned int i = 0; i < normal_refs[j].size(); i++){
 		if (normal_refs[j][i] == -1) return std::vector<glm::vec3>();
 		normal_list.push_back(normals[normal_refs[j][i]]);
 		//	std::cout << normals[normal_refs[i]].x << ","<< normals[normal_refs[i]].y << ","<< normals[normal_refs[i]].z << "\n";
@@ -321,8 +321,8 @@ std::vector<glm::vec3> ObjLoader::getNormals(){
 
 std::vector<glm::vec2> ObjLoader::getTextureCoords(){
 	std::vector<glm::vec2> texture_coords_list;
-	for (int j = 0; j < normal_refs.size(); j++){
-	for (int i = 0; i < normal_refs[j].size(); i++){
+	for (unsigned int j = 0; j < normal_refs.size(); j++){
+	for (unsigned int i = 0; i < normal_refs[j].size(); i++){
 		if (texture_refs[j][i] == -1) return std::vector<glm::vec2>();
 		texture_coords_list.push_back(glm::vec2(textureCoords[texture_refs[j][i]].x, textureCoords[texture_refs[j][i]].y));
 		//	std::cout << textureCoords[texture_refs[i]]).x << ","<< textureCoords[normal_refs[i]].y << "\n";
@@ -338,8 +338,8 @@ std::vector<Material*> ObjLoader::getMaterials(){
 std::vector<GLuint> ObjLoader::getMaterialNums(){
 	std::vector<GLuint> result;
 
-	for (int j= 0; j < materialNums.size(); j++){
-		for (int i = 0; i < materialNums[j].size(); i++){
+	for (unsigned int j= 0; j < materialNums.size(); j++){
+		for (unsigned int i = 0; i < materialNums[j].size(); i++){
 			result.push_back(materialNums[j][i]);
 		}
 	}

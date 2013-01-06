@@ -6,7 +6,7 @@
 class TextGenerator {
 
 	private:
-		GLuint _textureID;
+		GLint _textureID;
 		GLuint _programID;
 
 		GLuint _vertex_buffer;
@@ -19,7 +19,7 @@ class TextGenerator {
 		int _window_width, _window_height;
 
 		GLuint setUpTexture(char* texture_file_name, GLuint ActiveTextureNum);
-		void useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName);
+		void useTexture(GLint textureID, GLuint ActiveTextureNum, const char* SamplerName);
 		
 		GLuint ACTIVE_TEXTURE;
 

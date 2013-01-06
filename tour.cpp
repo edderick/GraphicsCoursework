@@ -42,7 +42,7 @@ void Tour::update(){
 	
 	_viewer->gotoLocation(position, direction);
 
-	if(index >= _times.size() -1 && percent == 1){
+	if(index >= (int) _times.size() -1 && percent == 1){
 		*_tour = 0;
 	}
 }
@@ -58,7 +58,7 @@ void Tour::restart(){
 }
 
 int Tour::getIndexForTime(GLfloat time){
-	for(int i = 0; i < _times.size(); i++){
+	for(unsigned int i = 0; i < _times.size(); i++){
 		if (_times[i] > time) return i - 1;
 	}
 	
@@ -67,7 +67,7 @@ int Tour::getIndexForTime(GLfloat time){
 }
 
 GLfloat Tour::getPercentOfWayPoint(int index, GLfloat time){
-	if(index == _times.size() - 1) return 1;
+	if(index == (int) _times.size() - 1) return 1;
 
 	GLfloat start_time = _times[index];	
 	GLfloat end_time = _times[index + 1];
@@ -76,7 +76,7 @@ GLfloat Tour::getPercentOfWayPoint(int index, GLfloat time){
 }
 
 glm::vec3 Tour::calculatePosition(int index, GLfloat percent){
-	if(index == _wayPoints.size() - 1) return _wayPoints[index]->_position;
+	if(index == (int) _wayPoints.size() - 1) return _wayPoints[index]->_position;
 
 	glm::vec3 start_pos = _wayPoints[index]->_position;
 	glm::vec3 end_pos = _wayPoints[index + 1]->_position;
@@ -87,7 +87,7 @@ glm::vec3 Tour::calculatePosition(int index, GLfloat percent){
 }
 
 glm::vec3 Tour::calculateMotionDirection(int index, GLfloat percent){
-	if(index == _wayPoints.size() - 1){ 
+	if(index == (int) _wayPoints.size() - 1){ 
 		index--;	
 	}
 
@@ -102,7 +102,7 @@ glm::vec3 Tour::calculateMotionDirection(int index, GLfloat percent){
 
 glm::vec3 Tour::calculateLookDirection(int index, GLfloat percent){
 //TODO Verify that this is correct
-	if(index == _wayPoints.size() - 1){ 
+	if(index == (int) _wayPoints.size() - 1){ 
 		return _wayPoints[index]->_direction;
 	}
 

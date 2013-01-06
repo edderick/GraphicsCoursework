@@ -38,8 +38,8 @@ class Tour {
 		int getIndexForTime(GLfloat time);
 		float getPercentOfWayPoint(int index, GLfloat time);
 
-		int MOTION_MODE;
-		int LOOK_MODE;
+		GLuint MOTION_MODE;
+		GLuint LOOK_MODE;
 
 	public:
 		Tour(Viewer* viewer, bool *tour);

@@ -197,7 +197,7 @@ int main(int argc, char *argv[]){
 
 	//Set up collisions
 	viewer->addTerrain(&ground);
-	for (int i = 0; i < eggs.size(); i++){
+	for (unsigned int i = 0; i < eggs.size(); i++){
 		viewer->addCollidesWith(eggs[i]);
 	}	
 	
@@ -678,7 +678,7 @@ int main(int argc, char *argv[]){
 		thunderBird3C.draw();
 		
 	
-		for (int i = 0; i < eggs.size(); i++){
+		for (unsigned int i = 0; i < eggs.size(); i++){
 			eggs[i]->draw();
 		}	
 

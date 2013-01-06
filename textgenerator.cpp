@@ -31,7 +31,7 @@ void TextGenerator::printText(char* text, int x, int y, int size){
 	std::vector<glm::vec2> vertices;
 	std::vector<glm::vec2> textureCoords;
 
-	for (int i = 0; i < strlen(text); i++){
+	for (unsigned int i = 0; i < strlen(text); i++){
 		//Vertex Quad
 		glm::vec2 v_b_l = glm::vec2(x+i*size, y+size);
 		glm::vec2 v_b_r = glm::vec2(x+i*size+size, y+size);
@@ -136,7 +136,7 @@ GLuint TextGenerator::setUpTexture(char* texture_file_name, GLuint ActiveTexture
 }
 
 
-void TextGenerator::useTexture(GLuint textureID, GLuint ActiveTextureNum, const char* SamplerName) {
+void TextGenerator::useTexture(GLint textureID, GLuint ActiveTextureNum, const char* SamplerName) {
         if(textureID != -1){
                 glActiveTexture(GL_TEXTURE0 + ActiveTextureNum);
                 glBindTexture(GL_TEXTURE_2D, textureID);

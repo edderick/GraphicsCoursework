@@ -23,7 +23,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	//TODO confirm
 	int start = 0;
 	int count = 1;
-	for (int i = 0; i < _material_nums.size() -1; i++){
+	for (unsigned int i = 0; i < _material_nums.size() -1; i++){
 		if(_material_nums[i] == _material_nums[i + 1]){
 			count++;
 		} else {
@@ -41,7 +41,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	_UV_vboID.resize(group_start.size());
 	_Material_Num_vboID.resize(group_start.size());
 	
-	for(int i = 0; i < group_start.size(); i++){
+	for(unsigned int i = 0; i < group_start.size(); i++){
 		glGenBuffers(1, &_vertex_vboID[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, _vertex_vboID[i]);
 		glBufferData(GL_ARRAY_BUFFER, group_length[i] * sizeof(_vertices[0]), &_vertices[group_start[i]], GL_STATIC_DRAW); 
@@ -72,7 +72,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	_specular_mode.resize(_materials.size());
 
 
-	for (int i = 0; i < _materials.size(); i++){
+	for (unsigned int i = 0; i < _materials.size(); i++){
 		_ambient_texture_num.push_back(0 + i * 3);
 		_diffuse_texture_num.push_back(1 + i * 3);
 		_specular_texture_num.push_back(2 + i * 3);
@@ -117,7 +117,7 @@ Object::Object(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 	}
 	_animutator = NULL;
 
-	for (int i = 0; i < _vertices.size(); i +=3){
+	for (unsigned int i = 0; i < _vertices.size(); i +=3){
 		glm::vec3 avg = glm::vec3((_vertices[i+0].x + _vertices[i+1].x + _vertices[i+2].x) / 3,
 				(_vertices[i+0].y + _vertices[i+1].y + _vertices[i+2].y) / 3,
 				(_vertices[i+0].z + _vertices[i+1].z + _vertices[i+2].z) / 3);
@@ -135,7 +135,7 @@ void Object::draw() {
 
 	glPolygonMode(GL_FRONT_AND_BACK, _draw_mode);
 
-	for (int i = 0; i < group_start.size(); i++){
+	for (unsigned int i = 0; i < group_start.size(); i++){
 		glEnableVertexAttribArray(0);
 		glBindAttribLocation(_programID, 0, "in_Positon");
 		glBindBuffer(GL_ARRAY_BUFFER, _vertex_vboID[i]);
@@ -234,19 +234,19 @@ void Object::setUpMaterials(){
 		glUniform3fv(glGetUniformLocation(_programID, "in_diffuse_color"), _diffuse_colors.size(), &_diffuse_colors[0][0]);
 		glUniform3fv(glGetUniformLocation(_programID, "in_specular_color"), _specular_colors.size(), &_specular_colors[0][0]);
 
-		for(int i = 0; i < _ambient_texture.size(); i++){
+		for(unsigned int i = 0; i < _ambient_texture.size(); i++){
 			glActiveTexture(GL_TEXTURE0 + _ambient_texture_num[i]);
 			glBindTexture(GL_TEXTURE_2D, _ambient_texture[i]);
 		}	
 
 
-		for(int i = 0; i < _diffuse_texture.size(); i++){
+		for(unsigned int i = 0; i < _diffuse_texture.size(); i++){
 			glActiveTexture(GL_TEXTURE0 + _diffuse_texture_num[i]);
 			glBindTexture(GL_TEXTURE_2D, _diffuse_texture[i]);
 		}	
 
 		
-		for(int i = 0; i < _specular_texture.size(); i++){
+		for(unsigned int i = 0; i < _specular_texture.size(); i++){
 			glActiveTexture(GL_TEXTURE0 + _specular_texture_num[i]);
 			glBindTexture(GL_TEXTURE_2D, _specular_texture[i]);
 		}	
@@ -342,7 +342,7 @@ void Object::calculateRadius(){
 
 	GLfloat longest = 0;	
 
-	for (int i = 0; i < _vertices.size(); i++){
+	for (unsigned int i = 0; i < _vertices.size(); i++){
 
 		glm::vec4 world_vertex = glm::vec4(_vertices[i].x, _vertices[i].y, _vertices[i].z, 1.0) * getModelMatrix();
 
