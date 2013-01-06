@@ -5,7 +5,7 @@ Skybox::Skybox(GeometryGenerator* gg, GLuint programID, Viewer* viewer, GLenum d
 
 glm::mat4 Skybox::makeModelMatrix(){
         glm::mat4 model = glm::mat4(1.f);
-        model = glm::scale(model, glm::vec3(50.f, 50.f, 50.f));
+        model = glm::scale(model, glm::vec3(100.f, 100.f, 100.f));
         return model;
 }
 

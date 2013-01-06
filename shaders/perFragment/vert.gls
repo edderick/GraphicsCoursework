@@ -24,6 +24,7 @@ out vec4 camera_light_direction;
 out vec2 UV;
 flat out uint materialNum;
 
+out float gl_ClipDistance[1];
 
 void main(void) {
 	camera_normal = normalize(mv * vec4(in_Normal, 0.0));
@@ -35,4 +36,7 @@ void main(void) {
 	gl_Position = mvp * vec4(in_Position, 1.0);
 	UV = in_UV;
 	materialNum = in_Material_Num;
+
+	gl_ClipDistance[0] = 1;
+
 }

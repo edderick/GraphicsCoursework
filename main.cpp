@@ -125,7 +125,7 @@ int main(int argc, char *argv[]){
 	glfwEnable(GLFW_STICKY_KEYS);
 	glfwSetKeyCallback(&key_callback);
 	glfwSetWindowTitle(TITLE);	
-	
+
 	//Load in and set program (Shaders)
 	// GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
 	// GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
@@ -135,6 +135,8 @@ int main(int argc, char *argv[]){
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
+	
+	glEnable(GL_DEPTH_CLAMP);
 
 
 	//Load in terrain and sky box

@@ -198,7 +198,7 @@ glm::mat4 Object::makeViewMatrix(){
 }
 
 glm::mat4 Object::makeProjectionMatrix(){
-	glm::mat4 projection = glm::perspective(45.0f, (float) WINDOW_WIDTH / (float) WINDOW_HEIGHT , 0.01f, 500.f);
+	glm::mat4 projection = glm::perspective(45.0f, (float) WINDOW_WIDTH / (float) WINDOW_HEIGHT , 0.001f, 5000.f);
 	return projection;
 }
 
