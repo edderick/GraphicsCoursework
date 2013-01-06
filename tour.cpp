@@ -5,8 +5,9 @@ WayPoint::WayPoint(glm::vec3 position, glm::vec3 direction){
 	_direction = direction;
 }
 
-Tour::Tour(Viewer* viewer){
+Tour::Tour(Viewer* viewer, bool *tour){
 	_viewer = viewer;
+	_tour = tour;
 
 	MOTION_MODE = 0;
 	LOOK_MODE = 1;
@@ -40,6 +41,10 @@ void Tour::update(){
 	}
 	
 	_viewer->gotoLocation(position, direction);
+
+	if(index >= _times.size() -1 && percent == 1){
+		*_tour = 0;
+	}
 }
 
 void Tour::reset(){

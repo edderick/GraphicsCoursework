@@ -21,6 +21,8 @@ class Tour {
 		std::vector<WayPoint* > _wayPoints;
 		std::vector<GLfloat> _times;
 		std::vector<GLuint> _modes;
+		
+		bool *_tour;
 
 		Viewer* _viewer;
 		
@@ -40,7 +42,7 @@ class Tour {
 		int LOOK_MODE;
 
 	public:
-		Tour(Viewer* viewer);
+		Tour(Viewer* viewer, bool *tour);
 
 		void addWayPoint(GLfloat time, WayPoint* wayPoint, int mode = 0);
 		

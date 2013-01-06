@@ -3,7 +3,7 @@
 const float PI = 3.14;
 
 Viewer::Viewer() {
-	_position = glm::vec3(1.42417, 0.116667, 0.276567);
+	_position = glm::vec3(1.42417, 2.116667, 0.276567);
 	_direction = glm::vec3(0,0,1);
 	_up = glm::vec3(0,1,0);
 

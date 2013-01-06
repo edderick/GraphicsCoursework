@@ -23,7 +23,7 @@ bool tour = 0;
 
 //Viewer is global as it's state is modified by key_callback
 Viewer* viewer = new Viewer(); 
-Tour t(viewer);
+Tour t(viewer, &tour);
 	
 
 
@@ -72,7 +72,8 @@ void key_callback(int key, int action){
 		} else if ((key == 'P' || key == 'p') && action == GLFW_PRESS){
 			viewer->setCameraRotationVelocity(0);
 			viewer->setVelocity(0,0,0);
-			viewer->gotoLocation(glm::vec3(13.8057, 0.3, 0.657926), glm::vec3(-1,0,-1));
+			viewer->resetElevation();
+			viewer->gotoLocation(glm::vec3(13.8057, 0.3, 0.657926), glm::vec3(-6.42059,0.25837,9.794014) - glm::vec3(13.8057, 0.3, 0.657926) );
 		} else if ((key == 'T' || key == 't') && action == GLFW_PRESS){
 			tour = 1;
 
@@ -271,7 +272,7 @@ int main(int argc, char *argv[]){
 	eggs[15]->setScale(glm::vec3(0.115,0.115,0.115));
 	eggs[15]->setRotation(-25, glm::vec3(1,0,0));
 
-	glm::vec3 eggsGroup5Position(-11.3236, 0.333333, 20.3212);
+	glm::vec3 eggsGroup5Position(-11.3236, 0.233333, 20.3212);
 	
 	eggs[16]->setPosition(eggsGroup5Position + glm::vec3(0,0.05,0));
 	eggs[16]->setRadius(0.2);
@@ -293,7 +294,7 @@ int main(int argc, char *argv[]){
 	eggs[19]->setScale(glm::vec3(0.115,0.115,0.115));
 	eggs[19]->setRotation(-25, glm::vec3(1,0,0));
 
-	glm::vec3 eggsGroup6Position(15.4433, 0.325, 30.8257);
+	glm::vec3 eggsGroup6Position(15.4433, 0.225, 30.8257);
 	
 	eggs[20]->setPosition(eggsGroup6Position + glm::vec3(0,0.05,0));
 	eggs[20]->setRadius(0.2);
@@ -315,7 +316,7 @@ int main(int argc, char *argv[]){
 	eggs[23]->setScale(glm::vec3(0.115,0.115,0.115));
 	eggs[23]->setRotation(-25, glm::vec3(1,0,0));
 
-	glm::vec3 eggsGroup7Position(24.1003, 0.291667, 2.19043);
+	glm::vec3 eggsGroup7Position(24.1003, 0.191667, 2.19043);
 	
 	eggs[24]->setPosition(eggsGroup7Position + glm::vec3(0,0.05,0));
 	eggs[24]->setRadius(0.2);
@@ -337,7 +338,7 @@ int main(int argc, char *argv[]){
 	eggs[27]->setScale(glm::vec3(0.115,0.115,0.115));
 	eggs[27]->setRotation(-25, glm::vec3(1,0,0));
 
-	glm::vec3 eggsGroup8Position(36.8265, 0.45, -30.415);
+	glm::vec3 eggsGroup8Position(36.8265, 0.35, -30.415);
 	
 	eggs[28]->setPosition(eggsGroup8Position + glm::vec3(0,0.05,0));
 	eggs[28]->setRadius(0.2);
@@ -461,7 +462,8 @@ int main(int argc, char *argv[]){
 	positions.push_back(glm::vec3(-33.0654, 3.5, 2.62864));
 	positions.push_back(glm::vec3(-20.6909, 4, 3.49496));
 	positions.push_back(glm::vec3(-3.85007, 3.5 , 7.12377));
-
+	positions.push_back(glm::vec3(1.42417, 2.116667, 0.276567));
+	
 
 
 	WayPoint w1 = WayPoint(positions[0], positions[1] - positions[0]);
@@ -484,6 +486,7 @@ int main(int argc, char *argv[]){
 	WayPoint w18 = WayPoint(positions[17], positions[18] - positions[17]);
 	WayPoint w19 = WayPoint(positions[18], positions[19] - positions[18]);
 	WayPoint w20 = WayPoint(positions[19], positions[20] - positions[19]);
+	WayPoint w21 = WayPoint(positions[20], glm::vec3(0,0,1));
 	
 	t.addWayPoint(0.0, &w1, 1);
 	t.addWayPoint(2.0, &w2, 1);
@@ -505,6 +508,7 @@ int main(int argc, char *argv[]){
 	t.addWayPoint(34.0, &w18, 1);
 	t.addWayPoint(36.0, &w19, 1);
 	t.addWayPoint(38.0, &w20, 1);
+	t.addWayPoint(40.0, &w21, 1);
 
 	Animutator* tb1Anim = new Animutator();
 
