@@ -10,14 +10,5 @@ out vec4 color;
 uniform sampler2D fontTextureSampler;
 
 void main(){
-		vec3 TexColor = texture(fontTextureSampler, UV ).xyz;
-
-		int alpha = 1;
-		if(TexColor.x + TexColor.y + TexColor.z < 0.3)
-			alpha = 0;
-
-
-		color = vec4(TexColor , alpha);
-			
-				
+		color =  texture(fontTextureSampler, UV );
 }

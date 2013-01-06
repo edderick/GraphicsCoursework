@@ -24,8 +24,27 @@ bool tour = 0;
 //Viewer is global as it's state is modified by key_callback
 Viewer* viewer = new Viewer(); 
 Tour t(viewer, &tour);
-	
 
+int loading_count = 0;
+
+void loading(TextGenerator *tg){
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+
+	char  string[100];
+	strcpy(string, "Loading");
+	for (int i = 0; i < loading_count; i++){
+		strcat(string, ".");
+	}
+
+	
+	tg->printText((char*)"Please wait", 10, WINDOW_HEIGHT - 90, 35);
+	tg->printText(string, 10, WINDOW_HEIGHT - 50, 50);
+	glEnable(GL_DEPTH_TEST);
+	glfwSwapBuffers();
+
+	loading_count++;
+}
 
 //Handle controls
 void key_callback(int key, int action){
@@ -126,19 +145,20 @@ int main(int argc, char *argv[]){
 	glfwEnable(GLFW_STICKY_KEYS);
 	glfwSetKeyCallback(&key_callback);
 	glfwSetWindowTitle(TITLE);	
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_CLAMP);
+	
+	//Create text generator
+	GLuint textShaderID = setupShaders("shaders/text/vert.gls", "shaders/text/frag.gls");
+	TextGenerator tg((char*)"textures/font.png", textShaderID, ' ', '~', 16, 8, WINDOW_WIDTH, WINDOW_HEIGHT);
+	loading(&tg);
 
 	//Load in and set program (Shaders)
 	// GLuint simpleShaderID = setupShaders("shaders/simple/vert.gls", "shaders/simple/frag.gls");
 	// GLuint phongShaderID = setupShaders("shaders/phong/vert.gls", "shaders/phong/frag.gls");
 	GLuint perFragmentShaderID = setupShaders("shaders/perFragment/vert.gls", "shaders/perFragment/frag.gls");
-	GLuint textShaderID = setupShaders("shaders/text/vert.gls", "shaders/text/frag.gls");
-	
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glEnable(GL_DEPTH_TEST);
-	
-	glEnable(GL_DEPTH_CLAMP);
-
 
 	//Load in terrain and sky box
 	HeightMapLoader groundObj = HeightMapLoader("textures", "img2.png");
@@ -146,7 +166,7 @@ int main(int argc, char *argv[]){
 
 	Object ground(&groundObj, perFragmentShaderID, viewer, GL_FILL);
 	Skybox skybox(&skyboxObj, perFragmentShaderID, viewer, GL_FILL);
-	
+	loading(&tg);
 
 	//Load in thunder birds
 	ObjLoader thunderBird1Obj = ObjLoader("models", "thunderbird1.obj");
@@ -167,15 +187,13 @@ int main(int argc, char *argv[]){
 	Object thunderBird3(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
 	Object thunderBird3B(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
 	Object thunderBird3C(&thunderBird3Obj, perFragmentShaderID, viewer, GL_FILL);
-	
+	loading(&tg);
+
 	std::vector<Object*> eggs;
 	int number_of_eggs = 4 * 10;
 	for (int i = 0; i < number_of_eggs; i++){
 		eggs.push_back(new Object(&eggObj, perFragmentShaderID, viewer, GL_FILL));
 	}
-
-	//Create text generator
-	TextGenerator tg((char*)"textures/font.jpg", textShaderID, ' ', '~', 16, 8, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	//Set up collisions
 	viewer->addTerrain(&ground);
@@ -338,7 +356,7 @@ int main(int argc, char *argv[]){
 	eggs[27]->setScale(glm::vec3(0.115,0.115,0.115));
 	eggs[27]->setRotation(-25, glm::vec3(1,0,0));
 
-	glm::vec3 eggsGroup8Position(36.8265, 0.35, -30.415);
+	glm::vec3 eggsGroup8Position(36.8265, 0.25, -30.415);
 	
 	eggs[28]->setPosition(eggsGroup8Position + glm::vec3(0,0.05,0));
 	eggs[28]->setRadius(0.2);
@@ -404,6 +422,7 @@ int main(int argc, char *argv[]){
 	eggs[39]->setScale(glm::vec3(0.4,0.4,0.4));
 	eggs[39]->setRotation(-25, glm::vec3(1,0,0));
 
+	loading(&tg);
 
 	thunderBird1.setPosition(glm::vec3(-2,0.1,0));
 
@@ -633,6 +652,8 @@ int main(int argc, char *argv[]){
 	int count = 0;
 	GLfloat lastTime = glfwGetTime();
 	std::string s;
+
+	loading(&tg);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

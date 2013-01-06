@@ -16,6 +16,11 @@ TextGenerator::TextGenerator(char* font_file_name, GLuint programID, char char_s
 	_programID = programID;
 	_textureID = setUpTexture(font_file_name, ACTIVE_TEXTURE);	
 
+	GLuint vao;
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
 	glGenBuffers(1, &_vertex_buffer);
 	glGenBuffers(1, &_UV_buffer);
 }
