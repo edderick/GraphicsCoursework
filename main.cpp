@@ -27,6 +27,45 @@ Tour t(viewer, &tour);
 
 int loading_count = 0;
 
+void showHelp(TextGenerator& tg, int fps) {
+	glDisable(GL_DEPTH_TEST);
+
+	tg.printText( (char*)"ejfs1g10 - CW3", 10, 10, 50);
+
+	tg.printText( (char*)"Esc, Q:", 10, 70, 23);
+	tg.printText( (char*)"Exit", 280, 75, 23);
+
+	tg.printText( (char*)"P:", 10, 100, 23);
+	tg.printText( (char*)"Screenshot View Point", 280, 105, 23);
+
+	tg.printText( (char*)"T:", 10, 130, 23);
+	tg.printText( (char*)"Start Tour", 280, 135, 23);
+
+	tg.printText( (char*)"E:", 10, 160, 23);
+	tg.printText( (char*)"End Tour", 280, 165, 23);
+
+	tg.printText( (char*)"Left/Right:", 10, 190, 23);
+	tg.printText( (char*)"Turn Camera", 280, 195, 23);
+
+	tg.printText( (char*)"Pg Up/Down:", 10, 220, 23);
+	tg.printText( (char*)"Change Elevation", 280, 225, 23);
+
+	tg.printText( (char*)"Up:", 10, 250, 23);
+	tg.printText( (char*)"Accelerate", 280, 255, 23);
+
+	tg.printText( (char*)"Down:", 10, 280, 23);
+	tg.printText( (char*)"Decelerate", 280, 285, 23);
+
+	tg.printText( (char*)"Space:", 10, 310, 23);
+	tg.printText( (char*)"Stop Moving", 280, 315, 23);
+
+	std::stringstream ss;
+	ss << "FPS: " << fps;
+	tg.printText( (char*)ss.str().c_str() , 10, 710, 50);
+	
+	glEnable(GL_DEPTH_TEST);
+}
+
 void loading(TextGenerator *tg){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
@@ -37,7 +76,7 @@ void loading(TextGenerator *tg){
 		strcat(string, ".");
 	}
 
-	
+
 	tg->printText((char*)"Please wait", 10, WINDOW_HEIGHT - 90, 35);
 	tg->printText(string, 10, WINDOW_HEIGHT - 50, 50);
 	glEnable(GL_DEPTH_TEST);
@@ -149,7 +188,7 @@ int main(int argc, char *argv[]){
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
-	
+
 	//Create text generator
 	GLuint textShaderID = setupShaders("shaders/text/vert.gls", "shaders/text/frag.gls");
 	TextGenerator tg((char*)"textures/font.png", textShaderID, ' ', '~', 16, 8, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -441,8 +480,8 @@ int main(int argc, char *argv[]){
 	thunderBird2B.setPosition(glm::vec3(-13.7941, 0.0, -11.716));
 	thunderBird2B.setScale(glm::vec3(0.2,0.2,0.2));
 	thunderBird2B.setRotation(120, glm::vec3(0,1,0));
-	
-	
+
+
 	thunderBird3.setPosition(glm::vec3(2,2,12.5));
 	thunderBird3.setScale(glm::vec3(0.4,0.4,0.4));
 	thunderBird3.setRotation(-90, glm::vec3(1,0,0));
@@ -450,7 +489,7 @@ int main(int argc, char *argv[]){
 	thunderBird3B.setPosition(glm::vec3(22.3989, 0.541667, -5.00961));
 	thunderBird3B.setScale(glm::vec3(0.4,0.4,0.4));
 	thunderBird3B.setRotation(-90, glm::vec3(1,0,0));
-	
+
 	thunderBird3B.setPosition(glm::vec3(2,2,12.5));
 	thunderBird3B.setScale(glm::vec3(0.4,0.4,0.4));
 	thunderBird3B.setRotation(-90, glm::vec3(1,0,0));
@@ -482,7 +521,7 @@ int main(int argc, char *argv[]){
 	positions.push_back(glm::vec3(-20.6909, 4, 3.49496));
 	positions.push_back(glm::vec3(-3.85007, 3.5 , 7.12377));
 	positions.push_back(glm::vec3(1.42417, 2.116667, 0.276567));
-	
+
 
 
 	WayPoint w1 = WayPoint(positions[0], positions[1] - positions[0]);
@@ -506,7 +545,7 @@ int main(int argc, char *argv[]){
 	WayPoint w19 = WayPoint(positions[18], positions[19] - positions[18]);
 	WayPoint w20 = WayPoint(positions[19], positions[20] - positions[19]);
 	WayPoint w21 = WayPoint(positions[20], glm::vec3(0,0,1));
-	
+
 	t.addWayPoint(0.0, &w1, 1);
 	t.addWayPoint(2.0, &w2, 1);
 	t.addWayPoint(4.0, &w3, 1);
@@ -559,7 +598,7 @@ int main(int argc, char *argv[]){
 	KeyFrame tb1BKF10 = KeyFrame(glm::vec3(-13.2714, 1, 33.5119), 99.0798, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
 	KeyFrame tb1BKF11 = KeyFrame(glm::vec3(-13.2714, 1, 33.5119), -150.378, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
 	KeyFrame tb1BKF12 = KeyFrame(glm::vec3(-23.027, 1.35, 16.35409), -150.378, glm::vec3(0,1,0), glm::vec3(0.5,0.5,0.5));
-	
+
 	tb1BAnim->addKeyFrame(0.0, &tb1BKF1);
 	tb1BAnim->addKeyFrame(5.0, &tb1BKF2);
 	tb1BAnim->addKeyFrame(5.5, &tb1BKF3);
@@ -573,7 +612,7 @@ int main(int argc, char *argv[]){
 	tb1BAnim->addKeyFrame(27.5, &tb1BKF11);
 	tb1BAnim->addKeyFrame(32.5, &tb1BKF12);
 	tb1BAnim->addKeyFrame(33.0, &tb1BKF1);
-	
+
 	thunderBird1B.addAnimutator(tb1BAnim);
 
 	Animutator* tb1CAnim = new Animutator();
@@ -649,85 +688,47 @@ int main(int argc, char *argv[]){
 
 	thunderBird3C.addAnimutator(tb3CcAnim);
 
-	int count = 0;
+	int frame_count = 0;
+	int last_fps = 0; 
 	GLfloat lastTime = glfwGetTime();
-	std::string s;
 
 	loading(&tg);
 
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	
+
 		if(tour){
 			t.update();
 		} else {
 			viewer->update();
 		}
-		
+
 		thunderBird1.draw();
 		thunderBird1B.draw();
 		thunderBird1C.draw();
-		
+
 		thunderBird2.draw();
 		t2container.draw();
 		thunderBird2B.draw();
 		t2containerB.draw();
-		
+
 		thunderBird3.draw();
 		thunderBird3B.draw();
 		thunderBird3C.draw();
-		
-	
-		for (unsigned int i = 0; i < eggs.size(); i++){
-			eggs[i]->draw();
-		}	
 
 		ground.draw();
 		skybox.draw();
 
 		if(glfwGetTime() - lastTime < 1) {
-			count++;
+			frame_count++;
 		} else {
-			std::stringstream sstream;
-			sstream << "FPS: " << count;
-			s = sstream.str();
-			count = 0;
 			lastTime = glfwGetTime();
+			last_fps = frame_count;
+			frame_count = 0;
 		}
-		
+
 		if(show_help){
-			glDisable(GL_DEPTH_TEST);
-			tg.printText( (char*)"ejfs1g10 - CW3", 10, 10, 50);
-			
-			tg.printText( (char*)"Esc, Q:", 10, 70, 23);
-			tg.printText( (char*)"Exit", 280, 75, 23);
-
-			tg.printText( (char*)"P:", 10, 100, 23);
-			tg.printText( (char*)"Screenshot View Point", 280, 105, 23);
-		
-			tg.printText( (char*)"T:", 10, 130, 23);
-			tg.printText( (char*)"Start Tour", 280, 135, 23);
-
-			tg.printText( (char*)"E:", 10, 160, 23);
-			tg.printText( (char*)"End Tour", 280, 165, 23);
-
-			tg.printText( (char*)"Left/Right:", 10, 190, 23);
-			tg.printText( (char*)"Turn Camera", 280, 195, 23);
-		
-			tg.printText( (char*)"Pg Up/Down:", 10, 220, 23);
-			tg.printText( (char*)"Change Elevation", 280, 225, 23);
-	
-			tg.printText( (char*)"Up:", 10, 250, 23);
-			tg.printText( (char*)"Accelerate", 280, 255, 23);
-	
-			tg.printText( (char*)"Down:", 10, 280, 23);
-			tg.printText( (char*)"Decelerate", 280, 285, 23);
-		
-			tg.printText( (char*)"Space:", 10, 310, 23);
-			tg.printText( (char*)"Stop Moving", 280, 315, 23);
-
-			tg.printText( (char*)s.c_str() , 10, 710, 50);
-			glEnable(GL_DEPTH_TEST);
+			showHelp(tg, last_fps);
 		}
 
 		glfwSwapBuffers();
